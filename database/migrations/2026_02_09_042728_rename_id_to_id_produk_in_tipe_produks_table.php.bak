@@ -1,0 +1,48 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        // Check if column 'id' exists in tipe_produks
+        $columnExists = \DB::select("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tipe_produks' AND COLUMN_NAME = 'id'");
+
+        if ($columnExists) {
+            // Check if foreign key exists before dropping
+            $foreignKeyExists = \DB::select("SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = 'produk_klaim' AND COLUMN_NAME = 'tipe_produk_id' AND REFERENCED_TABLE_NAME = 'tipe_produks'");
+
+            if ($foreignKeyExists) {
+                Schema::table('produk_klaim', function (Blueprint $table) {
+                    $table->dropForeign(['tipe_produk_id']);
+                });
+            }
+
+            Schema::table('tipe_produks', function (Blueprint $table) {
+                $table->renameColumn('id', 'id_produk');
+            });
+
+            Schema::table('produk_klaim', function (Blueprint $table) {
+                $table->foreign('tipe_produk_id')->references('id_produk')->on('tipe_produks');
+            });
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('tipe_produks', function (Blueprint $table) {
+            $table->dropPrimary('id_produk');
+            $table->renameColumn('id_produk', 'id');
+            $table->primary('id');
+        });
+    }
+};
