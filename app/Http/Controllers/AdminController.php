@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\Models\MasterObat;
 use App\Models\ParameterUji;
 use App\Models\TipeProduk;
@@ -448,10 +449,26 @@ class AdminController extends Controller
 
     // ==================== CRUD KOSMETIK ====================
 
-    public function showKosmetik()
+    public function showKosmetik(Request $request)
     {
-        $kosmetiks = Kosmetiks::with('kategoriKos.parameterKos')->orderBy('id_kos', 'desc')->get();
-        return view('admin.kosmetik', compact('kosmetiks'));
+        $search = trim((string) $request->query('search', ''));
+
+        $kosmetiks = Kosmetiks::with('kategoriKos.parameterKos')
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery->where('tipe_produk', 'like', '%' . $search . '%')
+                        ->orWhereHas('kategoriKos', function ($kategoriQuery) use ($search) {
+                            $kategoriQuery->where('kategori_kos', 'like', '%' . $search . '%')
+                                ->orWhereHas('parameterKos', function ($parameterQuery) use ($search) {
+                                    $parameterQuery->where('puk', 'like', '%' . $search . '%');
+                                });
+                        });
+                });
+            })
+            ->orderBy('id_kos', 'desc')
+            ->get();
+
+        return view('admin.kosmetik', compact('kosmetiks', 'search'));
     }
 
     public function storeKosmetik(Request $request)
@@ -483,8 +500,20 @@ class AdminController extends Controller
 
     public function deleteKosmetik($id)
     {
-        $kosmetik = Kosmetiks::findOrFail($id);
-        $kosmetik->delete();
+        DB::transaction(function () use ($id) {
+            $kosmetik = Kosmetiks::findOrFail($id);
+
+            $kategoriIds = KategoriKos::where('id_kos', $kosmetik->id_kos)
+                ->pluck('id_kategori');
+
+            if ($kategoriIds->isNotEmpty()) {
+                ParameterKos::whereIn('id_kategori', $kategoriIds)->delete();
+                KategoriKos::whereIn('id_kategori', $kategoriIds)->delete();
+            }
+
+            $kosmetik->delete();
+        });
+
         return redirect()->back()->with('success', 'Data kosmetik berhasil dihapus!');
     }
 
@@ -558,8 +587,12 @@ public function getKosmetik($id)
 
     public function deleteKategoriKosmetik($id)
     {
-        $kategori = KategoriKos::findOrFail($id);
-        $kategori->delete();
+        DB::transaction(function () use ($id) {
+            $kategori = KategoriKos::findOrFail($id);
+            ParameterKos::where('id_kategori', $kategori->id_kategori)->delete();
+            $kategori->delete();
+        });
+
         return redirect()->back()->with('success', 'Kategori kosmetik berhasil dihapus!');
     }
 
@@ -631,10 +664,28 @@ public function getKosmetik($id)
 
     // ==================== CRUD PANGAN ====================
 
-    public function showPangan()
+    public function showPangan(Request $request)
     {
-        $pangans = Pangan::with('parameterUjiPangan')->orderBy('id_pangan', 'desc')->get();
-        return view('admin.pangan', compact('pangans'));
+        $search = trim((string) $request->query('q', ''));
+
+        $pangansQuery = Pangan::with('parameterUjiPangan')
+            ->orderBy('id_pangan', 'desc');
+
+        if ($search !== '') {
+            $pangansQuery->where(function ($query) use ($search) {
+                $query->where('bahan_produk', 'like', '%' . $search . '%')
+                    ->orWhere('waktu', 'like', '%' . $search . '%')
+                    ->orWhereHas('parameterUjiPangan', function ($parameterQuery) use ($search) {
+                        $parameterQuery->where('parameter_uji', 'like', '%' . $search . '%')
+                            ->orWhere('metode', 'like', '%' . $search . '%')
+                            ->orWhere('keterangan', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $pangans = $pangansQuery->get();
+
+        return view('admin.pangan', compact('pangans', 'search'));
     }
 
     public function storePangan(Request $request)

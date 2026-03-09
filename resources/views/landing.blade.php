@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBPOM Pontianak - Badan Pengawas Obat dan Makanan</title>
+    <title>BBPOM Pontianak - Layanan Publik</title>
+    <link rel="icon" href="{{ asset('images/logo-bpom.png') }}" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -110,14 +111,76 @@
                 <h2 class="text-4xl font-bold text-navy mb-4">Layanan Kami</h2>
                 <div class="w-24 h-1 bg-gold mx-auto mb-6"></div>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Standar Pelayanan Publik BBPOM Pontianak
+                    Standar Pelayanan Publik BBPOM Pontianak...............
                 </p>
+                <div class="max-w-2xl mx-auto mt-8">
+                    <label for="service-search" class="sr-only">Cari layanan</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input
+                            id="service-search"
+                            type="text"
+                            placeholder="Cari layanan "
+                            class="w-full rounded-xl border border-gray-300 bg-white py-3 pl-11 pr-4 text-sm text-gray-700 shadow-sm focus:border-navy focus:outline-none focus:ring-2 focus:ring-blue-100"
+                        >
+                    </div>
+                </div>
             </div>
 
             <!-- Sertifikasi & Perizinan Section -->
             <div class="mb-16">
-                <h3 class="text-3xl font-bold text-navy mb-8 text-center">Sertifikasi & Perizinan</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                
+                <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Service 1 -->
+                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
+                        <div class="flex flex-col items-start mb-4">
+                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-exclamation-triangle text-navy text-sm"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-navy mb-3">Pengaduan Masyarakat & Informasi</h3>
+                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
+                                Layanan pengaduan masyarakat dan informasi obat serta makanan.
+                            </p>
+                            <a href="{{ route('layanan.pengaduan-informasi') }}" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
+                                Selengkapnya
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <a href="{{ route('layanan.pengujian') }}" class="block bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
+                        <div class="flex flex-col items-start mb-4">
+                            <div class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-flask text-navy text-sm"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-navy mb-3">Pengujian Obat dan Makanan</h3>
+                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
+                                Layanan pengujian laboratorium sesuai standar keamanan.
+                            </p>
+                            <span class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-emerald-500 transition duration-300">
+                                Selengkapnya
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Service 3 -->
+                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
+                        <div class="flex flex-col items-start mb-4">
+                            <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-lightbulb text-navy text-sm"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-navy mb-3">Inovasi AGIJAKK Terintegrasi</h3>
+                            <p class="text-gray-600 text-xs mb-4">
+                                Aksi Dampingi dan Jangkau UMKM Kalbar Terintegrasi 
+                            </p>
+                            <a href="https://s.id/FormAGIJAKK" target="_blank" rel="noopener noreferrer" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
+                                Selengkapnya
+                            </a>
+                        </div>
+                    </div>
+
                     <!-- Service 3 -->
                     <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
                         <div class="flex flex-col items-start mb-4">
@@ -144,7 +207,7 @@
                             <p class="text-gray-600 text-xs line-clamp-2 mb-4">
                                 Rekomendasi untuk notifikasi produk kosmetika sesuai regulasi yang berlaku.
                             </p>
-                            <a href="#" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
+                            <a href="https://notifkos.pom.go.id" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
                                 Selengkapnya
                             </a>
                         </div>
@@ -198,60 +261,6 @@
                         </div>
                     </div>
 
-                    <!-- Service 10 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
-                            <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-leaf text-navy text-sm"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Rekomendasi Importir Obat Alam & Suplemen</h3>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Rekomendasi untuk importir obat alami dan suplemen kesehatan.
-                            </p>
-                            <a href="#" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Layanan Informasi & Logistik Section -->
-            <div>
-                <h3 class="text-3xl font-bold text-navy mb-8 text-center">Layanan Informasi & Logistik</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                    <!-- Service 1 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
-                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-exclamation-triangle text-navy text-sm"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Pengaduan Masyarakat & Informasi</h3>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Layanan pengaduan masyarakat dan informasi obat serta makanan.
-                            </p>
-                            <a href="{{ route('layanan.pengaduan-informasi') }}" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Service 2 -->
-                    <a href="{{ route('layanan.pengujian') }}" class="block bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
-                            <div class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-flask text-navy text-sm"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Pengujian Obat dan Makanan</h3>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Layanan pengujian laboratorium sesuai standar keamanan.
-                            </p>
-                            <span class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-emerald-500 transition duration-300">
-                                Selengkapnya
-                            </span>
-                        </div>
-                    </a>
-
                     <!-- Service 8 -->
                     <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
                         <div class="flex flex-col items-start mb-4">
@@ -283,7 +292,27 @@
                             </a>
                         </div>
                     </div>
+
+                    <!-- Service 10 -->
+                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
+                        <div class="flex flex-col items-start mb-4">
+                            <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-leaf text-navy text-sm"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-navy mb-3">Rekomendasi Importir Obat Alam & Suplemen</h3>
+                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
+                                Rekomendasi untuk importir obat alami dan suplemen kesehatan.
+                            </p>
+                            <a href="#" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
+                                Selengkapnya
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
+                <p id="services-empty-state" class="hidden text-center text-gray-500 mt-8">
+                    Layanan tidak ditemukan. Coba kata kunci lain.
+                </p>
             </div>
         </div>
     </section>
@@ -305,7 +334,7 @@
                         <thead class="bg-navy">
                             <tr>
                                 <th class="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    Nama Dokumen
+                                    Dokumen
                                 </th>
                                 <th class="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     Kategori
@@ -468,17 +497,20 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-white hover:text-gold transition duration-150">
+                        <a href="https://www.facebook.com/people/Balai-Besar-POM-di-Pontianak/100063553017207/" class="text-white hover:text-gold transition duration-150">
                             <i class="fab fa-facebook-f text-xl"></i>
                         </a>
-                        <a href="#" class="text-white hover:text-gold transition duration-150">
+                        <a href="https://x.com/BPOMPontianak" class="text-white hover:text-gold transition duration-150">
                             <i class="fab fa-twitter text-xl"></i>
                         </a>
-                        <a href="#" class="text-white hover:text-gold transition duration-150">
+                        <a href="https://www.instagram.com/bpom.pontianak/" class="text-white hover:text-gold transition duration-150">
                             <i class="fab fa-instagram text-xl"></i>
                         </a>
-                        <a href="#" class="text-white hover:text-gold transition duration-150">
+                        <a href="http://www.youtube.com/@balaibesarpomdipontianak583" class="text-white hover:text-gold transition duration-150">
                             <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@bpom.pontianak" class="text-white hover:text-gold transition duration-150">
+                            <i class="fab fa-tiktok text-xl"></i>
                         </a>
                     </div>
                 </div>
@@ -516,6 +548,34 @@
                 }
             });
         });
+
+        // Services search filter
+        const serviceSearchInput = document.getElementById('service-search');
+        const servicesGrid = document.getElementById('services-grid');
+        const servicesEmptyState = document.getElementById('services-empty-state');
+
+        if (serviceSearchInput && servicesGrid && servicesEmptyState) {
+            const serviceCards = Array.from(servicesGrid.children);
+
+            const filterServices = () => {
+                const query = serviceSearchInput.value.trim().toLowerCase();
+                let visibleCount = 0;
+
+                serviceCards.forEach((card) => {
+                    const cardText = card.textContent.toLowerCase();
+                    const isMatch = !query || cardText.includes(query);
+
+                    card.classList.toggle('hidden', !isMatch);
+                    if (isMatch) {
+                        visibleCount += 1;
+                    }
+                });
+
+                servicesEmptyState.classList.toggle('hidden', visibleCount > 0);
+            };
+
+            serviceSearchInput.addEventListener('input', filterServices);
+        }
     </script>
 </body>
 </html>

@@ -26,9 +26,28 @@
                 <h1 class="text-3xl font-bold text-purple-900">Kelola OT-SK</h1>
                 <p class="text-slate-500 mt-1">Kelola data Obat Tradisional & Suplemen Kesehatan</p>
             </div>
-            <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition">
-                <i class="fas fa-arrow-left mr-2"></i>Kembali
-            </a>
+            @if(session('admin_role') === 'warna')
+                <form action="{{ route('admin.logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 bg-slate-700 text-white rounded-xl font-semibold hover:bg-slate-800 transition">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali
+                </a>
+            @endif
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-6">
+            <a href="{{ route('admin.obat') }}" class="px-4 py-2 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition">Kelola Obat</a>
+            <a href="{{ route('admin.otsk') }}" class="px-4 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition">Kelola OT-SK</a>
+            <a href="{{ route('admin.kosmetik') }}" class="px-4 py-2 bg-orange-600 text-white rounded-xl font-semibold hover:bg-orange-700 transition">Kelola Kosmetik</a>
+            <a href="{{ route('admin.pangan') }}" class="px-4 py-2 bg-sky-600 text-white rounded-xl font-semibold hover:bg-sky-700 transition">Kelola Pangan</a>
+            @if(session('admin_role') === 'utama')
+                <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-blue-900 text-white rounded-xl font-semibold hover:bg-blue-800 transition">Upload Dokumen</a>
+            @endif
         </div>
 
         @if(session('success'))
@@ -38,29 +57,45 @@
             </div>
         @endif
 
-        <!-- Form Tambah Tipe Produk -->
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 mb-8">
-            <div class="bg-purple-900 px-6 py-5 text-white">
-                <h2 class="text-xl font-bold">Tambah Tipe Produk</h2>
-                <p class="text-purple-200 text-sm mt-1">Tambah kategori produk baru</p>
+        <!-- Search Konten OT-SK -->
+        <div class="bg-white rounded-2xl shadow-md border border-slate-100 p-4 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center gap-3">
+                <div class="relative flex-1">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input
+                        type="text"
+                        id="otskSearchInput"
+                        class="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-900 focus:border-transparent outline-none"
+                        placeholder="Cari konten halaman OT-SK: tipe, klaim, parameter, metode..."
+                    >
+                </div>
+                <button
+                    type="button"
+                    id="otskSearchClear"
+                    class="px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition"
+                    aria-label="Reset pencarian"
+                    title="Reset pencarian"
+                >
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
+            <p id="otskSearchStats" class="text-sm text-slate-500 mt-2"></p>
+        </div>
 
-            <div class="p-6">
-                <form action="{{ route('admin.tipe-produk.store') }}" method="POST" class="flex gap-4">
-                    @csrf
-                    <input type="text" name="nama_tipe" required 
-                        class="flex-1 px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-900 focus:border-transparent outline-none"
-                        placeholder="Contoh: Obat Tradisional, Suplemen Kesehatan">
-                    <button type="submit" class="px-6 bg-purple-900 text-white rounded-xl font-bold hover:bg-purple-800 transition">
-                        <i class="fas fa-plus mr-2"></i>Tambah
-                    </button>
-                </form>
-            </div>
+        <!-- Tombol Tambah Tipe Produk -->
+        <div class="mb-8 flex justify-end">
+            <button
+                type="button"
+                onclick="openCreateTipeModal()"
+                class="px-6 py-3 bg-purple-900 text-white rounded-xl font-bold hover:bg-purple-800 transition"
+            >
+                <i class="fas fa-plus mr-2"></i>Tambah Tipe Produk
+            </button>
         </div>
 
         <!-- Tabel Data Tipe Produk, Klaim, Parameter -->
         @foreach($tipeProduks as $tipe)
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 mb-8">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 mb-8 otsk-search-item">
             <div class="bg-purple-900 px-6 py-4 text-white flex justify-between items-center">
                 <div>
                     <h2 class="text-lg font-bold">{{ $tipe->nama_tipe }}</h2>
@@ -80,7 +115,7 @@
             </div>
 
             <!-- Hidden Content -->
-            <div id="tipe-content-{{ $tipe->id_produk }}" class="p-6">
+            <div id="tipe-content-{{ $tipe->id_produk }}" class="p-6 hidden">
                 <!-- Form Tambah Klaim -->
                 <form action="{{ route('admin.produk-klaim.store') }}" method="POST" class="mb-6 p-4 bg-purple-50 rounded-xl">
                     @csrf
@@ -114,7 +149,7 @@
                     </div>
 
                     <!-- Hidden Parameter Content -->
-                    <div id="klaim-content-{{ $klaim->id_klaim }}" class="p-4">
+                    <div id="klaim-content-{{ $klaim->id_klaim }}" class="p-4 hidden">
                         <!-- Form Tambah Parameter -->
                         <form action="{{ route('admin.parameter-uji-otsk.store') }}" method="POST" class="mb-4 p-3 bg-slate-50 rounded-lg">
                             @csrf
@@ -146,7 +181,7 @@
                             </div>
 
                             <!-- Hidden Metode Content -->
-                            <div id="metode-content-{{ $param->id_uji }}" class="p-3">
+                            <div id="metode-content-{{ $param->id_uji }}" class="p-3 hidden">
                                 <!-- Form Tambah Metode -->
                                 <form action="{{ route('admin.metode-uji-otsk.store') }}" method="POST" class="mb-3 p-2 bg-white rounded border">
                                     @csrf
@@ -222,6 +257,14 @@
         </div>
         @endforeach
 
+        <div id="otskSearchNoResult" class="hidden bg-white rounded-2xl shadow-md border border-slate-100 p-8 text-center mb-8">
+            <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-search text-slate-400 text-lg"></i>
+            </div>
+            <h3 class="text-base font-semibold text-slate-700">Konten tidak ditemukan</h3>
+            <p class="text-sm text-slate-500 mt-1">Coba kata kunci lain yang lebih spesifik.</p>
+        </div>
+
         @if($tipeProduks->count() == 0)
         <div class="bg-white rounded-3xl shadow-xl p-12 text-center border border-slate-100">
             <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -232,6 +275,32 @@
         </div>
         @endif
 
+    </div>
+</div>
+
+<!-- Modal Tambah Tipe Produk -->
+<div id="createTipeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm overflow-y-auto h-full w-full hidden z-50 flex items-center justify-center">
+    <div class="relative mx-auto p-6 border w-full max-w-md shadow-2xl rounded-3xl bg-white">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-purple-900">Tambah Tipe Produk</h3>
+            <button onclick="closeCreateTipeModal()" class="text-slate-400 hover:text-slate-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <form action="{{ route('admin.tipe-produk.store') }}" method="POST">
+            @csrf
+            <input
+                type="text"
+                name="nama_tipe"
+                required
+                class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-900 focus:border-transparent outline-none"
+                placeholder="Contoh: Obat Tradisional, Suplemen Kesehatan"
+            >
+            <div class="flex space-x-3 mt-6">
+                <button type="button" onclick="closeCreateTipeModal()" class="flex-1 px-4 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold">Batal</button>
+                <button type="submit" class="flex-1 px-4 py-3 bg-purple-900 text-white rounded-xl font-bold">Tambah</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -447,6 +516,10 @@
         icon.classList.toggle('fa-chevron-up');
     }
 
+    // Modal Functions - Create Tipe Produk
+    function openCreateTipeModal() { document.getElementById('createTipeModal').classList.remove('hidden'); }
+    function closeCreateTipeModal() { document.getElementById('createTipeModal').classList.add('hidden'); }
+
     // Modal Functions - Tipe Produk
     function openEditTipeModal(id, nama) {
         document.getElementById('edit_tipe_nama').value = nama;
@@ -513,6 +586,50 @@
             }
         });
     });
+
+    // Search konten halaman OT-SK
+    const otskSearchInput = document.getElementById('otskSearchInput');
+    const otskSearchClear = document.getElementById('otskSearchClear');
+    const otskSearchStats = document.getElementById('otskSearchStats');
+    const otskSearchNoResult = document.getElementById('otskSearchNoResult');
+    const otskSearchItems = Array.from(document.querySelectorAll('.otsk-search-item'));
+
+    function filterOtskContent() {
+        if (!otskSearchInput) return;
+
+        const keyword = otskSearchInput.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        otskSearchItems.forEach(item => {
+            const searchableText = item.textContent.toLowerCase();
+            const isMatch = keyword === '' || searchableText.includes(keyword);
+            item.classList.toggle('hidden', !isMatch);
+            if (isMatch) visibleCount++;
+        });
+
+        if (otskSearchStats) {
+            otskSearchStats.textContent = keyword === ''
+                ? `total ${visibleCount} tipe produk`
+                : `Menampilkan ${visibleCount} dari ${otskSearchItems.length} tipe produk`;
+        }
+
+        if (otskSearchNoResult) {
+            otskSearchNoResult.classList.toggle('hidden', visibleCount > 0 || keyword === '');
+        }
+    }
+
+    if (otskSearchInput) {
+        otskSearchInput.addEventListener('input', filterOtskContent);
+        filterOtskContent();
+    }
+
+    if (otskSearchClear && otskSearchInput) {
+        otskSearchClear.addEventListener('click', function () {
+            otskSearchInput.value = '';
+            filterOtskContent();
+            otskSearchInput.focus();
+        });
+    }
 </script>
 
 </body>

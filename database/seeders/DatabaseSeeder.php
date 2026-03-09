@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            AdminSeeder::class,
             TarifPengujianBbpomSeeder::class,
             ZatAktifSeeder::class,
             KategoriIndikasiSeeder::class,

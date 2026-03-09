@@ -94,7 +94,7 @@
                                     <thead>
                                         <tr class="border-b border-gray-300">
                                             <th class="text-left py-2 font-medium text-gray-700 uppercase text-xs">Jenis PNBP</th>
-                                            <th class="text-right py-2 font-medium text-gray-700 uppercase text-xs">Price (IDR)</th>
+                                            <th class="text-right py-2 font-medium text-gray-700 uppercase text-xs">(IDR)</th>
                                             <th class="text-center py-2 font-medium text-gray-700 uppercase text-xs">Action</th>
                                         </tr>
                                     </thead>

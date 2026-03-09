@@ -135,14 +135,6 @@
                 </div>
 
                 <div class="border border-gray-200 rounded-xl p-5 hover:shadow-md transition duration-300">
-                    <h3 class="text-lg font-semibold text-[#003366] mb-2">Notifikasi Kosmetik</h3>
-                    <p class="text-sm text-gray-600 mb-4">Cara pendaftaran notifikasi kosmetik secara online.</p>
-                    <a href="https://notifkos.pom.go.id/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-semibold text-[#10b981] hover:underline">
-                        Kunjungi Layanan <i class="fas fa-arrow-up-right-from-square ml-2 text-xs"></i>
-                    </a>
-                </div>
-
-                <div class="border border-gray-200 rounded-xl p-5 hover:shadow-md transition duration-300">
                     <h3 class="text-lg font-semibold text-[#003366] mb-2">Registrasi Produk Pangan Olahan</h3>
                     <p class="text-sm text-gray-600 mb-4">Persyaratan mendapatkan nomor izin edar produk pangan olahan.</p>
                     <a href="https://rumahsiripo.pom.go.id/informasi/infografis" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-semibold text-[#10b981] hover:underline">

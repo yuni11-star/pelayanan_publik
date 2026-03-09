@@ -26,9 +26,28 @@
                 <h1 class="text-3xl font-bold text-sky-700">Kelola Komoditi Pangan</h1>
                 <p class="text-slate-500 mt-1">Kelola data pangan dan parameter uji laboratorium</p>
             </div>
-            <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition">
-                <i class="fas fa-arrow-left mr-2"></i>Kembali
-            </a>
+            @if(session('admin_role') === 'warna')
+                <form action="{{ route('admin.logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 bg-slate-700 text-white rounded-xl font-semibold hover:bg-slate-800 transition">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali
+                </a>
+            @endif
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-6">
+            <a href="{{ route('admin.obat') }}" class="px-4 py-2 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition">Kelola Obat</a>
+            <a href="{{ route('admin.otsk') }}" class="px-4 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition">Kelola OT-SK</a>
+            <a href="{{ route('admin.kosmetik') }}" class="px-4 py-2 bg-orange-600 text-white rounded-xl font-semibold hover:bg-orange-700 transition">Kelola Kosmetik</a>
+            <a href="{{ route('admin.pangan') }}" class="px-4 py-2 bg-sky-600 text-white rounded-xl font-semibold hover:bg-sky-700 transition">Kelola Pangan</a>
+            @if(session('admin_role') === 'utama')
+                <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-blue-900 text-white rounded-xl font-semibold hover:bg-blue-800 transition">Upload Dokumen</a>
+            @endif
         </div>
 
         @if(session('success'))
@@ -93,6 +112,37 @@
                     </div>
 
                     <div class="p-6">
+                        <form action="{{ route('admin.pangan') }}" method="GET" class="mb-5">
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <div class="relative flex-1">
+                                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                                    <input
+                                        type="text"
+                                        name="q"
+                                        value="{{ $search ?? '' }}"
+                                        placeholder="Cari bahan produk, waktu, parameter, metode, atau keterangan..."
+                                        class="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-900 focus:border-transparent outline-none text-sm"
+                                    >
+                                </div>
+                                <div class="flex gap-2">
+                                    <button type="submit" class="px-4 py-2.5 bg-sky-900 text-white rounded-xl font-semibold hover:bg-sky-800 transition text-sm">
+                                        Cari
+                                    </button>
+                                    @if(!empty($search))
+                                        <a href="{{ route('admin.pangan') }}" class="px-4 py-2.5 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition text-sm">
+                                            Reset
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </form>
+
+                        @if(!empty($search))
+                            <p class="text-sm text-slate-600 mb-4">
+                                Hasil pencarian untuk: <span class="font-semibold text-slate-800">{{ $search }}</span>
+                            </p>
+                        @endif
+
                         @if($pangans->count() > 0)
                             <div class="overflow-x-auto">
                                 <table class="min-w-full divide-y divide-slate-200">

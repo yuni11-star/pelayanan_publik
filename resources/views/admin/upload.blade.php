@@ -18,7 +18,7 @@
 <body class="bg-slate-50">
 
 <div class="min-h-screen py-12">
-    <div class="max-w-4xl mx-auto px-4">
+    <div class="w-[96%] max-w-[1700px] mx-auto px-4">
         
         <div class="flex justify-between items-center mb-8">
             <div class="flex items-center">
@@ -47,6 +47,13 @@
                     <i class="fas fa-utensils mr-2"></i>
                     Kelola Pangan
                 </a>
+                <form action="{{ route('admin.logout') }}" method="POST" class="ml-2">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 bg-slate-700 text-white rounded-xl font-semibold hover:bg-slate-800 transition flex items-center">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        Logout
+                    </button>
+                </form>
             </div>
         </div>
 

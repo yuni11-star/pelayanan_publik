@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PengujianController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\SearchController;
 
 // 1. Route untuk Landing Page
 Route::get('/', function () {
@@ -84,72 +86,80 @@ Route::get('/layanan/pengaduan-informasi', function () {
 Route::get('/api/search-tarif', [PengujianController::class, 'search'])->name('tarif.search');
 
 // 4. Route untuk Pencarian Product Tests
-use App\Http\Controllers\SearchController;
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
-Route::get('/admin/upload', [AdminController::class, 'showUploadForm'])->name('admin.upload');
-Route::post('/admin/upload', [AdminController::class, 'uploadDocument'])->name('admin.upload');
-Route::get('/admin/documents/{filename}/preview', [AdminController::class, 'previewDocument'])->name('admin.document.preview');
-Route::post('/admin/documents/{filename}/rename', [AdminController::class, 'renameDocument'])->name('admin.document.rename');
-Route::delete('/admin/documents/{filename}', [AdminController::class, 'deleteDocument'])->name('admin.document.delete');
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.post');
 
-// Routes untuk Kelola Obat (CRUD)
-Route::get('/admin/obat', [AdminController::class, 'showObat'])->name('admin.obat');
-Route::post('/admin/obat', [AdminController::class, 'storeObat'])->name('admin.obat.store');
-Route::put('/admin/obat/{id}', [AdminController::class, 'updateObat'])->name('admin.obat.update');
-Route::delete('/admin/obat/{id}', [AdminController::class, 'deleteObat'])->name('admin.obat.delete');
-Route::get('/admin/obat/{id}', [AdminController::class, 'getObat'])->name('admin.obat.get');
+Route::middleware('admin.auth')->group(function () {
+    Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-// Routes untuk Kelola Parameter Uji (CRUD)
-Route::post('/admin/parameter-uji', [AdminController::class, 'storeParameterUji'])->name('admin.parameter-uji.store');
-Route::put('/admin/parameter-uji/{id}', [AdminController::class, 'updateParameterUji'])->name('admin.parameter-uji.update');
-Route::delete('/admin/parameter-uji/{id}', [AdminController::class, 'deleteParameterUji'])->name('admin.parameter-uji.delete');
+    Route::middleware('admin.super')->group(function () {
+        Route::get('/admin/upload', [AdminController::class, 'showUploadForm'])->name('admin.upload');
+        Route::post('/admin/upload', [AdminController::class, 'uploadDocument'])->name('admin.upload');
+        Route::get('/admin/documents/{filename}/preview', [AdminController::class, 'previewDocument'])->name('admin.document.preview');
+        Route::post('/admin/documents/{filename}/rename', [AdminController::class, 'renameDocument'])->name('admin.document.rename');
+        Route::delete('/admin/documents/{filename}', [AdminController::class, 'deleteDocument'])->name('admin.document.delete');
+    });
 
-// Routes untuk Kelola OT-SK
-Route::get('/admin/otsk', [AdminController::class, 'showOtsk'])->name('admin.otsk');
-Route::post('/admin/tipe-produk', [AdminController::class, 'storeTipeProduk'])->name('admin.tipe-produk.store');
-Route::put('/admin/tipe-produk/{id}', [AdminController::class, 'updateTipeProduk'])->name('admin.tipe-produk.update');
-Route::delete('/admin/tipe-produk/{id}', [AdminController::class, 'deleteTipeProduk'])->name('admin.tipe-produk.delete');
+    // Routes untuk Kelola Obat (CRUD)
+    Route::get('/admin/obat', [AdminController::class, 'showObat'])->name('admin.obat');
+    Route::post('/admin/obat', [AdminController::class, 'storeObat'])->name('admin.obat.store');
+    Route::put('/admin/obat/{id}', [AdminController::class, 'updateObat'])->name('admin.obat.update');
+    Route::delete('/admin/obat/{id}', [AdminController::class, 'deleteObat'])->name('admin.obat.delete');
+    Route::get('/admin/obat/{id}', [AdminController::class, 'getObat'])->name('admin.obat.get');
 
-Route::post('/admin/produk-klaim', [AdminController::class, 'storeProdukKlaim'])->name('admin.produk-klaim.store');
-Route::put('/admin/produk-klaim/{id}', [AdminController::class, 'updateProdukKlaim'])->name('admin.produk-klaim.update');
-Route::delete('/admin/produk-klaim/{id}', [AdminController::class, 'deleteProdukKlaim'])->name('admin.produk-klaim.delete');
+    // Routes untuk Kelola Parameter Uji (CRUD)
+    Route::post('/admin/parameter-uji', [AdminController::class, 'storeParameterUji'])->name('admin.parameter-uji.store');
+    Route::put('/admin/parameter-uji/{id}', [AdminController::class, 'updateParameterUji'])->name('admin.parameter-uji.update');
+    Route::delete('/admin/parameter-uji/{id}', [AdminController::class, 'deleteParameterUji'])->name('admin.parameter-uji.delete');
 
-Route::post('/admin/parameter-uji-otsk', [AdminController::class, 'storeParameterUjiOtsk'])->name('admin.parameter-uji-otsk.store');
-Route::put('/admin/parameter-uji-otsk/{id}', [AdminController::class, 'updateParameterUjiOtsk'])->name('admin.parameter-uji-otsk.update');
-Route::delete('/admin/parameter-uji-otsk/{id}', [AdminController::class, 'deleteParameterUjiOtsk'])->name('admin.parameter-uji-otsk.delete');
+    // Routes untuk Kelola OT-SK
+    Route::get('/admin/otsk', [AdminController::class, 'showOtsk'])->name('admin.otsk');
+    Route::post('/admin/tipe-produk', [AdminController::class, 'storeTipeProduk'])->name('admin.tipe-produk.store');
+    Route::put('/admin/tipe-produk/{id}', [AdminController::class, 'updateTipeProduk'])->name('admin.tipe-produk.update');
+    Route::delete('/admin/tipe-produk/{id}', [AdminController::class, 'deleteTipeProduk'])->name('admin.tipe-produk.delete');
 
-Route::post('/admin/metode-uji-otsk', [AdminController::class, 'storeMetodeUjiOtsk'])->name('admin.metode-uji-otsk.store');
-Route::put('/admin/metode-uji-otsk/{id}', [AdminController::class, 'updateMetodeUjiOtsk'])->name('admin.metode-uji-otsk.update');
-Route::delete('/admin/metode-uji-otsk/{id}', [AdminController::class, 'deleteMetodeUjiOtsk'])->name('admin.metode-uji-otsk.delete');
+    Route::post('/admin/produk-klaim', [AdminController::class, 'storeProdukKlaim'])->name('admin.produk-klaim.store');
+    Route::put('/admin/produk-klaim/{id}', [AdminController::class, 'updateProdukKlaim'])->name('admin.produk-klaim.update');
+    Route::delete('/admin/produk-klaim/{id}', [AdminController::class, 'deleteProdukKlaim'])->name('admin.produk-klaim.delete');
 
-// Routes untuk Kelola Kosmetik (CRUD)
-Route::get('/admin/kosmetik', [AdminController::class, 'showKosmetik'])->name('admin.kosmetik');
-Route::post('/admin/kosmetik', [AdminController::class, 'storeKosmetik'])->name('admin.kosmetik.store');
-Route::put('/admin/kosmetik/{id}', [AdminController::class, 'updateKosmetik'])->name('admin.kosmetik.update');
-Route::delete('/admin/kosmetik/{id}', [AdminController::class, 'deleteKosmetik'])->name('admin.kosmetik.delete');
-Route::get('/admin/kosmetik/{id}', [AdminController::class, 'getKosmetik'])->name('admin.kosmetik.get');
-Route::get('/api/kosmetik/{id}/details', [AdminController::class, 'getKosmetikDetails'])->name('api.kosmetik.details');
+    Route::post('/admin/parameter-uji-otsk', [AdminController::class, 'storeParameterUjiOtsk'])->name('admin.parameter-uji-otsk.store');
+    Route::put('/admin/parameter-uji-otsk/{id}', [AdminController::class, 'updateParameterUjiOtsk'])->name('admin.parameter-uji-otsk.update');
+    Route::delete('/admin/parameter-uji-otsk/{id}', [AdminController::class, 'deleteParameterUjiOtsk'])->name('admin.parameter-uji-otsk.delete');
 
-// Routes untuk Kelola Kategori Kosmetik (CRUD)
-Route::post('/admin/kategori-kosmetik', [AdminController::class, 'storeKategoriKosmetik'])->name('admin.kategori-kosmetik.store');
-Route::put('/admin/kategori-kosmetik/{id}', [AdminController::class, 'updateKategoriKosmetik'])->name('admin.kategori-kosmetik.update');
-Route::delete('/admin/kategori-kosmetik/{id}', [AdminController::class, 'deleteKategoriKosmetik'])->name('admin.kategori-kosmetik.delete');
+    Route::post('/admin/metode-uji-otsk', [AdminController::class, 'storeMetodeUjiOtsk'])->name('admin.metode-uji-otsk.store');
+    Route::put('/admin/metode-uji-otsk/{id}', [AdminController::class, 'updateMetodeUjiOtsk'])->name('admin.metode-uji-otsk.update');
+    Route::delete('/admin/metode-uji-otsk/{id}', [AdminController::class, 'deleteMetodeUjiOtsk'])->name('admin.metode-uji-otsk.delete');
 
-// Routes untuk Kelola Parameter Kosmetik (CRUD)
-Route::post('/admin/parameter-kosmetik', [AdminController::class, 'storeParameterKosmetik'])->name('admin.parameter-kosmetik.store');
-Route::put('/admin/parameter-kosmetik/{id}', [AdminController::class, 'updateParameterKosmetik'])->name('admin.parameter-kosmetik.update');
-Route::delete('/admin/parameter-kosmetik/{id}', [AdminController::class, 'deleteParameterKosmetik'])->name('admin.parameter-kosmetik.delete');
+    // Routes untuk Kelola Kosmetik (CRUD)
+    Route::get('/admin/kosmetik', [AdminController::class, 'showKosmetik'])->name('admin.kosmetik');
+    Route::post('/admin/kosmetik', [AdminController::class, 'storeKosmetik'])->name('admin.kosmetik.store');
+    Route::put('/admin/kosmetik/{id}', [AdminController::class, 'updateKosmetik'])->name('admin.kosmetik.update');
+    Route::delete('/admin/kosmetik/{id}', [AdminController::class, 'deleteKosmetik'])->name('admin.kosmetik.delete');
+    Route::get('/admin/kosmetik/{id}', [AdminController::class, 'getKosmetik'])->name('admin.kosmetik.get');
+    Route::get('/api/kosmetik/{id}/details', [AdminController::class, 'getKosmetikDetails'])->name('api.kosmetik.details');
 
-// Routes untuk Kelola Pangan (CRUD)
-Route::get('/admin/pangan', [AdminController::class, 'showPangan'])->name('admin.pangan');
-Route::post('/admin/pangan', [AdminController::class, 'storePangan'])->name('admin.pangan.store');
-Route::put('/admin/pangan/{id}', [AdminController::class, 'updatePangan'])->name('admin.pangan.update');
-Route::delete('/admin/pangan/{id}', [AdminController::class, 'deletePangan'])->name('admin.pangan.delete');
-Route::get('/admin/pangan/{id}', [AdminController::class, 'getPangan'])->name('admin.pangan.get');
-Route::get('/api/pangan/{id}/details', [AdminController::class, 'getPanganDetails'])->name('api.pangan.details');
+    // Routes untuk Kelola Kategori Kosmetik (CRUD)
+    Route::post('/admin/kategori-kosmetik', [AdminController::class, 'storeKategoriKosmetik'])->name('admin.kategori-kosmetik.store');
+    Route::put('/admin/kategori-kosmetik/{id}', [AdminController::class, 'updateKategoriKosmetik'])->name('admin.kategori-kosmetik.update');
+    Route::delete('/admin/kategori-kosmetik/{id}', [AdminController::class, 'deleteKategoriKosmetik'])->name('admin.kategori-kosmetik.delete');
 
-// Routes untuk Kelola Parameter Uji Pangan (CRUD)
-Route::post('/admin/parameter-uji-pangan', [AdminController::class, 'storeParameterUjiPangan'])->name('admin.parameter-uji-pangan.store');
-Route::put('/admin/parameter-uji-pangan/{id}', [AdminController::class, 'updateParameterUjiPangan'])->name('admin.parameter-uji-pangan.update');
-Route::delete('/admin/parameter-uji-pangan/{id}', [AdminController::class, 'deleteParameterUjiPangan'])->name('admin.parameter-uji-pangan.delete');
+    // Routes untuk Kelola Parameter Kosmetik (CRUD)
+    Route::post('/admin/parameter-kosmetik', [AdminController::class, 'storeParameterKosmetik'])->name('admin.parameter-kosmetik.store');
+    Route::put('/admin/parameter-kosmetik/{id}', [AdminController::class, 'updateParameterKosmetik'])->name('admin.parameter-kosmetik.update');
+    Route::delete('/admin/parameter-kosmetik/{id}', [AdminController::class, 'deleteParameterKosmetik'])->name('admin.parameter-kosmetik.delete');
+
+    // Routes untuk Kelola Pangan (CRUD)
+    Route::get('/admin/pangan', [AdminController::class, 'showPangan'])->name('admin.pangan');
+    Route::post('/admin/pangan', [AdminController::class, 'storePangan'])->name('admin.pangan.store');
+    Route::put('/admin/pangan/{id}', [AdminController::class, 'updatePangan'])->name('admin.pangan.update');
+    Route::delete('/admin/pangan/{id}', [AdminController::class, 'deletePangan'])->name('admin.pangan.delete');
+    Route::get('/admin/pangan/{id}', [AdminController::class, 'getPangan'])->name('admin.pangan.get');
+    Route::get('/api/pangan/{id}/details', [AdminController::class, 'getPanganDetails'])->name('api.pangan.details');
+
+    // Routes untuk Kelola Parameter Uji Pangan (CRUD)
+    Route::post('/admin/parameter-uji-pangan', [AdminController::class, 'storeParameterUjiPangan'])->name('admin.parameter-uji-pangan.store');
+    Route::put('/admin/parameter-uji-pangan/{id}', [AdminController::class, 'updateParameterUjiPangan'])->name('admin.parameter-uji-pangan.update');
+    Route::delete('/admin/parameter-uji-pangan/{id}', [AdminController::class, 'deleteParameterUjiPangan'])->name('admin.parameter-uji-pangan.delete');
+});

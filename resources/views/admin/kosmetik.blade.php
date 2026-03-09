@@ -26,9 +26,28 @@
                 <h1 class="text-3xl font-bold text-orange-700">Kelola Komoditi Kosmetik</h1>
                 <p class="text-slate-500 mt-1">Kelola data kosmetik, kategori, dan parameter uji laboratorium</p>
             </div>
-            <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition">
-                <i class="fas fa-arrow-left mr-2"></i>Kembali
-            </a>
+            @if(session('admin_role') === 'warna')
+                <form action="{{ route('admin.logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 bg-slate-700 text-white rounded-xl font-semibold hover:bg-slate-800 transition">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali
+                </a>
+            @endif
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-6">
+            <a href="{{ route('admin.obat') }}" class="px-4 py-2 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition">Kelola Obat</a>
+            <a href="{{ route('admin.otsk') }}" class="px-4 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition">Kelola OT-SK</a>
+            <a href="{{ route('admin.kosmetik') }}" class="px-4 py-2 bg-orange-600 text-white rounded-xl font-semibold hover:bg-orange-700 transition">Kelola Kosmetik</a>
+            <a href="{{ route('admin.pangan') }}" class="px-4 py-2 bg-sky-600 text-white rounded-xl font-semibold hover:bg-sky-700 transition">Kelola Pangan</a>
+            @if(session('admin_role') === 'utama')
+                <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-blue-900 text-white rounded-xl font-semibold hover:bg-blue-800 transition">Upload Dokumen</a>
+            @endif
         </div>
 
         @if(session('success'))
@@ -86,6 +105,28 @@
                     </div>
 
                     <div class="p-6">
+                        <form action="{{ route('admin.kosmetik') }}" method="GET" class="mb-5">
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <input
+                                    type="text"
+                                    name="search"
+                                    value="{{ $search ?? '' }}"
+                                    placeholder="Cari tipe produk, kategori, atau parameter"
+                                    class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-900 focus:border-transparent outline-none"
+                                >
+                                <div class="flex gap-2">
+                                    <button type="submit" class="px-5 py-3 bg-orange-900 text-white rounded-xl font-semibold hover:bg-orange-800 transition">
+                                        <i class="fas fa-search mr-2"></i>Cari
+                                    </button>
+                                    @if(!empty($search))
+                                        <a href="{{ route('admin.kosmetik') }}" class="px-5 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition">
+                                            Reset
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </form>
+
                         @if($kosmetiks->count() > 0)
                             <div class="overflow-x-auto">
                                 <table class="min-w-full divide-y divide-slate-200">
@@ -195,23 +236,50 @@
                                                                     <thead class="bg-slate-100">
                                                                         <tr>
                                                                             <th class="px-2 py-1 text-left text-xs font-semibold text-slate-600">PUK</th>
+                                                                            <th class="px-2 py-1 text-left text-xs font-semibold text-slate-600">Pustaka</th>
                                                                             <th class="px-2 py-1 text-left text-xs font-semibold text-slate-600">Teknik</th>
                                                                             <th class="px-2 py-1 text-left text-xs font-semibold text-slate-600">Metode</th>
+                                                                            <th class="px-2 py-1 text-right text-xs font-semibold text-slate-600">Sampel Min</th>
+                                                                            <th class="px-2 py-1 text-left text-xs font-semibold text-slate-600">Satuan</th>
                                                                             <th class="px-2 py-1 text-right text-xs font-semibold text-slate-600">Harga</th>
+                                                                            <th class="px-2 py-1 text-center text-xs font-semibold text-slate-600">Waktu</th>
                                                                             <th class="px-2 py-1 text-center text-xs font-semibold text-slate-600">Aksi</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody class="divide-y divide-slate-100">
                                                                         @foreach($kategori->parameterKos as $param)
-                                                                        <tr>
-                                                                            <td class="px-2 py-1 text-xs text-slate-700">{{ $param->puk }}</td>
-                                                                            <td class="px-2 py-1 text-xs text-slate-700">{{ $param->teknik_analisis }}</td>
-                                                                            <td class="px-2 py-1 text-xs text-slate-700">{{ $param->metode }}</td>
-                                                                            <td class="px-2 py-1 text-right text-xs font-medium text-orange-700">Rp {{ number_format($param->harga, 0, ',', '.') }}</td>
+                                                                        <tr class="inline-param-row" data-param-id="{{ $param->id_parameter }}">
+                                                                            <td class="px-2 py-1">
+                                                                                <input type="text" name="puk" value="{{ $param->puk }}" class="w-32 px-2 py-1 border border-slate-200 rounded text-xs">
+                                                                            </td>
+                                                                            <td class="px-2 py-1">
+                                                                                <input type="text" name="pustaka" value="{{ $param->pustaka }}" class="w-36 px-2 py-1 border border-slate-200 rounded text-xs">
+                                                                            </td>
+                                                                            <td class="px-2 py-1">
+                                                                                <input type="text" name="teknik_analisis" value="{{ $param->teknik_analisis }}" class="w-32 px-2 py-1 border border-slate-200 rounded text-xs">
+                                                                            </td>
+                                                                            <td class="px-2 py-1">
+                                                                                <input type="text" name="metode" value="{{ $param->metode }}" class="w-32 px-2 py-1 border border-slate-200 rounded text-xs">
+                                                                            </td>
+                                                                            <td class="px-2 py-1">
+                                                                                <input type="number" name="sampel_min" value="{{ $param->sampel_min }}" min="0" class="w-20 px-2 py-1 border border-slate-200 rounded text-xs text-right">
+                                                                            </td>
+                                                                            <td class="px-2 py-1">
+                                                                                <input type="text" name="satuan" value="{{ $param->satuan }}" class="w-20 px-2 py-1 border border-slate-200 rounded text-xs">
+                                                                            </td>
+                                                                            <td class="px-2 py-1">
+                                                                                <input type="number" name="harga" value="{{ $param->harga }}" min="0" class="w-28 px-2 py-1 border border-slate-200 rounded text-xs text-right">
+                                                                            </td>
+                                                                            <td class="px-2 py-1">
+                                                                                <input type="number" name="waktu" value="{{ $param->waktu }}" min="0" class="w-16 px-2 py-1 border border-slate-200 rounded text-xs text-center">
+                                                                            </td>
                                                                             <td class="px-2 py-1 text-center">
-                                                                                <button onclick="openEditParamModal({{ $param->id_parameter }}, '{{ addslashes($param->puk) }}', '{{ addslashes($param->pustaka) }}', '{{ addslashes($param->teknik_analisis) }}', '{{ addslashes($param->metode) }}', '{{ $param->sampel_min ?? '' }}', '{{ addslashes($param->satuan) }}', {{ $param->harga }}, {{ $param->waktu }})" class="text-blue-600 hover:text-blue-800 text-xs">
-                                                                                    <i class="fas fa-edit"></i>
-                                                                                </button>
+                                                                                <div class="flex items-center justify-center gap-2">
+                                                                                    <button type="button" onclick="openDeleteParamModal({{ $param->id_parameter }}, '{{ addslashes($param->puk) }}')" class="text-red-600 hover:text-red-800 text-xs" title="Hapus Parameter">
+                                                                                        <i class="fas fa-trash"></i>
+                                                                                    </button>
+                                                                                    <span class="inline-param-status text-[10px] text-slate-400"></span>
+                                                                                </div>
                                                                             </td>
                                                                         </tr>
                                                                         @endforeach
@@ -234,8 +302,13 @@
                                 <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <i class="fas fa-paint-brush text-2xl text-slate-400"></i>
                                 </div>
-                                <h3 class="text-lg font-semibold text-slate-700 mb-2">Belum ada data kosmetik</h3>
-                                <p class="text-slate-500 text-sm">Tambahkan kosmetik pertama Anda menggunakan form di samping.</p>
+                                @if(!empty($search))
+                                    <h3 class="text-lg font-semibold text-slate-700 mb-2">Data tidak ditemukan</h3>
+                                    <p class="text-slate-500 text-sm">Tidak ada data kosmetik yang cocok dengan kata kunci "<span class="font-semibold">{{ $search }}</span>".</p>
+                                @else
+                                    <h3 class="text-lg font-semibold text-slate-700 mb-2">Belum ada data kosmetik</h3>
+                                    <p class="text-slate-500 text-sm">Tambahkan kosmetik pertama Anda menggunakan form di samping.</p>
+                                @endif
                             </div>
                         @endif
                     </div>
@@ -248,7 +321,7 @@
 
 <!-- Modal Edit Kosmetik - Comprehensive Edit Modal with Search -->
 <div id="editModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm overflow-y-auto h-full w-full hidden z-50 flex items-center justify-center">
-    <div class="relative mx-auto p-6 border w-full max-w-4xl shadow-2xl rounded-3xl bg-white my-8">
+    <div class="relative mx-auto p-6 border w-full shadow-2xl rounded-3xl bg-white my-8" style="max-width: 95vw;">
         <div class="flex justify-between items-center mb-6 border-b pb-4">
             <div>
                 <h3 class="text-xl font-bold text-orange-900">Edit Tipe Produk Kosmetik</h3>
@@ -345,7 +418,7 @@
 
 <!-- Modal Edit Kategori -->
 <div id="editKategoriModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm overflow-y-auto h-full w-full hidden z-50 flex items-center justify-center">
-    <div class="relative mx-auto p-6 border w-full max-w-md shadow-2xl rounded-3xl bg-white">
+    <div class="relative mx-auto p-6 border w-full shadow-2xl rounded-3xl bg-white" style="max-width: 95vw;">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-bold text-orange-900">Edit Kategori</h3>
             <button onclick="closeEditKategoriModal()" class="text-slate-400 hover:text-slate-600">
@@ -489,6 +562,18 @@
 </div>
 
 <script>
+    var parameterAutoSaveTimers = {};
+    var parameterAutoSaveInFlight = {};
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
     // Toggle Kategori Row
     function toggleKategori(id) {
         var row = document.getElementById('kategori-row-' + id);
@@ -550,29 +635,42 @@
                             '<thead class="bg-slate-100">' +
                             '<tr>' +
                             '<th class="px-2 py-1 text-left text-xs font-semibold text-slate-600">PUK</th>' +
+                            '<th class="px-2 py-1 text-left text-xs font-semibold text-slate-600">Pustaka</th>' +
                             '<th class="px-2 py-1 text-left text-xs font-semibold text-slate-600">Teknik</th>' +
                             '<th class="px-2 py-1 text-left text-xs font-semibold text-slate-600">Metode</th>' +
+                            '<th class="px-2 py-1 text-right text-xs font-semibold text-slate-600">Sampel Min</th>' +
+                            '<th class="px-2 py-1 text-left text-xs font-semibold text-slate-600">Satuan</th>' +
                             '<th class="px-2 py-1 text-right text-xs font-semibold text-slate-600">Harga</th>' +
+                            '<th class="px-2 py-1 text-center text-xs font-semibold text-slate-600">Waktu</th>' +
                             '<th class="px-2 py-1 text-center text-xs font-semibold text-slate-600">Aksi</th>' +
                             '</tr></thead><tbody class="divide-y divide-slate-100">';
                         
                         for (var j = 0; j < kategori.parameters.length; j++) {
                             var param = kategori.parameters[j];
-                            var hargaFormatted = new Intl.NumberFormat('id-ID').format(param.harga);
                             var pukEsc = param.puk.replace(/'/g, "\\'");
-                            var pustakaEsc = param.pustaka.replace(/'/g, "\\'");
-                            var teknikEsc = param.teknik_analisis.replace(/'/g, "\\'");
-                            var metodeEsc = param.metode.replace(/'/g, "\\'");
-                            var satuanEsc = param.satuan.replace(/'/g, "\\'");
-                            var sampelMin = param.sampel_min || '';
+                            var pukHtml = escapeHtml(param.puk);
+                            var pustakaHtml = escapeHtml(param.pustaka);
+                            var teknikHtml = escapeHtml(param.teknik_analisis);
+                            var metodeHtml = escapeHtml(param.metode);
+                            var satuanHtml = escapeHtml(param.satuan);
+                            var sampelMinValue = (param.sampel_min !== null && param.sampel_min !== undefined ? param.sampel_min : '');
+                            var hargaValue = (param.harga !== null && param.harga !== undefined ? param.harga : 0);
+                            var waktuValue = (param.waktu !== null && param.waktu !== undefined ? param.waktu : 0);
                             
-                            paramsHtml += '<tr>' +
-                                '<td class="px-2 py-1 text-xs text-slate-700">' + param.puk + '</td>' +
-                                '<td class="px-2 py-1 text-xs text-slate-700">' + param.teknik_analisis + '</td>' +
-                                '<td class="px-2 py-1 text-xs text-slate-700">' + param.metode + '</td>' +
-                                '<td class="px-2 py-1 text-right text-xs font-medium text-orange-700">Rp ' + hargaFormatted + '</td>' +
+                            paramsHtml += '<tr class="inline-param-row" data-param-id="' + param.id_parameter + '">' +
+                                '<td class="px-2 py-1"><input type="text" name="puk" value="' + pukHtml + '" class="w-32 px-2 py-1 border border-slate-200 rounded text-xs"></td>' +
+                                '<td class="px-2 py-1"><input type="text" name="pustaka" value="' + pustakaHtml + '" class="w-36 px-2 py-1 border border-slate-200 rounded text-xs"></td>' +
+                                '<td class="px-2 py-1"><input type="text" name="teknik_analisis" value="' + teknikHtml + '" class="w-32 px-2 py-1 border border-slate-200 rounded text-xs"></td>' +
+                                '<td class="px-2 py-1"><input type="text" name="metode" value="' + metodeHtml + '" class="w-32 px-2 py-1 border border-slate-200 rounded text-xs"></td>' +
+                                '<td class="px-2 py-1"><input type="number" name="sampel_min" min="0" value="' + sampelMinValue + '" class="w-20 px-2 py-1 border border-slate-200 rounded text-xs text-right"></td>' +
+                                '<td class="px-2 py-1"><input type="text" name="satuan" value="' + satuanHtml + '" class="w-20 px-2 py-1 border border-slate-200 rounded text-xs"></td>' +
+                                '<td class="px-2 py-1"><input type="number" name="harga" min="0" value="' + hargaValue + '" class="w-28 px-2 py-1 border border-slate-200 rounded text-xs text-right"></td>' +
+                                '<td class="px-2 py-1"><input type="number" name="waktu" min="0" value="' + waktuValue + '" class="w-16 px-2 py-1 border border-slate-200 rounded text-xs text-center"></td>' +
                                 '<td class="px-2 py-1 text-center">' +
-                                '<button onclick="openEditParamModal(' + param.id_parameter + ', \'' + pukEsc + '\', \'' + pustakaEsc + '\', \'' + teknikEsc + '\', \'' + metodeEsc + '\', \'' + sampelMin + '\', \'' + satuanEsc + '\', ' + param.harga + ', ' + param.waktu + ')" class="text-blue-600 hover:text-blue-800 text-xs"><i class="fas fa-edit"></i></button>' +
+                                '<div class="flex items-center justify-center gap-2">' +
+                                '<button type="button" onclick="openDeleteParamModal(' + param.id_parameter + ', \'' + pukEsc + '\')" class="text-red-600 hover:text-red-800 text-xs" title="Hapus Parameter"><i class="fas fa-trash"></i></button>' +
+                                '<span class="inline-param-status text-[10px] text-slate-400"></span>' +
+                                '</div>' +
                                 '</td></tr>';
                         }
                         paramsHtml += '</tbody></table></div>';
@@ -616,6 +714,7 @@
                         '</div>';
                 }
                 kategoriList.innerHTML = html;
+                initInlineParameterAutosave(kategoriList);
             } else {
                 kategoriList.innerHTML = '<div class="text-center py-4 text-slate-500">Belum ada kategori</div>';
             }
@@ -754,6 +853,170 @@
 
         return false;
     }
+
+    function collectInlineParameterData(row) {
+        function getValue(name) {
+            var input = row.querySelector('[name="' + name + '"]');
+            return input ? input.value.trim() : '';
+        }
+
+        return {
+            puk: getValue('puk'),
+            pustaka: getValue('pustaka'),
+            teknik_analisis: getValue('teknik_analisis'),
+            metode: getValue('metode'),
+            sampel_min: getValue('sampel_min'),
+            satuan: getValue('satuan'),
+            harga: getValue('harga'),
+            waktu: getValue('waktu')
+        };
+    }
+
+    function isInlineParameterDataComplete(data) {
+        return !!(data.puk && data.pustaka && data.teknik_analisis && data.metode && data.satuan && data.harga && data.waktu);
+    }
+
+    function setInlineParameterStatus(row, status, message) {
+        var statusEl = row.querySelector('.inline-param-status');
+        if (!statusEl) return;
+
+        statusEl.textContent = message || '';
+        statusEl.className = 'inline-param-status text-[10px]';
+
+        if (status === 'saving') {
+            statusEl.classList.add('text-blue-600');
+        } else if (status === 'saved') {
+            statusEl.classList.add('text-emerald-600');
+        } else if (status === 'error') {
+            statusEl.classList.add('text-red-600');
+        } else {
+            statusEl.classList.add('text-slate-400');
+        }
+    }
+
+    function initInlineParameterAutosave(scope) {
+        var root = scope || document;
+        var rows = root.querySelectorAll('tr.inline-param-row[data-param-id]');
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var snapshot = JSON.stringify(collectInlineParameterData(row));
+            row.dataset.lastSavedSnapshot = snapshot;
+            setInlineParameterStatus(row, 'idle', '');
+        }
+    }
+
+    function scheduleInlineParameterAutosave(row) {
+        var idParameter = row.getAttribute('data-param-id');
+        if (!idParameter) return;
+
+        var timerKey = 'param-' + idParameter;
+        if (parameterAutoSaveTimers[timerKey]) {
+            clearTimeout(parameterAutoSaveTimers[timerKey]);
+        }
+
+        var payload = collectInlineParameterData(row);
+        if (!isInlineParameterDataComplete(payload)) {
+            setInlineParameterStatus(row, 'idle', '');
+            return;
+        }
+
+        parameterAutoSaveTimers[timerKey] = setTimeout(function() {
+            saveInlineParameterRow(row, idParameter);
+        }, 700);
+    }
+
+    async function saveInlineParameterRow(row, idParameter) {
+        if (!row || !idParameter) return;
+
+        var payloadData = collectInlineParameterData(row);
+        if (!isInlineParameterDataComplete(payloadData)) return;
+
+        var snapshot = JSON.stringify(payloadData);
+        if (snapshot === row.dataset.lastSavedSnapshot) return;
+
+        var inflightKey = 'param-' + idParameter;
+        if (parameterAutoSaveInFlight[inflightKey]) {
+            row.dataset.pendingSnapshot = snapshot;
+            return;
+        }
+
+        parameterAutoSaveInFlight[inflightKey] = true;
+        setInlineParameterStatus(row, 'saving', 'Menyimpan...');
+
+        var formData = new FormData();
+        formData.append('_token', '{{ csrf_token() }}');
+        formData.append('_method', 'PUT');
+        formData.append('puk', payloadData.puk);
+        formData.append('pustaka', payloadData.pustaka);
+        formData.append('teknik_analisis', payloadData.teknik_analisis);
+        formData.append('metode', payloadData.metode);
+        formData.append('sampel_min', payloadData.sampel_min);
+        formData.append('satuan', payloadData.satuan);
+        formData.append('harga', payloadData.harga);
+        formData.append('waktu', payloadData.waktu);
+
+        try {
+            var response = await fetch('/admin/parameter-kosmetik/' + idParameter, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Gagal menyimpan perubahan parameter');
+            }
+
+            row.dataset.lastSavedSnapshot = snapshot;
+            setInlineParameterStatus(row, 'saved', 'Tersimpan');
+
+            setTimeout(function() {
+                if (row && row.dataset && row.dataset.lastSavedSnapshot === snapshot) {
+                    setInlineParameterStatus(row, 'idle', '');
+                }
+            }, 900);
+        } catch (error) {
+            setInlineParameterStatus(row, 'error', 'Gagal simpan');
+        } finally {
+            parameterAutoSaveInFlight[inflightKey] = false;
+            if (row.dataset.pendingSnapshot && row.dataset.pendingSnapshot !== row.dataset.lastSavedSnapshot) {
+                row.dataset.pendingSnapshot = '';
+                saveInlineParameterRow(row, idParameter);
+            }
+        }
+    }
+
+    document.addEventListener('input', function(e) {
+        var target = e.target;
+        if (!target || target.tagName !== 'INPUT') return;
+        var row = target.closest('tr.inline-param-row[data-param-id]');
+        if (!row) return;
+        scheduleInlineParameterAutosave(row);
+    });
+
+    document.addEventListener('change', function(e) {
+        var target = e.target;
+        if (!target || target.tagName !== 'INPUT') return;
+        var row = target.closest('tr.inline-param-row[data-param-id]');
+        if (!row) return;
+        scheduleInlineParameterAutosave(row);
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter') return;
+        var target = e.target;
+        if (!target || target.tagName !== 'INPUT') return;
+        var row = target.closest('tr.inline-param-row[data-param-id]');
+        if (!row) return;
+        e.preventDefault();
+        scheduleInlineParameterAutosave(row);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initInlineParameterAutosave(document);
+    });
 
     function closeEditModal() {
         document.getElementById('editModal').classList.add('hidden');
