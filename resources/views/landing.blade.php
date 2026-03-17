@@ -25,6 +25,25 @@
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        #tariff-card,
+        #other-services-card {
+            position: sticky;
+            top: 6rem;
+            align-self: start;
+            z-index: 30;
+            width: 100%;
+        }
+
+        @media (max-width: 1023px) {
+            #tariff-card,
+            #other-services-card {
+                position: static;
+                top: auto;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body class="font-sans bg-gray-50">
 
@@ -113,8 +132,8 @@
     <section id="services" class="py-20 bg-gray-50">
         <div class="w-full px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-[320px_minmax(0,1fr)_320px] gap-10 items-start">
-                <div class="lg:col-start-1">
-                    <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 lg:sticky lg:top-24">
+                <div class="lg:col-start-1" id="section-tariff-card-container">
+                    <div id="tariff-card" class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 lg:self-start">
                         <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
                             <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
                             Kalkulator Tarif
@@ -275,8 +294,8 @@
                     </div>
                 </div>
 
-                <div class="lg:col-start-3">
-                    <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+                <div class="lg:col-start-3" id="section-other-card-container">
+                    <div id="other-services-card" class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 lg:self-start">
                         <h3 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
                             <span class="w-2 h-8 bg-gold rounded-full mr-3"></span>
                             Pelayanan Lainnya
@@ -775,6 +794,7 @@
 
             serviceSearchInput.addEventListener('input', filterServices);
         }
+
 
     </script>
 </body>
