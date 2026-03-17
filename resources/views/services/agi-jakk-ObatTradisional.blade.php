@@ -47,80 +47,80 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Alur Pendaftaran Obat Bahan Alam</h2>
-                <a href="https://drive.google.com/file/d/1dfWuXW_I9QtkcBfjRBEvnyBH6AjOKFcG/view?usp=drive_link" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                <a href="https://drive.google.com/file/d/1dfWuXW_I9QtkcBfjRBEvnyBH6AjOKFcG/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                     Lihat dokumen
                     <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Materi Registrasi Akun Asrot</h2>
-                <a href="https://drive.google.com/file/d/1mvw-H2zvR3bJ1kRJPxahVrcORouJDBlY/view?usp=drive_link" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                <a href="https://drive.google.com/file/d/1mvw-H2zvR3bJ1kRJPxahVrcORouJDBlY/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                     Lihat dokumen
                     <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Update Informasi Registrasi Obat Bahan Alam dan Kosmetik</h2>
-                <a href="https://drive.google.com/file/d/1aEBVmBNjBUyXJesoHVa3NVNuYAQ3fKSW/view?usp=drive_link" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                <a href="https://drive.google.com/file/d/1aEBVmBNjBUyXJesoHVa3NVNuYAQ3fKSW/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                     Lihat dokumen
                     <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Alur Perizinan Obat Bahan Alam</h2>
                 <div class="flex flex-col gap-2">
-                    <a href="https://drive.google.com/file/d/1s1fKZYc-DB8XGjQFQy6PDf_jVAi4r7Tu/view?usp=drive_link" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
-                        jpeg
-                        <i class="fas fa-arrow-right ml-2"></i>
+                    <a href="https://drive.google.com/file/d/1s1fKZYc-DB8XGjQFQy6PDf_jVAi4r7Tu/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                        Poster
+                        <i class="fas fa-expand ml-2"></i>
                     </a>
-                    <a href="https://drive.google.com/file/d/1SkzaxihV93wCxpxKQcJvN4XlxVYvyZQf/view?usp=drive_link" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
-                        pdf
+                    <a href="https://drive.google.com/file/d/1SkzaxihV93wCxpxKQcJvN4XlxVYvyZQf/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                        Dokumen PDF
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Alur Sertifikasi CPOTB</h2>
-                <a href="https://drive.google.com/file/d/1jpGhF4YY6cNnVwWg2K16Ct8foU2hb0Wy/view?usp=drive_link" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                <a href="https://drive.google.com/file/d/1jpGhF4YY6cNnVwWg2K16Ct8foU2hb0Wy/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                     Lihat dokumen
                     <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Biaya Pengurusan Perizinan Obat Bahan Alam</h2>
-                <a href="https://drive.google.com/file/d/1YqMs9RHjptb0yTidS7AeliztcySQBuPy/view?usp=drive_link" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                <a href="https://drive.google.com/file/d/1YqMs9RHjptb0yTidS7AeliztcySQBuPy/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                     Lihat dokumen
                     <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Dokumen CPOTB</h2>
                 <div class="flex flex-col gap-2">
-                    <a href="https://drive.google.com/file/d/169QZyXMn4IriJBY6Yvcg4E2KzlXclTNm/view?usp=drive_link" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                    <a href="https://drive.google.com/file/d/169QZyXMn4IriJBY6Yvcg4E2KzlXclTNm/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                         Lihat dokumen 1
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
-                    <a href="https://drive.google.com/file/d/14pyg0SatCWDXaHbsF17Qid51_GXOf70a/view?usp=drive_link" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                    <a href="https://drive.google.com/file/d/14pyg0SatCWDXaHbsF17Qid51_GXOf70a/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                         Lihat dokumen 2
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
-                    <a href="https://docs.google.com/document/d/1MQtk9UhBh3gNrhJA7xfobc0p4UdAYMBW/edit?usp=drive_link&ouid=108811571061090465317&rtpof=true&sd=true" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                    <a href="https://docs.google.com/document/d/1MQtk9UhBh3gNrhJA7xfobc0p4UdAYMBW/edit?usp=drive_link&ouid=108811571061090465317&rtpof=true&sd=true" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                         Lihat dokumen 3
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
-                    <a href="https://drive.google.com/file/d/1-HrXjavh1fm5qylrcs8rx0tZpGhSeebB/view?usp=drive_link" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                    <a href="https://drive.google.com/file/d/1-HrXjavh1fm5qylrcs8rx0tZpGhSeebB/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                         Lihat dokumen 4
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
-                    <a href="https://docs.google.com/document/d/1eVWJW3bUT3ryFOBYiMdQZV-jt8x27Zh4/edit?usp=drive_link&ouid=108811571061090465317&rtpof=true&sd=true" class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
+                    <a href="https://docs.google.com/document/d/1eVWJW3bUT3ryFOBYiMdQZV-jt8x27Zh4/edit?usp=drive_link&ouid=108811571061090465317&rtpof=true&sd=true" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                         Lihat dokumen 5
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
@@ -129,4 +129,71 @@
         </div>
     </div>
 </div>
+
+<div id="doc-modal" class="fixed inset-0 hidden items-center justify-center bg-black/60 backdrop-blur-sm z-50 p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl h-[90vh] overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b">
+            <h3 id="doc-modal-title" class="text-lg font-semibold text-[#003366]">Dokumen</h3>
+            <button type="button" id="doc-modal-close" class="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
+        </div>
+        <div class="w-full h-[calc(90vh-64px)] overflow-hidden">
+            <iframe id="doc-modal-iframe" src="" class="w-full h-full" allow="autoplay" scrolling="yes"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const modal = document.getElementById('doc-modal');
+        const iframe = document.getElementById('doc-modal-iframe');
+        const closeBtn = document.getElementById('doc-modal-close');
+        const titleEl = document.getElementById('doc-modal-title');
+        const openLinks = document.querySelectorAll('[data-modal-link]');
+
+        function toDrivePreview(url) {
+            if (!url) return url;
+            if (url.includes('/preview')) return url;
+            const match = url.match(/\/d\/([^/]+)\//);
+            if (match && match[1]) {
+                return `https://drive.google.com/file/d/${match[1]}/preview`;
+            }
+            return url;
+        }
+
+        function openModal(linkEl) {
+            const cardTitle = linkEl.closest('.doc-card')?.querySelector('h2')?.textContent?.trim();
+            const linkTitle = linkEl.textContent?.trim();
+            titleEl.textContent = cardTitle || linkTitle || 'Dokumen';
+            iframe.src = toDrivePreview(linkEl.getAttribute('href'));
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeModal() {
+            iframe.src = '';
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        openLinks.forEach((link) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(link);
+            });
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    })();
+</script>
 @endsection
