@@ -62,6 +62,15 @@
                 <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
                 <h2 class="text-2xl font-bold relative z-10">Upload Dokumen Baru</h2>
                 <p class="text-blue-200 text-sm relative z-10">Dokumen standar pelayanan publik BBPOM Pontianak yang dapat diunduh untuk referensi dan informasi..</p>
+                <div class="relative z-10 mt-4">
+                    <a href="https://docs.google.com/spreadsheets/d/1HaB_QgfOjBzOy-Xe39YZWMA30VtE3ZDS/edit?usp=sharing&ouid=106224472982296200942&rtpof=true&sd=true"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-4 py-2 rounded-xl border border-white/20 transition">
+                        <i class="fas fa-link"></i>
+                        Ruang Lingkup Pengujian
+                    </a>
+                </div>
             </div>
 
             <div class="p-8">

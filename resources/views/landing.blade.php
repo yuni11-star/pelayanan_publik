@@ -31,13 +31,15 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<div class="bg-[#003366] text-white py-2 px-4 md:px-12 flex justify-between items-center text-sm">
-    <div id="current-date">
+<div class="bg-[#003366] text-white py-2">
+    <div class="w-full px-4 md:px-6 flex justify-between items-center text-sm">
+        <div id="current-date">
+            </div>
+        <div class="flex gap-4">
+            <a href="#" class="hover:text-blue-400"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="hover:text-red-500"><i class="fab fa-youtube"></i></a>
         </div>
-    <div class="flex gap-4">
-        <a href="#" class="hover:text-blue-400"><i class="fab fa-facebook"></i></a>
-        <a href="#" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="hover:text-red-500"><i class="fab fa-youtube"></i></a>
     </div>
 </div>
 
@@ -50,13 +52,13 @@
 
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="w-full px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="/" class="text-gray-900 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition duration-150">Beranda</a>
+                        <a href="/" class="text-gray-900 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition duration-150">Pelayanan Publik</a>
                         <a href="#services" class="text-gray-900 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition duration-150">Layanan</a>
                         <a href="#contact" class="text-gray-900 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition duration-150">Kontak</a>
                     </div>
@@ -70,7 +72,7 @@
             </div>
             <div class="md:hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="/" class="text-gray-900 hover:text-navy block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
+                    <a href="/" class="text-gray-900 hover:text-navy block px-3 py-2 rounded-md text-base font-medium">Pelayanan Publik</a>
                     <a href="#services" class="text-gray-900 hover:text-navy block px-3 py-2 rounded-md text-base font-medium">Layanan</a>
                     <a href="#contact" class="text-gray-900 hover:text-navy block px-3 py-2 rounded-md text-base font-medium">Kontak</a>
                 </div>
@@ -81,7 +83,7 @@
     <!-- Hero Section -->
     <section id="home" class="relative bg-cover bg-center bg-no-repeat text-white py-20" style="background-image: url('/images/bbpom.jpg');">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="relative w-full px-4 sm:px-6 lg:px-8 py-20">
             <div class="text-center">
                 <h1 class="text-5xl md:text-6xl font-bold mb-6">
                     Badan Pengawas Obat dan Makanan
@@ -93,6 +95,9 @@
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <a href="#services" class="bg-gold text-navy px-8 py-4 rounded-lg font-semibold text-lg hover:bg-yellow-400 transition duration-300">
                         Layanan Publik
+                    </a>
+                    <a href="#agi-jakk" class="bg-white text-navy px-8 py-4 rounded-lg font-semibold text-lg hover:bg-slate-100 transition duration-300">
+                        AGI JAKK
                     </a>
                     <a href="#contact" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-navy transition duration-300">
                         Kontak
@@ -106,48 +111,81 @@
 
     <!-- Services Section -->
     <section id="services" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-navy mb-4">Layanan Kami</h2>
-                <div class="w-24 h-1 bg-gold mx-auto mb-6"></div>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Standar Pelayanan Publik BBPOM Pontianak...............
-                </p>
-                <div class="max-w-2xl mx-auto mt-8">
-                    <label for="service-search" class="sr-only">Cari layanan</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
-                            <i class="fas fa-search"></i>
-                        </span>
-                        <input
-                            id="service-search"
-                            type="text"
-                            placeholder="Cari layanan "
-                            class="w-full rounded-xl border border-gray-300 bg-white py-3 pl-11 pr-4 text-sm text-gray-700 shadow-sm focus:border-navy focus:outline-none focus:ring-2 focus:ring-blue-100"
-                        >
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sertifikasi & Perizinan Section -->
-            <div class="mb-16">
-                
-                <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <!-- Service 1 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
-                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-exclamation-triangle text-navy text-sm"></i>
+        <div class="w-full px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-[320px_minmax(0,1fr)_320px] gap-10 items-start">
+                <div class="lg:col-start-1">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 lg:sticky lg:top-24">
+                        <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
+                            <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
+                            Kalkulator Tarif
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 gap-6">
+                            <div>
+                                <div class="space-y-4">
+                                    <div class="relative">
+                                        <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">JENIS PENERIMAAN NEGARA BUKAN PAJAK</label>
+                                        <input type="text" id="search-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent" placeholder="Cari jenis penerimaan..." autocomplete="off">
+                                        <div id="search-suggestions" class="absolute z-50 w-full mt-2 max-h-40 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg hidden"></div>
+                                    </div>
+                                    <button id="add-btn" class="w-full bg-[#003366] text-white py-3 px-6 rounded-lg hover:bg-[#002244] transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <i class="fas fa-plus mr-2"></i>Tambah ke list
+                                    </button>
+                                </div>
                             </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Pengaduan Masyarakat & Informasi</h3>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Layanan pengaduan masyarakat dan informasi obat serta makanan.
-                            </p>
-                            <a href="{{ route('layanan.pengaduan-informasi') }}" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
-                                Selengkapnya
-                            </a>
+
+                            <div>
+                                <div class="bg-gray-50 rounded-lg p-4 min-h-[200px]">
+                                    <table id="selected-table" class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b border-gray-300">
+                                                <th class="text-left py-2 font-medium text-gray-700 uppercase text-xs">Jenis PNBP</th>
+                                                <th class="text-right py-2 font-medium text-gray-700 uppercase text-xs">(IDR)</th>
+                                                <th class="text-center py-2 font-medium text-gray-700 uppercase text-xs">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="selected-tbody"></tbody>
+                                    </table>
+                                    <div id="empty-message" class="text-center text-gray-500 py-8">No services selected yet.</div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-300">
+                                    <div class="flex justify-between items-center text-lg font-semibold">
+                                        <span>Total Tarif:</span>
+                                        <span id="grand-total" class="text-[#003366]">Rp 0</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="lg:col-start-2">
+                    <div class="flex justify-end mb-6">
+                        <div class="w-full max-w-sm">
+                            <label for="service-search" class="sr-only">Cari layanan</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input
+                                    id="service-search"
+                                    type="text"
+                                    placeholder="Cari layanan "
+                                    class="w-full rounded-xl border border-gray-300 bg-white py-3 pl-11 pr-4 text-sm text-gray-700 shadow-sm focus:border-navy focus:outline-none focus:ring-2 focus:ring-blue-100"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-left mb-10">
+                        <h2 class="text-4xl font-bold text-navy mb-4">Layanan Kami</h2>
+                        <div class="w-24 h-1 bg-gold mb-6"></div>
+                    </div>
+
+                    <!-- Sertifikasi & Perizinan Section -->
+                    <div class="mb-16">
+                        
+                        <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:pl-8">
 
                     <!-- Service 2 -->
                     <a href="{{ route('layanan.pengujian') }}" class="block bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
@@ -157,45 +195,13 @@
                             </div>
                             <h3 class="text-lg font-semibold text-navy mb-3">Pengujian Obat dan Makanan</h3>
                             <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Layanan pengujian laboratorium sesuai standar keamanan.
+                                Melihat parameter pengujian dari setiap kategori komoditi untuk memastikannya transparasi masyarakat.
                             </p>
                             <span class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-emerald-500 transition duration-300">
                                 Selengkapnya
                             </span>
                         </div>
-                    </a>
-
-                    <!-- Service 3 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
-                            <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-lightbulb text-navy text-sm"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Inovasi AGIJAKK Terintegrasi</h3>
-                            <p class="text-gray-600 text-xs mb-4">
-                                Aksi Dampingi dan Jangkau UMKM Kalbar Terintegrasi 
-                            </p>
-                            <a href="https://s.id/FormAGIJAKK" target="_blank" rel="noopener noreferrer" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Service 3 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
-                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-file-alt text-navy text-sm"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Izin Penerapan CPPOB</h3>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Izin penerapan Cara Produksi Pangan Olahan yang Baik untuk industri pangan.
-                            </p>
-                            <a href="#" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
+                    </a>                              
 
                     <!-- Service 4 -->
                     <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
@@ -213,53 +219,6 @@
                         </div>
                     </div>
 
-                    <!-- Service 5 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
-                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-certificate text-navy text-sm"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Sertifikasi CPKB</h3>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Sertifikasi Cara Pengolahan Keamanan Bahan untuk industri pangan.
-                            </p>
-                            <a href="#" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Service 6 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
-                            <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-shield-alt text-navy text-sm"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Sertifikasi CPOTB</h3>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Sertifikasi Cara Pengolahan Obat Tradisional yang Baik.
-                            </p>
-                            <a href="#" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Service 7 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
-                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-check-circle text-navy text-sm"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Sertifikasi CDOB</h3>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Sertifikasi Cara Distribusi Obat yang Baik untuk distribusi obat.
-                            </p>
-                            <a href="#" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
 
                     <!-- Service 8 -->
                     <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
@@ -310,16 +269,146 @@
                     </div>
 
                 </div>
-                <p id="services-empty-state" class="hidden text-center text-gray-500 mt-8">
-                    Layanan tidak ditemukan. Coba kata kunci lain.
+                        <p id="services-empty-state" class="hidden text-center text-gray-500 mt-8 lg:pl-8">
+                            Layanan tidak ditemukan. Coba kata kunci lain.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="lg:col-start-3">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+                        <h3 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
+                            <span class="w-2 h-8 bg-gold rounded-full mr-3"></span>
+                            Pelayanan Lainnya
+                        </h3>
+                        <ul class="space-y-4 text-sm text-gray-700">
+                            <li class="flex items-start gap-3">
+                                <span class="mt-1 h-2 w-2 rounded-full bg-[#10b981]"></span>
+                                <a href="https://linktr.ee/infokompnk" class="hover:text-gold transition duration-150">
+                                    Update Informasi Publik Setiap Hari (DAILI)
+                                </a>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="mt-1 h-2 w-2 rounded-full bg-[#10b981]"></span>
+                                <a href="https://asrot.pom.go.id/asrot/" class="hover:text-gold transition duration-150">
+                                    Registrasi OBA
+                                </a>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="mt-1 h-2 w-2 rounded-full bg-[#10b981]"></span>
+                                <a href="https://sppirt.pom.go.id/" class="hover:text-gold transition duration-150">
+                                    SPP-IRT
+                                </a>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="mt-1 h-2 w-2 rounded-full bg-[#10b981]"></span>
+                                <a href="https://rumahsiripo.pom.go.id/informasi/infografis" class="hover:text-gold transition duration-150">
+                                    Registrasi Produk Pangan Olahan
+                                </a>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="mt-1 h-2 w-2 rounded-full bg-[#10b981]"></span>
+                                <a href="https://sites.google.com/view/faqpomponti/home?authuser=0" class="hover:text-gold transition duration-150">
+                                    FAQ
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- AGI JAKK Section -->
+    <section id="agi-jakk" class="py-12 bg-slate-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-bold text-navy mb-4">AGI JAKK</h2>
+                <div class="w-24 h-1 bg-gold mx-auto mb-6"></div>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Aksi Dampingi dan Jangkau UMKM Kalbar.
                 </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
+                <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 w-full">
+                    <h3 class="text-xl font-bold text-[#003366] mb-3">Form AGI JAKK</h3>
+                    <p class="text-gray-700 text-sm">
+                        Form pendaftaran dan pendampingan UMKM melalui program AGI JAKK.
+                    </p>
+                    <a
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSfXDQb-PhAHkjJYw0SBXoUSoGKZXB7UK4dWLNO1wwMKdLIodw/viewform"
+                        target="_blank"
+                        rel="noopener"
+                        class="inline-flex items-center mt-4 px-4 py-2 text-sm font-semibold text-white bg-emerald-600 rounded-lg shadow-sm hover:bg-emerald-700 transition"
+                    >
+                        Buka Form AGI JAKK
+                    </a>
+                </section>
+
+                <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 w-full">
+                    <h3 class="text-xl font-bold text-[#003366] mb-3">Informasi Pangan (CPPOB)</h3>
+                    <p class="text-gray-700 text-sm">
+                        Panduan dan informasi CPPOB untuk pelaku usaha pangan.
+                    </p>
+                    <a
+                        href="{{ route('layanan.agi-jakk.pangan') }}"
+                        class="inline-flex items-center mt-4 px-4 py-2 text-sm font-semibold text-white bg-[#003366] rounded-lg shadow-sm hover:bg-[#00284d] transition"
+                    >
+                        Lihat Informasi
+                        <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </section>
+
+                <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 w-full">
+                    <h3 class="text-xl font-bold text-[#003366] mb-3">Informasi Kosmetik (CPKB)</h3>
+                    <p class="text-gray-700 text-sm">
+                        Informasi CPKB untuk produksi dan peredaran kosmetik.
+                    </p>
+                    <a
+                        href="{{ route('layanan.agi-jakk.kosmetik') }}"
+                        class="inline-flex items-center mt-4 px-4 py-2 text-sm font-semibold text-white bg-[#003366] rounded-lg shadow-sm hover:bg-[#00284d] transition"
+                    >
+                        Lihat Informasi
+                        <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </section>
+
+                <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 w-full">
+                    <h3 class="text-xl font-bold text-[#003366] mb-3">Informasi Obat (CDOB)</h3>
+                    <p class="text-gray-700 text-sm">
+                        Informasi CDOB untuk distribusi obat yang aman dan sesuai.
+                    </p>
+                    <a
+                        href="{{ route('layanan.agi-jakk.obat') }}"
+                        class="inline-flex items-center mt-4 px-4 py-2 text-sm font-semibold text-white bg-[#003366] rounded-lg shadow-sm hover:bg-[#00284d] transition"
+                    >
+                        Lihat Informasi
+                        <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </section>
+
+                <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 w-full">
+                    <h3 class="text-xl font-bold text-[#003366] mb-3">Informasi Obat Tradisional (CPOTB)</h3>
+                    <p class="text-gray-700 text-sm">
+                        Informasi CPOTB untuk produksi obat tradisional yang baik.
+                    </p>
+                    <a
+                        href="{{ route('layanan.agi-jakk.obat-tradisional') }}"
+                        class="inline-flex items-center mt-4 px-4 py-2 text-sm font-semibold text-white bg-[#003366] rounded-lg shadow-sm hover:bg-[#00284d] transition"
+                    >
+                        Lihat Informasi
+                        <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </section>
             </div>
         </div>
     </section>
 
     <!-- Standar Pelayanan Section -->
     <section id="standards" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold text-navy mb-4">Standar Pelayanan</h2>
                 <div class="w-24 h-1 bg-emerald mx-auto mb-6"></div>
@@ -392,7 +481,7 @@
 
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold text-navy mb-4">Hubungi Kami </h2>
                 <div class="w-24 h-1 bg-gold mx-auto mb-6"></div>
@@ -402,10 +491,10 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="grid grid-cols-1 gap-12 max-w-4xl mx-auto">
                 <div>
                     <h3 class="text-2xl font-semibold text-navy mb-6">Tetap terhubung lebih dekat</h3>
-                    <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="flex items-start">
                             <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center mr-4 flex-shrink-0">
                                 <i class="fas fa-map-marker-alt text-navy"></i>
@@ -465,7 +554,7 @@
 
     <!-- Footer -->
     <footer class="bg-navy text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="w-full px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-lg font-semibold mb-4">BBPOM Pontianak</h3>
@@ -523,6 +612,116 @@
     </footer>
 
     <script>
+        // Kalkulator tarif (dipindahkan dari halaman pengujian)
+        document.addEventListener('DOMContentLoaded', () => {
+            const tariffSearchInput = document.getElementById('search-input');
+            const tariffSearchSuggestions = document.getElementById('search-suggestions');
+            const tariffAddBtn = document.getElementById('add-btn');
+            const tariffSelectedTbody = document.getElementById('selected-tbody');
+            const tariffEmptyMessage = document.getElementById('empty-message');
+            const tariffGrandTotal = document.getElementById('grand-total');
+
+            if (!tariffSearchInput || !tariffSearchSuggestions || !tariffAddBtn || !tariffSelectedTbody || !tariffEmptyMessage || !tariffGrandTotal) {
+                return;
+            }
+
+            let selectedItems = [];
+            let currentSelection = null;
+
+            const formatCurrency = (amount) => new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+
+            const renderSelectedItems = () => {
+                tariffSelectedTbody.innerHTML = '';
+                if (selectedItems.length === 0) {
+                    tariffEmptyMessage.style.display = 'block';
+                } else {
+                    tariffEmptyMessage.style.display = 'none';
+                    selectedItems.forEach((item, index) => {
+                        const row = document.createElement('tr');
+                        row.className = 'border-b border-gray-200';
+                        row.innerHTML = `<td class="py-3 px-2">${item.jenis_penerimaan}</td><td class="py-3 text-right">${formatCurrency(item.tarif)}</td><td class="py-3 text-center"><button class="text-red-500 delete-btn" data-index="${index}"><i class="fas fa-trash"></i></button></td>`;
+                        tariffSelectedTbody.appendChild(row);
+                    });
+                }
+                const total = selectedItems.reduce((sum, item) => sum + parseFloat(item.tarif), 0);
+                tariffGrandTotal.textContent = formatCurrency(total);
+            };
+
+            const hideSuggestions = () => tariffSearchSuggestions.classList.add('hidden');
+
+            tariffSearchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                if (query.length < 1) {
+                    tariffSearchSuggestions.innerHTML = '';
+                    hideSuggestions();
+                    currentSelection = null;
+                    return;
+                }
+
+                fetch(`/api/search-tarif?q=${encodeURIComponent(query)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        tariffSearchSuggestions.innerHTML = '';
+                        if (!data || data.length === 0) {
+                            const emptyRow = document.createElement('div');
+                            emptyRow.className = 'px-4 py-2 text-sm text-gray-500';
+                            emptyRow.textContent = 'Data tidak ditemukan.';
+                            tariffSearchSuggestions.appendChild(emptyRow);
+                        } else {
+                            data.forEach(item => {
+                                const div = document.createElement('div');
+                                div.className = 'px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm';
+                                div.textContent = `${item.jenis_penerimaan} - ${formatCurrency(item.tarif)}`;
+                                div.onclick = () => {
+                                    tariffSearchInput.value = item.jenis_penerimaan;
+                                    currentSelection = item;
+                                    hideSuggestions();
+                                };
+                                tariffSearchSuggestions.appendChild(div);
+                            });
+                        }
+                        tariffSearchSuggestions.classList.remove('hidden');
+                    })
+                    .catch(() => {
+                        tariffSearchSuggestions.innerHTML = '<div class="px-4 py-2 text-sm text-red-600">Gagal memuat data.</div>';
+                        tariffSearchSuggestions.classList.remove('hidden');
+                    });
+            });
+
+            tariffSearchInput.addEventListener('focus', function() {
+                if (tariffSearchSuggestions.innerHTML.trim().length > 0) {
+                    tariffSearchSuggestions.classList.remove('hidden');
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!tariffSearchInput.contains(e.target) && !tariffSearchSuggestions.contains(e.target)) {
+                    hideSuggestions();
+                }
+            });
+
+            tariffAddBtn.addEventListener('click', () => {
+                if (!currentSelection) return;
+                selectedItems.push(currentSelection);
+                renderSelectedItems();
+                tariffSearchInput.value = '';
+                currentSelection = null;
+                hideSuggestions();
+            });
+
+            tariffSelectedTbody.addEventListener('click', (e) => {
+                const btn = e.target.closest('.delete-btn');
+                if (btn) {
+                    selectedItems.splice(btn.dataset.index, 1);
+                    renderSelectedItems();
+                }
+            });
+        });
+
         // Mobile menu toggle
         const mobileMenuButton = document.querySelector('[aria-controls="mobile-menu"]');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -576,6 +775,7 @@
 
             serviceSearchInput.addEventListener('input', filterServices);
         }
+
     </script>
 </body>
 </html>

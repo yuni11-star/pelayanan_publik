@@ -81,6 +81,30 @@ Route::get('/layanan/pengaduan-informasi', function () {
     return view('services.pengaduan-informasi');
 })->name('layanan.pengaduan-informasi');
 
+// 2c. Route untuk Layanan AGI JAKK
+Route::get('/layanan/agi-jakk', function () {
+    return view('services.agi-jakk');
+})->name('layanan.agi-jakk');
+
+// 2d. Route untuk Layanan AGI JAKK - Pangan
+Route::get('/layanan/agi-jakk/pangan', function () {
+    return view('services.agi-jakk-pangan');
+})->name('layanan.agi-jakk.pangan');
+
+// 2e. Route untuk Layanan AGI JAKK - Kosmetik
+Route::get('/layanan/agi-jakk/kosmetik', function () {
+    return view('services.agi-jakk-kosmetik');
+})->name('layanan.agi-jakk.kosmetik');
+
+// 2f. Route untuk Layanan AGI JAKK - CDOB
+Route::get('/layanan/agi-jakk/obat', function () {
+    return view('services.agi-jakk-obat');
+})->name('layanan.agi-jakk.obat');
+
+Route::get('/layanan/agi-jakk/obat-tradisional', function () {
+    return view('services.agi-jakk-ObatTradisional');
+})->name('layanan.agi-jakk.obat-tradisional');
+
 // 3. Route untuk API Autocomplete (Pencarian Real-time)
 // Ini adalah route yang dipanggil oleh fetch('/api/search-tarif?q=...') di JavaScript Anda
 Route::get('/api/search-tarif', [PengujianController::class, 'search'])->name('tarif.search');

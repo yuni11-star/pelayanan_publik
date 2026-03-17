@@ -71,50 +71,6 @@
                 <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                     <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
                         <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
-                        Kalkulator Tarif
-                    </h2>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div>
-                            <div class="space-y-4">
-                                <div class="relative">
-                                    <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">JENIS PENERIMAAN NEGARA BUKAN PAJAK</label>
-                                    <input type="text" id="search-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent" placeholder="Cari jenis penerimaan..." autocomplete="off">
-                                    <div id="search-suggestions" class="absolute z-50 w-full mt-2 max-h-40 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg hidden"></div>
-                                </div>
-                                <button id="add-btn" class="w-full bg-[#003366] text-white py-3 px-6 rounded-lg hover:bg-[#002244] transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                                    <i class="fas fa-plus mr-2"></i>Tambah ke list
-                                </button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="bg-gray-50 rounded-lg p-4 min-h-[200px]">
-                                <table id="selected-table" class="w-full text-sm">
-                                    <thead>
-                                        <tr class="border-b border-gray-300">
-                                            <th class="text-left py-2 font-medium text-gray-700 uppercase text-xs">Jenis PNBP</th>
-                                            <th class="text-right py-2 font-medium text-gray-700 uppercase text-xs">(IDR)</th>
-                                            <th class="text-center py-2 font-medium text-gray-700 uppercase text-xs">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="selected-tbody"></tbody>
-                                </table>
-                                <div id="empty-message" class="text-center text-gray-500 py-8">No services selected yet.</div>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-300">
-                                <div class="flex justify-between items-center text-lg font-semibold">
-                                    <span>Total Tarif:</span>
-                                    <span id="grand-total" class="text-[#003366]">Rp 0</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
-                    <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
-                        <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
                         Kategori Komoditi
                     </h2>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -280,73 +236,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Logic untuk Kalkulator Tarif (Asli Anda)
-    const searchInput = document.getElementById('search-input');
-    const searchSuggestions = document.getElementById('search-suggestions');
-    const addBtn = document.getElementById('add-btn');
-    const selectedTbody = document.getElementById('selected-tbody');
-    const emptyMessage = document.getElementById('empty-message');
-    const grandTotal = document.getElementById('grand-total');
-
-    let selectedItems = [];
-    let currentSelection = null;
-
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
-    }
-
-    function renderSelectedItems() {
-        selectedTbody.innerHTML = '';
-        if (selectedItems.length === 0) {
-            emptyMessage.style.display = 'block';
-        } else {
-            emptyMessage.style.display = 'none';
-            selectedItems.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.className = 'border-b border-gray-200';
-                row.innerHTML = `<td class="py-3 px-2">${item.jenis_penerimaan}</td><td class="py-3 text-right">${formatCurrency(item.tarif)}</td><td class="py-3 text-center"><button class="text-red-500 delete-btn" data-index="${index}"><i class="fas fa-trash"></i></button></td>`;
-                selectedTbody.appendChild(row);
-            });
-        }
-        const total = selectedItems.reduce((sum, item) => sum + parseFloat(item.tarif), 0);
-        grandTotal.textContent = formatCurrency(total);
-    }
-
-    searchInput.addEventListener('input', function() {
-        const query = this.value.trim();
-        if (query.length >= 1) {
-            fetch(`/api/search-tarif?q=${encodeURIComponent(query)}`)
-                .then(res => res.json())
-                .then(data => {
-                    searchSuggestions.innerHTML = '';
-                    data.forEach(item => {
-                        const div = document.createElement('div');
-                        div.className = 'px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm';
-                        div.textContent = `${item.jenis_penerimaan} - ${formatCurrency(item.tarif)}`;
-                        div.onclick = () => { searchInput.value = item.jenis_penerimaan; currentSelection = item; searchSuggestions.classList.add('hidden'); };
-                        searchSuggestions.appendChild(div);
-                    });
-                    searchSuggestions.classList.remove('hidden');
-                });
-        }
-    });
-
-    addBtn.addEventListener('click', () => {
-        if (!currentSelection) return;
-        selectedItems.push(currentSelection);
-        renderSelectedItems();
-        searchInput.value = '';
-        currentSelection = null;
-    });
-
-    selectedTbody.addEventListener('click', (e) => {
-        const btn = e.target.closest('.delete-btn');
-        if (btn) {
-            selectedItems.splice(btn.dataset.index, 1);
-            renderSelectedItems();
-        }
-    });
-
     // --- LOGIC PENCARIAN KOMODITI ---
 
     let activeCategory = 'obat'; // Default category
