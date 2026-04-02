@@ -56,252 +56,286 @@
                 <span class="font-medium">{{ session('success') }}</span>
             </div>
         @endif
-
-        <!-- Search Konten OT-SK -->
-        <div class="bg-white rounded-2xl shadow-md border border-slate-100 p-4 mb-6">
-            <div class="flex flex-col md:flex-row md:items-center gap-3">
-                <div class="relative flex-1">
-                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input
-                        type="text"
-                        id="otskSearchInput"
-                        class="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-900 focus:border-transparent outline-none"
-                        placeholder="Cari konten halaman OT-SK: tipe, klaim, parameter, metode..."
-                    >
-                </div>
-                <button
-                    type="button"
-                    id="otskSearchClear"
-                    class="px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition"
-                    aria-label="Reset pencarian"
-                    title="Reset pencarian"
-                >
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <p id="otskSearchStats" class="text-sm text-slate-500 mt-2"></p>
-        </div>
-
-        <!-- Tombol Tambah Tipe Produk -->
-        <div class="mb-8 flex justify-end">
-            <button
-                type="button"
-                onclick="openCreateTipeModal()"
-                class="px-6 py-3 bg-purple-900 text-white rounded-xl font-bold hover:bg-purple-800 transition"
-            >
-                <i class="fas fa-plus mr-2"></i>Tambah Tipe Produk
-            </button>
-        </div>
-
-        <!-- Tabel Data Tipe Produk, Klaim, Parameter -->
-        @foreach($tipeProduks as $tipe)
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 mb-8 otsk-search-item">
-            <div class="bg-purple-900 px-6 py-4 text-white flex justify-between items-center">
-                <div>
-                    <h2 class="text-lg font-bold">{{ $tipe->nama_tipe }}</h2>
-                    <p class="text-purple-200 text-sm">{{ $tipe->produkKlaims->count() }} klaim</p>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <button onclick="toggleTipe({{ $tipe->id_produk }})" class="px-3 py-1 bg-purple-800 rounded-lg text-sm hover:bg-purple-700 transition">
-                        <i class="fas fa-chevron-down" id="icon-tipe-{{ $tipe->id_produk }}"></i>
-                    </button>
-                    <button onclick="openEditTipeModal({{ $tipe->id_produk }}, '{{ $tipe->nama_tipe }}')" class="p-2 text-purple-200 hover:text-white transition">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button onclick="openDeleteTipeModal({{ $tipe->id_produk }}, '{{ $tipe->nama_tipe }}')" class="p-2 text-red-400 hover:text-red-300 transition">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Hidden Content -->
-            <div id="tipe-content-{{ $tipe->id_produk }}" class="p-6 hidden">
-                <!-- Form Tambah Klaim -->
-                <form action="{{ route('admin.produk-klaim.store') }}" method="POST" class="mb-6 p-4 bg-purple-50 rounded-xl">
-                    @csrf
-                    <input type="hidden" name="tipe_produk_id" value="{{ $tipe->id_produk }}">
-                    <div class="flex gap-4">
-                        <input type="text" name="nama_klaim" required 
-                            class="flex-1 px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-900 focus:border-transparent outline-none"
-                            placeholder="Nama Klaim/Khasiat">
-                        <button type="submit" class="px-4 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition text-sm">
-                            <i class="fas fa-plus mr-1"></i>Tambah Klaim
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Klaim List -->
-                @foreach($tipe->produkKlaims as $klaim)
-                <div class="border border-purple-200 rounded-xl mb-4 overflow-hidden">
-                    <div class="bg-purple-50 px-4 py-3 flex justify-between items-center">
-                        <h3 class="font-semibold text-purple-900">{{ $klaim->nama_klaim }}</h3>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="toggleKlaim({{ $klaim->id_klaim }})" class="px-2 py-1 bg-purple-200 rounded text-xs text-purple-800 hover:bg-purple-300 transition">
-                                <i class="fas fa-chevron-down" id="icon-klaim-{{ $klaim->id_klaim }}"></i> Parameter
-                            </button>
-                            <button onclick="openEditKlaimModal({{ $klaim->id_klaim }}, '{{ $klaim->nama_klaim }}')" class="text-purple-600 hover:text-purple-800">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="openDeleteKlaimModal({{ $klaim->id_klaim }}, '{{ $klaim->nama_klaim }}')" class="text-red-500 hover:text-red-700">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Form Tambah Tipe Produk -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 sticky top-8">
+                    <div class="bg-purple-900 px-6 py-5 text-white">
+                        <h2 class="text-xl font-bold">Tambah Tipe Produk</h2>
+                        <p class="text-purple-200 text-sm mt-1">Masukkan tipe produk OT-SK</p>
                     </div>
 
-                    <!-- Hidden Parameter Content -->
-                    <div id="klaim-content-{{ $klaim->id_klaim }}" class="p-4 hidden">
-                        <!-- Form Tambah Parameter -->
-                        <form action="{{ route('admin.parameter-uji-otsk.store') }}" method="POST" class="mb-4 p-3 bg-slate-50 rounded-lg">
+                    <div class="p-6">
+                        <form action="{{ route('admin.tipe-produk.store') }}" method="POST" class="space-y-4">
                             @csrf
-                            <input type="hidden" name="id_klaim" value="{{ $klaim->id_klaim }}">
-                            <input type="text" name="parameter_uji" required 
-                                class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm mb-2"
-                                placeholder="Nama Parameter Uji">
-                            <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-semibold hover:bg-emerald-700 transition text-sm">
-                                <i class="fas fa-plus mr-1"></i> Tambah Parameter
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Tipe Produk</label>
+                                <input
+                                    type="text"
+                                    name="nama_tipe"
+                                    required
+                                    class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-900 focus:border-transparent outline-none"
+                                    placeholder="Contoh: Obat Tradisional, Suplemen Kesehatan"
+                                >
+                            </div>
+                            <button type="submit" class="w-full bg-purple-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-purple-800 transition flex items-center justify-center">
+                                <i class="fas fa-plus mr-2"></i>
+                                Simpan Tipe Produk
                             </button>
                         </form>
-
-                        <!-- Parameter List -->
-                        @foreach($klaim->parameterUjiOtsk as $param)
-                        <div class="border border-emerald-200 rounded-lg mb-3 overflow-hidden">
-                            <div class="bg-emerald-50 px-3 py-2 flex justify-between items-center">
-                                <span class="font-medium text-emerald-800">{{ $param->parameter_uji }}</span>
-                                <div class="flex items-center space-x-2">
-                                    <button onclick="toggleMetode({{ $param->id_uji }})" class="px-2 py-1 bg-emerald-200 rounded text-xs text-emerald-800 hover:bg-emerald-300 transition">
-                                        <i class="fas fa-chevron-down" id="icon-metode-{{ $param->id_uji }}"></i> Metode
-                                    </button>
-                                    <button onclick="openEditParamModal({{ $param->id_uji }}, '{{ $param->parameter_uji }}')" class="text-blue-600 hover:text-blue-800">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button onclick="openDeleteParamModal({{ $param->id_uji }}, '{{ $param->parameter_uji }}')" class="text-red-500 hover:text-red-700">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Hidden Metode Content -->
-                            <div id="metode-content-{{ $param->id_uji }}" class="p-3 hidden">
-                                <!-- Form Tambah Metode -->
-                                <form action="{{ route('admin.metode-uji-otsk.store') }}" method="POST" class="mb-3 p-2 bg-white rounded border">
-                                    @csrf
-                                    <input type="hidden" name="id_uji" value="{{ $param->id_uji }}">
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
-                                        <select name="sediaan" required class="px-2 py-1 border rounded text-sm">
-                                            <option value="">-- Sediaan --</option>
-                                            <option value="Padat">Padat</option>
-                                            <option value="Cair">Cair</option>
-                                            <option value="Padat dan Cair">Padat dan Cair</option>
-                                        </select>
-                                        <input type="text" name="pustaka" required placeholder="Pustaka" class="px-2 py-1 border rounded text-sm">
-                                        <select name="teknik_analisis" required class="px-2 py-1 border rounded text-sm">
-                                            <option value="">-- Teknik Analisis --</option>
-                                            <option value="KLT-Spektrofotodensitometri-KCKT">KLT-Spektrofotodensitometri-KCKT</option>
-                                            <option value="KCKT">KCKT</option>
-                                            <option value="KLT-Densitometri">KLT-Densitometri</option>
-                                            <option value="KG">KG</option>
-                                            <option value="KLT-KCKT">KLT-KCKT</option>
-                                            <option value="SPE-KCKT">SPE-KCKT</option>
-                                            <option value="KLT-Spektrofotodensitometri">KLT-Spektrofotodensitometri</option>
-                                            <option value="GC">GC</option>
-                                            <option value="AAS-HVG">AAS-HVG</option>
-                                            <option value="AAS-GF">AAS-GF</option>
-                                            <option value="GC-MS">GC-MS</option>
-                                        </select>
-                                        <input type="text" name="metode_uji" required placeholder="Metode Uji" class="px-2 py-1 border rounded text-sm">
-                                    </div>
-                                    <div class="flex gap-2">
-                                        <input type="number" name="jumlah_sampel" required placeholder="Jml Sampel" min="1" class="flex-1 px-2 py-1 border rounded text-sm">
-                                        <select name="satuan_sampel" required class="flex-1 px-2 py-1 border rounded text-sm">
-                                            <option value="">-- Satuan --</option>
-                                            <option value="gram">gram</option>
-                                            <option value="mL">mL</option>
-                                            <option value="dosis">dosis</option>
-                                            <option value="mg">mg</option>
-                                        </select>
-                                        <button type="submit" class="px-3 bg-emerald-600 text-white rounded text-sm hover:bg-emerald-700">+</button>
-                                    </div>
-                                </form>
-
-                                <!-- Metode List -->
-                                @foreach($param->metodeUjiOtsk as $metode)
-                                <div class="flex justify-between items-center p-2 bg-slate-50 rounded mb-1 text-sm">
-                                    <div>
-                                        <span class="font-medium text-purple-700">{{ $metode->sediaan }}</span>
-                                        <span class="text-slate-500">| {{ $metode->pustaka }}</span>
-                                        <span class="text-slate-500">| {{ $metode->teknik_analisis }}</span>
-                                        <span class="text-slate-500">| {{ $metode->metode_uji }}</span>
-                                        <span class="text-slate-500">| {{ $metode->jumlah_sampel }} {{ $metode->satuan_sampel }}</span>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button onclick="openEditMetodeModal({{ $metode->id_sediaan }}, '{{ $metode->sediaan }}', '{{ $metode->pustaka }}', '{{ $metode->teknik_analisis }}', '{{ $metode->metode_uji }}', {{ $metode->jumlah_sampel }}, '{{ $metode->satuan_sampel }}')" class="text-blue-600 hover:text-blue-800">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <form action="{{ route('admin.metode-uji-otsk.delete', $metode->id_sediaan) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:text-red-700" onclick="return confirm('Hapus metode ini?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        @endforeach
                     </div>
                 </div>
-                @endforeach
             </div>
-        </div>
-        @endforeach
 
-        <div id="otskSearchNoResult" class="hidden bg-white rounded-2xl shadow-md border border-slate-100 p-8 text-center mb-8">
-            <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-search text-slate-400 text-lg"></i>
+            <!-- Data OT-SK -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+                    <div class="bg-purple-900 px-6 py-5 text-white flex justify-between items-center">
+                        <div>
+                            <h2 class="text-xl font-bold">Data OT-SK</h2>
+                            <p class="text-purple-200 text-sm mt-1">Daftar tipe produk dan klaim yang tersimpan</p>
+                        </div>
+                        <span class="bg-purple-800 px-3 py-1 rounded-full text-sm font-semibold">{{ $tipeProduks->count() }} items</span>
+                    </div>
+
+                    <div class="p-6">
+                        <!-- Search Konten OT-SK -->
+                        <div class="mb-5">
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <div class="relative flex-1">
+                                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                                    <input
+                                        type="text"
+                                        id="otskSearchInput"
+                                        class="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-900 focus:border-transparent outline-none text-sm"
+                                        placeholder="Cari konten halaman OT-SK: tipe, klaim, parameter, metode..."
+                                    >
+                                </div>
+                                <button
+                                    type="button"
+                                    id="otskSearchClear"
+                                    class="px-4 py-2.5 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition text-sm"
+                                    aria-label="Reset pencarian"
+                                    title="Reset pencarian"
+                                >
+                                    Reset
+                                </button>
+                            </div>
+                            <p id="otskSearchStats" class="text-sm text-slate-500 mt-2"></p>
+                        </div>
+
+                        @if($tipeProduks->count() > 0)
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-slate-200">
+                                    <thead class="bg-slate-50">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">No</th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">Tipe Produk</th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">Klaim</th>
+                                            <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600 uppercase">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach($tipeProduks as $index => $tipe)
+                                    <tbody class="divide-y divide-slate-200 otsk-search-item">
+                                        <tr class="hover:bg-slate-50 transition">
+                                            <td class="px-4 py-3 text-sm text-slate-600">{{ $index + 1 }}</td>
+                                            <td class="px-4 py-3">
+                                                <div class="font-semibold text-slate-800">{{ $tipe->nama_tipe }}</div>
+                                                <button type="button" onclick="toggleTipe({{ $tipe->id_produk }})" class="text-xs text-emerald-600 font-medium hover:underline">
+                                                    {{ $tipe->produkKlaims->count() }} klaim <i class="fas fa-chevron-down ml-1" id="icon-tipe-{{ $tipe->id_produk }}"></i>
+                                                </button>
+                                            </td>
+                                            <td class="px-4 py-3 text-sm text-slate-600">
+                                                @if($tipe->produkKlaims && $tipe->produkKlaims->count() > 0)
+                                                    @foreach($tipe->produkKlaims->take(3) as $klaim)
+                                                        <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full mr-1 mb-1">{{ $klaim->nama_klaim }}</span>
+                                                    @endforeach
+                                                    @if($tipe->produkKlaims->count() > 3)
+                                                        <span class="text-xs text-slate-500">+{{ $tipe->produkKlaims->count() - 3 }} lainnya</span>
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td class="px-4 py-3 text-center">
+                                                <div class="flex items-center justify-center space-x-2">
+                                                    <button onclick="openEditTipeModal({{ $tipe->id_produk }}, '{{ $tipe->nama_tipe }}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button onclick="openDeleteTipeModal({{ $tipe->id_produk }}, '{{ $tipe->nama_tipe }}')" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr id="tipe-row-{{ $tipe->id_produk }}" class="hidden bg-purple-50">
+                                            <td colspan="4" class="px-4 py-4">
+                                                <div class="space-y-4">
+                                                    <!-- Form Tambah Klaim -->
+                                                    <form action="{{ route('admin.produk-klaim.store') }}" method="POST" class="bg-white p-4 rounded-xl border border-purple-200">
+                                                        @csrf
+                                                        <input type="hidden" name="tipe_produk_id" value="{{ $tipe->id_produk }}">
+                                                        <div class="flex flex-col md:flex-row gap-3">
+                                                            <input type="text" name="nama_klaim" required 
+                                                                class="flex-1 px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-900 focus:border-transparent outline-none"
+                                                                placeholder="Nama Klaim/Khasiat">
+                                                            <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition text-sm">
+                                                                <i class="fas fa-plus mr-1"></i>Tambah Klaim
+                                                            </button>
+                                                        </div>
+                                                    </form>
+
+                                                    <!-- Klaim List -->
+                                                    @foreach($tipe->produkKlaims as $klaim)
+                                                    <div class="bg-white p-4 rounded-xl border border-purple-200">
+                                                        <div class="flex justify-between items-center mb-3">
+                                                            <h3 class="font-semibold text-purple-900">{{ $klaim->nama_klaim }}</h3>
+                                                            <div class="flex items-center space-x-2">
+                                                                <button onclick="toggleKlaim({{ $klaim->id_klaim }})" class="px-2 py-1 bg-purple-100 rounded text-xs text-purple-800 hover:bg-purple-200 transition">
+                                                                    <i class="fas fa-chevron-down" id="icon-klaim-{{ $klaim->id_klaim }}"></i> Parameter
+                                                                </button>
+                                                                <button onclick="openEditKlaimModal({{ $klaim->id_klaim }}, '{{ $klaim->nama_klaim }}')" class="text-blue-600 hover:text-blue-800 text-sm" title="Edit">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+                                                                <button onclick="openDeleteKlaimModal({{ $klaim->id_klaim }}, '{{ $klaim->nama_klaim }}')" class="text-red-600 hover:text-red-800 text-sm" title="Hapus">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Hidden Parameter Content -->
+                                                        <div id="klaim-content-{{ $klaim->id_klaim }}" class="p-3 bg-slate-50 rounded-lg hidden">
+                                                            <!-- Form Tambah Parameter -->
+                                                            <form action="{{ route('admin.parameter-uji-otsk.store') }}" method="POST" class="mb-4">
+                                                                @csrf
+                                                                <input type="hidden" name="id_klaim" value="{{ $klaim->id_klaim }}">
+                                                                <input type="text" name="parameter_uji" required 
+                                                                    class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm mb-2"
+                                                                    placeholder="Nama Parameter Uji">
+                                                                <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-semibold hover:bg-emerald-700 transition text-sm">
+                                                                    <i class="fas fa-plus mr-1"></i> Tambah Parameter
+                                                                </button>
+                                                            </form>
+
+                                                            <!-- Parameter List -->
+                                                            @foreach($klaim->parameterUjiOtsk as $param)
+                                                            <div class="border border-emerald-200 rounded-lg mb-3 overflow-hidden bg-white">
+                                                                <div class="bg-emerald-50 px-3 py-2 flex justify-between items-center">
+                                                                    <span class="font-medium text-emerald-800">{{ $param->parameter_uji }}</span>
+                                                                    <div class="flex items-center space-x-2">
+                                                                        <button onclick="toggleMetode({{ $param->id_uji }})" class="px-2 py-1 bg-emerald-200 rounded text-xs text-emerald-800 hover:bg-emerald-300 transition">
+                                                                            <i class="fas fa-chevron-down" id="icon-metode-{{ $param->id_uji }}"></i> Metode
+                                                                        </button>
+                                                                        <button onclick="openEditParamModal({{ $param->id_uji }}, '{{ $param->parameter_uji }}')" class="text-blue-600 hover:text-blue-800">
+                                                                            <i class="fas fa-edit"></i>
+                                                                        </button>
+                                                                        <button onclick="openDeleteParamModal({{ $param->id_uji }}, '{{ $param->parameter_uji }}')" class="text-red-500 hover:text-red-700">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Hidden Metode Content -->
+                                                                <div id="metode-content-{{ $param->id_uji }}" class="p-3 hidden">
+                                                                    <!-- Form Tambah Metode -->
+                                                                    <form action="{{ route('admin.metode-uji-otsk.store') }}" method="POST" class="mb-3 p-2 bg-white rounded border">
+                                                                        @csrf
+                                                                        <input type="hidden" name="id_uji" value="{{ $param->id_uji }}">
+                                                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+                                                                            <select name="sediaan" required class="px-2 py-1 border rounded text-sm">
+                                                                                <option value="">-- Sediaan --</option>
+                                                                                <option value="Padat">Padat</option>
+                                                                                <option value="Cair">Cair</option>
+                                                                                <option value="Padat dan Cair">Padat dan Cair</option>
+                                                                            </select>
+                                                                            <input type="text" name="pustaka" required placeholder="Pustaka" class="px-2 py-1 border rounded text-sm">
+                                                                            <select name="teknik_analisis" required class="px-2 py-1 border rounded text-sm">
+                                                                                <option value="">-- Teknik Analisis --</option>
+                                                                                <option value="KLT-Spektrofotodensitometri-KCKT">KLT-Spektrofotodensitometri-KCKT</option>
+                                                                                <option value="KCKT">KCKT</option>
+                                                                                <option value="KLT-Densitometri">KLT-Densitometri</option>
+                                                                                <option value="KG">KG</option>
+                                                                                <option value="KLT-KCKT">KLT-KCKT</option>
+                                                                                <option value="SPE-KCKT">SPE-KCKT</option>
+                                                                                <option value="KLT-Spektrofotodensitometri">KLT-Spektrofotodensitometri</option>
+                                                                                <option value="GC">GC</option>
+                                                                                <option value="AAS-HVG">AAS-HVG</option>
+                                                                                <option value="AAS-GF">AAS-GF</option>
+                                                                                <option value="GC-MS">GC-MS</option>
+                                                                            </select>
+                                                                            <input type="text" name="metode_uji" required placeholder="Metode Uji" class="px-2 py-1 border rounded text-sm">
+                                                                        </div>
+                                                                        <div class="flex gap-2">
+                                                                            <input type="number" name="jumlah_sampel" required placeholder="Jml Sampel" min="1" class="flex-1 px-2 py-1 border rounded text-sm">
+                                                                            <select name="satuan_sampel" required class="flex-1 px-2 py-1 border rounded text-sm">
+                                                                                <option value="">-- Satuan --</option>
+                                                                                <option value="gram">gram</option>
+                                                                                <option value="mL">mL</option>
+                                                                                <option value="dosis">dosis</option>
+                                                                                <option value="mg">mg</option>
+                                                                            </select>
+                                                                            <button type="submit" class="px-3 bg-emerald-600 text-white rounded text-sm hover:bg-emerald-700">+</button>
+                                                                        </div>
+                                                                    </form>
+
+                                                                    <!-- Metode List -->
+                                                                    @foreach($param->metodeUjiOtsk as $metode)
+                                                                    <div class="flex justify-between items-center p-2 bg-slate-50 rounded mb-1 text-sm">
+                                                                        <div>
+                                                                            <span class="font-medium text-purple-700">{{ $metode->sediaan }}</span>
+                                                                            <span class="text-slate-500">| {{ $metode->pustaka }}</span>
+                                                                            <span class="text-slate-500">| {{ $metode->teknik_analisis }}</span>
+                                                                            <span class="text-slate-500">| {{ $metode->metode_uji }}</span>
+                                                                            <span class="text-slate-500">| {{ $metode->jumlah_sampel }} {{ $metode->satuan_sampel }}</span>
+                                                                        </div>
+                                                                        <div class="flex space-x-2">
+                                                                            <button onclick="openEditMetodeModal({{ $metode->id_sediaan }}, '{{ $metode->sediaan }}', '{{ $metode->pustaka }}', '{{ $metode->teknik_analisis }}', '{{ $metode->metode_uji }}', {{ $metode->jumlah_sampel }}, '{{ $metode->satuan_sampel }}')" class="text-blue-600 hover:text-blue-800">
+                                                                                <i class="fas fa-edit"></i>
+                                                                            </button>
+                                                                            <form action="{{ route('admin.metode-uji-otsk.delete', $metode->id_sediaan) }}" method="POST" class="inline">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button type="submit" class="text-red-500 hover:text-red-700" onclick="return confirm('Hapus metode ini?')">
+                                                                                    <i class="fas fa-trash"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    @endforeach
+                                </table>
+                            </div>
+                        @else
+                            <div class="text-center py-12">
+                                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-leaf text-2xl text-purple-400"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-slate-700 mb-2">Belum ada data OT-SK</h3>
+                                <p class="text-slate-500 text-sm">Tambahkan tipe produk pertama Anda menggunakan form di samping.</p>
+                            </div>
+                        @endif
+
+                        <div id="otskSearchNoResult" class="hidden bg-white rounded-2xl shadow-md border border-slate-100 p-8 text-center mt-6">
+                            <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-search text-slate-400 text-lg"></i>
+                            </div>
+                            <h3 class="text-base font-semibold text-slate-700">Konten tidak ditemukan</h3>
+                            <p class="text-sm text-slate-500 mt-1">Coba kata kunci lain yang lebih spesifik.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h3 class="text-base font-semibold text-slate-700">Konten tidak ditemukan</h3>
-            <p class="text-sm text-slate-500 mt-1">Coba kata kunci lain yang lebih spesifik.</p>
-        </div>
-
-        @if($tipeProduks->count() == 0)
-        <div class="bg-white rounded-3xl shadow-xl p-12 text-center border border-slate-100">
-            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-leaf text-2xl text-purple-400"></i>
-            </div>
-            <h3 class="text-lg font-semibold text-slate-700 mb-2">Belum ada data OT-SK</h3>
-            <p class="text-slate-500 text-sm">Tambahkan tipe produk pertama Anda menggunakan form di atas.</p>
-        </div>
-        @endif
-
-    </div>
-</div>
-
-<!-- Modal Tambah Tipe Produk -->
-<div id="createTipeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm overflow-y-auto h-full w-full hidden z-50 flex items-center justify-center">
-    <div class="relative mx-auto p-6 border w-full max-w-md shadow-2xl rounded-3xl bg-white">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold text-purple-900">Tambah Tipe Produk</h3>
-            <button onclick="closeCreateTipeModal()" class="text-slate-400 hover:text-slate-600">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-        </div>
-        <form action="{{ route('admin.tipe-produk.store') }}" method="POST">
-            @csrf
-            <input
-                type="text"
-                name="nama_tipe"
-                required
-                class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-900 focus:border-transparent outline-none"
-                placeholder="Contoh: Obat Tradisional, Suplemen Kesehatan"
-            >
-            <div class="flex space-x-3 mt-6">
-                <button type="button" onclick="closeCreateTipeModal()" class="flex-1 px-4 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold">Batal</button>
-                <button type="submit" class="flex-1 px-4 py-3 bg-purple-900 text-white rounded-xl font-bold">Tambah</button>
-            </div>
-        </form>
-    </div>
+        </div>    </div>
 </div>
 
 <!-- Modal Edit Tipe Produk -->
@@ -493,7 +527,7 @@
 <script>
     // Toggle Functions
     function toggleTipe(id) {
-        const content = document.getElementById('tipe-content-' + id);
+        const content = document.getElementById('tipe-row-' + id);
         const icon = document.getElementById('icon-tipe-' + id);
         content.classList.toggle('hidden');
         icon.classList.toggle('fa-chevron-down');
@@ -515,10 +549,6 @@
         icon.classList.toggle('fa-chevron-down');
         icon.classList.toggle('fa-chevron-up');
     }
-
-    // Modal Functions - Create Tipe Produk
-    function openCreateTipeModal() { document.getElementById('createTipeModal').classList.remove('hidden'); }
-    function closeCreateTipeModal() { document.getElementById('createTipeModal').classList.add('hidden'); }
 
     // Modal Functions - Tipe Produk
     function openEditTipeModal(id, nama) {
@@ -634,3 +664,4 @@
 
 </body>
 </html>
+

@@ -126,21 +126,72 @@ class PengujianController extends Controller
             return response()->json([]);
         }
 
-        // Search in ProdukKlaim
+        // Search in ProdukKlaim (Klaim)
         $klaimResults = ProdukKlaim::where('nama_klaim', 'LIKE', '%' . $query . '%')
-            ->select('id_klaim as id', 'nama_klaim as name', \DB::raw("'klaim' as type"))
+            ->select('id_klaim as id', 'nama_klaim as name', \DB::raw("'klaim' as type"), \DB::raw("'' as context"))
             ->orderBy('nama_klaim', 'asc')
             ->limit(10)
             ->get();
 
         // Search in TipeProduk
         $tipeResults = TipeProduk::where('nama_tipe', 'LIKE', '%' . $query . '%')
-            ->select('id_produk as id', 'nama_tipe as name', \DB::raw("'tipe' as type"))
+            ->select('id_produk as id', 'nama_tipe as name', \DB::raw("'tipe' as type"), \DB::raw("'' as context"))
             ->orderBy('nama_tipe', 'asc')
             ->limit(10)
             ->get();
 
-        $results = $klaimResults->merge($tipeResults)
+        // Search in Parameter Uji OT-SK (return klaim id for detail view)
+        $parameterResults = ParameterUjiOtsk::query()
+            ->join('produk_klaim', 'parameter_uji_otsk.id_klaim', '=', 'produk_klaim.id_klaim')
+            ->where('parameter_uji_otsk.parameter_uji', 'LIKE', '%' . $query . '%')
+            ->select(
+                'produk_klaim.id_klaim as id',
+                'parameter_uji_otsk.parameter_uji as name',
+                \DB::raw("'parameter' as type"),
+                'produk_klaim.nama_klaim as context'
+            )
+            ->distinct()
+            ->orderBy('parameter_uji_otsk.parameter_uji', 'asc')
+            ->limit(10)
+            ->get();
+
+        // Search in Metode Uji OT-SK
+        $metodeResults = MetodeUjiOtsk::query()
+            ->join('parameter_uji_otsk', 'metode_uji_otsk.id_uji', '=', 'parameter_uji_otsk.id_uji')
+            ->join('produk_klaim', 'parameter_uji_otsk.id_klaim', '=', 'produk_klaim.id_klaim')
+            ->where('metode_uji_otsk.metode_uji', 'LIKE', '%' . $query . '%')
+            ->select(
+                'produk_klaim.id_klaim as id',
+                'metode_uji_otsk.metode_uji as name',
+                \DB::raw("'metode' as type"),
+                'produk_klaim.nama_klaim as context'
+            )
+            ->distinct()
+            ->orderBy('metode_uji_otsk.metode_uji', 'asc')
+            ->limit(10)
+            ->get();
+
+        // Search in Pustaka (Metode Uji OT-SK)
+        $pustakaResults = MetodeUjiOtsk::query()
+            ->join('parameter_uji_otsk', 'metode_uji_otsk.id_uji', '=', 'parameter_uji_otsk.id_uji')
+            ->join('produk_klaim', 'parameter_uji_otsk.id_klaim', '=', 'produk_klaim.id_klaim')
+            ->where('metode_uji_otsk.pustaka', 'LIKE', '%' . $query . '%')
+            ->select(
+                'produk_klaim.id_klaim as id',
+                'metode_uji_otsk.pustaka as name',
+                \DB::raw("'pustaka' as type"),
+                'produk_klaim.nama_klaim as context'
+            )
+            ->distinct()
+            ->orderBy('metode_uji_otsk.pustaka', 'asc')
+            ->limit(10)
+            ->get();
+
+        $results = $klaimResults
+            ->merge($tipeResults)
+            ->merge($parameterResults)
+            ->merge($metodeResults)
+            ->merge($pustakaResults)
             ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
             ->values()
             ->take(10);
@@ -174,6 +225,8 @@ class PengujianController extends Controller
                         return [
                             'metode_uji' => $metode->metode_uji,
                             'teknik' => $metode->teknik_analisis,
+                            'sediaan' => $metode->sediaan,
+                            'pustaka' => $metode->pustaka,
                             'jumlah_sampel' => $metode->jumlah_sampel,
                             'satuan' => $metode->satuan_sampel,
                         ];
@@ -214,6 +267,8 @@ class PengujianController extends Controller
                                 return [
                                     'metode_uji' => $metode->metode_uji,
                                     'teknik' => $metode->teknik_analisis,
+                                    'sediaan' => $metode->sediaan,
+                                    'pustaka' => $metode->pustaka,
                                     'jumlah_sampel' => $metode->jumlah_sampel,
                                     'satuan' => $metode->satuan_sampel,
                                 ];
@@ -367,7 +422,8 @@ class PengujianController extends Controller
     /**
      * Mencari pangan secara real-time (Autocomplete)
      * Endpoint: /api/search-pangan?q=...
-     * Searches in 'parameter_uji_pangan' table (parameter_uji) with join to 'pangan' table
+     * Mengembalikan daftar komoditi pangan unik untuk autocomplete,
+     * dengan pencarian pada bahan produk maupun parameter uji.
      */
     public function searchPangan(Request $request)
     {
@@ -377,40 +433,26 @@ class PengujianController extends Controller
             return response()->json([]);
         }
 
-        // Search in 'parameter_uji_pangan' table by 'parameter_uji' with join to 'pangan' table
-        $results = \DB::table('parameter_uji_pangan')
-            ->join('pangan', 'parameter_uji_pangan.id_pangan', '=', 'pangan.id_pangan')
-            ->leftJoin('metode_uji_pangan', 'parameter_uji_pangan.id_uji', '=', 'metode_uji_pangan.id_uji')
-            ->leftJoin('harga_pangan', function ($join) {
-                $join->on('parameter_uji_pangan.id_uji', '=', 'harga_pangan.id_metode')
-                     ->on('parameter_uji_pangan.id_pangan', '=', 'harga_pangan.id');
+        $results = \DB::table('pangan')
+            ->leftJoin('parameter_uji_pangan', 'pangan.id_pangan', '=', 'parameter_uji_pangan.id_pangan')
+            ->where(function ($builder) use ($query) {
+                $builder->where('pangan.bahan_produk', 'LIKE', '%' . $query . '%')
+                    ->orWhere('parameter_uji_pangan.parameter_uji', 'LIKE', '%' . $query . '%');
             })
-            ->where('parameter_uji_pangan.parameter_uji', 'LIKE', '%' . $query . '%')
             ->select(
-                'parameter_uji_pangan.id_pangan',
-                'parameter_uji_pangan.id_uji',
-                'parameter_uji_pangan.parameter_uji',
-                'parameter_uji_pangan.total',
+                'pangan.id_pangan',
                 'pangan.bahan_produk',
-                'pangan.waktu',
-                'metode_uji_pangan.metode',
-                'metode_uji_pangan.sampel_minimal',
-                'metode_uji_pangan.satuan as metode_satuan',
-                'harga_pangan.harga'
+                'pangan.waktu'
             )
+            ->groupBy('pangan.id_pangan', 'pangan.bahan_produk', 'pangan.waktu')
+            ->orderBy('pangan.bahan_produk')
             ->limit(20)
             ->get()
             ->map(function ($item) {
                 return [
                     'id' => $item->id_pangan,
-                    'id_uji' => $item->id_uji,
-                    'parameter_uji' => $item->parameter_uji,
                     'bahan_produk' => $item->bahan_produk,
                     'waktu' => $item->waktu,
-                    'metode' => $item->metode,
-                    'minimal_sampel' => $item->sampel_minimal,
-                    'satuan' => $item->metode_satuan,
-                    'harga' => $item->harga ?? $item->total,
                 ];
             });
 
@@ -424,7 +466,6 @@ class PengujianController extends Controller
      */
     public function getPanganDetail($id)
     {
-        // Get all parameter_uji_pangan records for this pangan id with joined data
         $parameters = \DB::table('parameter_uji_pangan')
             ->join('pangan', 'parameter_uji_pangan.id_pangan', '=', 'pangan.id_pangan')
             ->leftJoin('metode_uji_pangan', 'parameter_uji_pangan.id_uji', '=', 'metode_uji_pangan.id_uji')
@@ -437,14 +478,19 @@ class PengujianController extends Controller
                 'parameter_uji_pangan.id_pangan',
                 'parameter_uji_pangan.id_uji',
                 'parameter_uji_pangan.parameter_uji',
+                'parameter_uji_pangan.metode as parameter_metode',
+                'parameter_uji_pangan.minimal_sampel as parameter_minimal_sampel',
+                'parameter_uji_pangan.satuan as parameter_satuan',
+                'parameter_uji_pangan.keterangan as parameter_keterangan',
+                'parameter_uji_pangan.harga as parameter_harga',
                 'parameter_uji_pangan.total',
                 'pangan.bahan_produk',
                 'pangan.waktu',
-                'metode_uji_pangan.metode',
-                'metode_uji_pangan.sampel_minimal',
+                'metode_uji_pangan.metode as metode_uji_metode',
+                'metode_uji_pangan.sampel_minimal as metode_uji_sampel_minimal',
                 'metode_uji_pangan.satuan as metode_satuan',
-                'metode_uji_pangan.keterangan',
-                'harga_pangan.harga'
+                'metode_uji_pangan.keterangan as metode_keterangan',
+                'harga_pangan.harga as joined_harga'
             )
             ->get();
 
@@ -455,25 +501,19 @@ class PengujianController extends Controller
         // Get the first item to get pangan info
         $firstParam = $parameters->first();
 
-        // Calculate total harga
-        $hargaTotal = $parameters->sum(function ($param) {
-            return $param->harga ?? $param->total ?? 0;
-        });
-
         $data = [
             'id' => $firstParam->id_pangan,
             'bahan_produk' => $firstParam->bahan_produk,
             'waktu' => $firstParam->waktu,
-            'harga_total' => $hargaTotal,
             'parameters' => $parameters->map(function ($param) {
                 return [
                     'id_uji' => $param->id_uji,
                     'parameter_uji' => $param->parameter_uji,
-                    'metode' => $param->metode,
-                    'minimal_sampel' => $param->sampel_minimal,
-                    'satuan' => $param->metode_satuan,
-                    'keterangan' => $param->keterangan,
-                    'harga' => $param->harga ?? $param->total,
+                    'metode' => $param->parameter_metode ?? $param->metode_uji_metode,
+                    'minimal_sampel' => $param->parameter_minimal_sampel ?? $param->metode_uji_sampel_minimal,
+                    'satuan' => $param->parameter_satuan ?? $param->metode_satuan,
+                    'keterangan' => $param->parameter_keterangan ?? $param->metode_keterangan,
+                    'harga' => $param->parameter_harga ?? $param->joined_harga,
                     'total' => $param->total,
                 ];
             }),
@@ -502,14 +542,19 @@ class PengujianController extends Controller
                 'parameter_uji_pangan.id_pangan',
                 'parameter_uji_pangan.id_uji',
                 'parameter_uji_pangan.parameter_uji',
+                'parameter_uji_pangan.metode as parameter_metode',
+                'parameter_uji_pangan.minimal_sampel as parameter_minimal_sampel',
+                'parameter_uji_pangan.satuan as parameter_satuan',
+                'parameter_uji_pangan.keterangan as parameter_keterangan',
+                'parameter_uji_pangan.harga as parameter_harga',
                 'parameter_uji_pangan.total',
                 'pangan.bahan_produk',
                 'pangan.waktu',
-                'metode_uji_pangan.metode',
-                'metode_uji_pangan.sampel_minimal',
+                'metode_uji_pangan.metode as metode_uji_metode',
+                'metode_uji_pangan.sampel_minimal as metode_uji_sampel_minimal',
                 'metode_uji_pangan.satuan as metode_satuan',
-                'metode_uji_pangan.keterangan',
-                'harga_pangan.harga'
+                'metode_uji_pangan.keterangan as metode_keterangan',
+                'harga_pangan.harga as joined_harga'
             )
             ->first();
 
@@ -523,12 +568,12 @@ class PengujianController extends Controller
             'bahan_produk' => $item->bahan_produk,
             'waktu' => $item->waktu,
             'parameter_uji' => $item->parameter_uji,
-            'metode' => $item->metode,
-            'minimal_sampel' => $item->sampel_minimal,
-            'satuan' => $item->metode_satuan,
-            'keterangan' => $item->keterangan,
-            'harga' => $item->harga ?? $item->total ?? 0,
-            'total' => $item->total ?? 0,
+            'metode' => $item->parameter_metode ?? $item->metode_uji_metode,
+            'minimal_sampel' => $item->parameter_minimal_sampel ?? $item->metode_uji_sampel_minimal,
+            'satuan' => $item->parameter_satuan ?? $item->metode_satuan,
+            'keterangan' => $item->parameter_keterangan ?? $item->metode_keterangan,
+            'harga' => $item->parameter_harga ?? $item->joined_harga,
+            'total' => $item->total,
         ]);
     }
 }

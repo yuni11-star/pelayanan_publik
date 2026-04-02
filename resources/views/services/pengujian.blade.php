@@ -20,10 +20,12 @@
     }
 </script>
 
+<!-- Halaman utama layanan pengujian -->
 <div class="min-h-screen bg-slate-50 py-12">
     <div class="max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8">
     <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
 
+        <!-- Breadcrumb navigasi -->
         <nav class="flex mb-5 text-gray-500 text-sm" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                 <li class="inline-flex items-center">
@@ -38,6 +40,7 @@
             </ol>
         </nav>
 
+        <!-- Hero/penjelasan singkat layanan -->
         <div class="bg-[#003366] text-white rounded-2xl shadow-xl p-10 mb-8 relative overflow-hidden">
             <div class="relative z-10">
                 <h1 class="text-4xl font-extrabold mb-4">Pengujian Obat dan Makanan</h1>
@@ -46,8 +49,10 @@
             <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-emerald-500 opacity-10 rounded-full"></div>
         </div>
 
+        <!-- Layout utama: konten kiri + panel bantuan kanan -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
             <div class="lg:col-span-4 space-y-8">
+                <!-- Deskripsi layanan -->
                 <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                     <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
                         <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
@@ -68,6 +73,7 @@
                     </div>
                 </div>
 
+                <!-- Kategori komoditi -->
                 <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                     <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
                         <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
@@ -104,6 +110,7 @@
                         </div>
                     </div>
 
+                <!-- Area pencarian & hasil parameter -->
                 <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                     <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
                         <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
@@ -113,48 +120,16 @@
                     <div class="space-y-6">
                         <div class="relative">
                             <!-- Searchbox for OT-SK -->
-                            <div id="otsk-search-container" class="hidden space-y-4 mb-6 bg-emerald-50 p-6 rounded-xl border border-emerald-100">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="otsk-type-select" class="block text-sm font-medium text-gray-700 mb-2">Tipe Produk</label>
-                                        <select id="otsk-type-select" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent bg-white">
-                                            <option value="">-- Pilih Tipe Produk --</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label for="otsk-claim-select" class="block text-sm font-medium text-gray-700 mb-2">Klaim/Khasiat</label>
-                                        <select id="otsk-claim-select" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent bg-white" disabled>
-                                            <option value="">-- Pilih Klaim --</option>
-                                        </select>
-                                    </div>
+                            <!-- Searchbox OT-SK -->
+                            <div id="otsk-search-container" class="hidden">
+                                <div class="relative">
+                                    <input type="text" id="otsk-search-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent bg-white" placeholder="Ketik tipe, klaim, parameter uji, metode uji, atau pustaka..." autocomplete="off">
+                                    <div id="otsk-search-suggestions" class="absolute z-50 w-full mt-2 max-h-48 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg hidden"></div>
                                 </div>
                             </div>
                             
-                            <!-- Pangan Search Form (New and separated) -->
-                            <div id="pangan-search-container" class="hidden">
-                                <form id="pangan-search-form" class="flex items-center relative">
-                                    <input type="text" name="q" id="pangan-search-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent" placeholder="Ketik nama parameter uji pangan..." autocomplete="off">
-                                    <button type="submit" class="absolute right-3 bg-[#003366] text-white rounded-lg px-3 py-1.5 text-sm hover:bg-[#002244] transition-all">
-                                        <i class="fas fa-search mr-1"></i> Cari
-                                    </button>
-                                </form>
-                                <div id="pangan-search-results" class="mt-4"></div>
-                            </div>
-
-                            <!-- Pangan Detail Modal -->
-                            <div id="pangan-detail-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-[100] items-center justify-center p-4">
-                                <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden">
-                                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-slate-50">
-                                        <h3 class="text-lg font-bold text-[#003366]">Detail Item Pangan</h3>
-                                        <button type="button" id="close-pangan-modal-btn" class="text-gray-500 hover:text-gray-700 text-xl leading-none">&times;</button>
-                                    </div>
-                                    <div id="pangan-modal-body" class="p-6 space-y-5">
-                                        <div class="text-center text-gray-500">Memuat detail...</div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <!-- Original medicine search input -->
+                            <!-- Searchbox Obat/Kosmetik/Pangan -->
                             <div id="medicine-search-container" class="relative">
                                 <div class="flex items-center relative">
                                     <input type="text" id="medicine-search-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent" placeholder="Ketik nama zat aktif..." autocomplete="off">
@@ -163,16 +138,18 @@
                             </div>
                         </div>
 
+                        <!-- Panel info detail item terpilih -->
                         <div id="medicine-info-container" class="bg-gray-50 rounded-lg p-6 border border-gray-200 hidden">
-                            <h3 class="text-lg font-bold text-[#003366] mb-4">Detail Informasi Obat</h3>
+                            <h3 id="info-panel-title" class="text-lg font-bold text-[#003366] mb-4">Detail Informasi Obat</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-                                <div><strong class="block text-gray-500 uppercase text-xs">Zat Aktif</strong> <span id="zat-aktif" class="text-base font-medium"></span></div>
-                                <div><strong class="block text-gray-500 uppercase text-xs">Jenis Sediaan</strong> <span id="jenis-sediaan" class="text-base font-medium"></span></div>
-                                <div><strong class="block text-gray-500 uppercase text-xs">Bentuk Sediaan</strong> <span id="bentuk-sediaan" class="text-base font-medium"></span></div>
-                                <div><strong class="block text-gray-500 uppercase text-xs">Harga Estimasi</strong> <span id="harga-total" class="text-base font-bold text-blue-700"></span></div>
+                                <div><strong id="info-label-1" class="block text-gray-500 uppercase text-xs">Zat Aktif</strong> <span id="zat-aktif" class="text-base font-medium"></span></div>
+                                <div><strong id="info-label-2" class="block text-gray-500 uppercase text-xs">Jenis Sediaan</strong> <span id="jenis-sediaan" class="text-base font-medium"></span></div>
+                                <div><strong id="info-label-3" class="block text-gray-500 uppercase text-xs">Bentuk Sediaan</strong> <span id="bentuk-sediaan" class="text-base font-medium"></span></div>
+                                <div><strong id="info-label-4" class="block text-gray-500 uppercase text-xs">Harga Estimasi</strong> <span id="harga-total" class="text-base font-bold text-blue-700"></span></div>
                             </div>
                         </div>
 
+                        <!-- Tabel parameter uji -->
                         <div id="parameters-section" class="hidden mt-6">
                             <h3 class="text-lg font-semibold text-gray-900 mb-4">Parameter Uji Laboratorium</h3>
                             <div class="overflow-x-auto border border-gray-200 rounded-lg">
@@ -191,6 +168,7 @@
                 </div>
             </div>
 
+            <!-- Panel kanan: persyaratan & bantuan layanan -->
             <div class="lg:col-span-1 space-y-8">
                 <div class="bg-[#003366] text-white rounded-2xl p-8 shadow-lg">
                     <h3 class="text-xl font-bold mb-6 flex items-center">
@@ -236,28 +214,37 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // --- LOGIC PENCARIAN KOMODITI ---
+    // --- LOGIKA UTAMA PENCARIAN KOMODITI ---
 
-    let activeCategory = 'obat'; // Default category
+    let activeCategory = 'obat'; // Kategori aktif saat halaman pertama kali dibuka
 
-    // Element References
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(Number(amount) || 0);
+    }
+
+    // Referensi elemen HTML yang dipakai berulang
     const medSearchInput = document.getElementById('medicine-search-input');
     const medSuggestions = document.getElementById('medicine-search-suggestions');
     const medSearchContainer = document.getElementById('medicine-search-container');
     
     const otskSearchContainer = document.getElementById('otsk-search-container');
-    const otskTypeSelect = document.getElementById('otsk-type-select');
-    const otskClaimSelect = document.getElementById('otsk-claim-select');
-    
-    const panganSearchContainer = document.getElementById('pangan-search-container');
-    const panganSearchForm = document.getElementById('pangan-search-form');
-    const panganSearchInput = document.getElementById('pangan-search-input');
-    const panganSearchResults = document.getElementById('pangan-search-results');
-    const panganDetailModal = document.getElementById('pangan-detail-modal');
-    const panganModalBody = document.getElementById('pangan-modal-body');
-    const closePanganModalBtn = document.getElementById('close-pangan-modal-btn');
+    const otskSearchInput = document.getElementById('otsk-search-input');
+    const otskSuggestions = document.getElementById('otsk-search-suggestions');
 
-    // Autocomplete for Obat & Kosmetik (Original Logic)
+    function setInfoPanel(title, label1, label2, label3, label4) {
+        document.getElementById('info-panel-title').textContent = title;
+        document.getElementById('info-label-1').textContent = label1;
+        document.getElementById('info-label-2').textContent = label2;
+        document.getElementById('info-label-3').textContent = label3;
+        document.getElementById('info-label-4').textContent = label4;
+    }
+
+    // Autocomplete untuk input tunggal (Obat, Kosmetik, Pangan)
     medSearchInput.addEventListener('input', function() {
         const query = this.value.trim();
         if (query.length < 1) {
@@ -265,7 +252,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        let apiUrl = activeCategory === 'obat' ? '/api/search-obat' : '/api/search-kosmetik';
+        let apiUrl = '/api/search-obat';
+        if (activeCategory === 'kosmetik') {
+            apiUrl = '/api/search-kosmetik';
+        } else if (activeCategory === 'pangan') {
+            apiUrl = '/api/search-pangan';
+        }
 
         fetch(`${apiUrl}?q=${encodeURIComponent(query)}`)
             .then(res => res.json())
@@ -274,88 +266,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'px-4 py-2 hover:bg-gray-100 cursor-pointer';
-                    let displayName = item.zat_aktif; // This covers both obat and kosmetik
+                    let displayName = item.zat_aktif;
+                    if (activeCategory === 'pangan') {
+                        displayName = item.bahan_produk;
+                    }
                     div.textContent = displayName;
                     
-                    div.onclick = () => {
+                    div.addEventListener('click', () => {
                         medSearchInput.value = displayName;
                         medSuggestions.classList.add('hidden');
                         if (activeCategory === 'kosmetik') {
                             loadKosmetikDetails(item.id);
+                        } else if (activeCategory === 'pangan') {
+                            loadPanganDetails(item.id);
                         } else {
                             loadMedicineDetails(item.id);
                         }
-                    };
+                    });
                     medSuggestions.appendChild(div);
                 });
-                medSuggestions.classList.remove('hidden');
+                medSuggestions.classList.toggle('hidden', data.length === 0);
             });
-    });
-
-    // Form-based search for Pangan (New Logic)
-    panganSearchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const query = panganSearchInput.value.trim();
-        if (query.length < 2) {
-            panganSearchResults.innerHTML = `<div class="text-center p-4 bg-yellow-50 text-yellow-700 rounded-lg">Masukkan minimal 2 karakter untuk mencari.</div>`;
-            return;
-        }
-
-        panganSearchResults.innerHTML = `<div class="text-center p-4"><i class="fas fa-spinner fa-spin text-2xl text-[#003366]"></i></div>`;
-        
-        fetch(`/api/search-pangan?q=${encodeURIComponent(query)}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.length === 0) {
-                    panganSearchResults.innerHTML = `<div class="text-center p-4 bg-gray-50 text-gray-600 rounded-lg">Data tidak ditemukan untuk parameter uji <strong>"${query}"</strong>.</div>`;
-                    return;
-                }
-                
-                let tableHTML = `
-                    <div class="overflow-x-auto border border-gray-200 rounded-lg">
-                        <table class="w-full text-sm border-collapse">
-                            <thead class="bg-gray-100">
-                                <tr class="border-b border-gray-300">
-                                    <th class="px-4 py-3 text-left font-bold text-gray-700">Bahan Produk</th>
-                                    <th class="px-4 py-3 text-left font-bold text-gray-700">Parameter Uji</th>
-                                    <th class="px-4 py-3 text-left font-bold text-gray-700">Metode</th>
-                                    <th class="px-4 py-3 text-center font-bold text-gray-700">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200 bg-white">`;
-
-                data.forEach(item => {
-                    tableHTML += `
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-3">${item.bahan_produk || '-'}</td>
-                            <td class="px-4 py-3 font-semibold">${item.parameter_uji || '-'}</td>
-                            <td class="px-4 py-3">${item.metode || '-'}</td>
-                            <td class="px-4 py-3 text-center">
-                                <button class="view-pangan-details-btn bg-[#10b981] text-white px-3 py-1 rounded-md text-xs hover:bg-emerald-600" data-pangan-id="${item.id}" data-pangan-uji-id="${item.id_uji}">
-                                    Lihat Detail
-                                </button>
-                            </td>
-                        </tr>`;
-                });
-
-                tableHTML += `</tbody></table></div>`;
-                panganSearchResults.innerHTML = tableHTML;
-            })
-            .catch(error => {
-                console.error('Error fetching pangan search:', error);
-                panganSearchResults.innerHTML = `<div class="text-center p-4 bg-red-50 text-red-700 rounded-lg">Terjadi kesalahan saat mengambil data.</div>`;
-            });
-    });
-
-    // Detail button listener for Pangan search results
-    panganSearchResults.addEventListener('click', function(e) {
-        if (e.target && e.target.classList.contains('view-pangan-details-btn')) {
-            const panganId = e.target.getAttribute('data-pangan-id');
-            const panganUjiId = e.target.getAttribute('data-pangan-uji-id');
-            if (panganId && panganUjiId) {
-                openPanganDetailModal(panganId, panganUjiId);
-            }
-        }
     });
 
     function escapeHtml(value) {
@@ -366,56 +297,24 @@ document.addEventListener('DOMContentLoaded', function() {
             .replace(/'/g, '&#39;');
     }
 
-    function closePanganDetailModal() {
-        panganDetailModal.classList.add('hidden');
-        panganDetailModal.classList.remove('flex');
+    function formatPriceOrDash(amount) {
+        return Number(amount) > 0 ? formatCurrency(amount) : '-';
     }
 
-    function openPanganDetailModal(panganId, idUji) {
-        panganDetailModal.classList.remove('hidden');
-        panganDetailModal.classList.add('flex');
-        panganModalBody.innerHTML = '<div class="text-center text-gray-500">Memuat detail...</div>';
+    function formatPanganTextOrDash(value) {
+        if (value === null || value === undefined) {
+            return '-';
+        }
 
-        fetch(`/api/pangan/${panganId}/item/${idUji}`)
-            .then(res => {
-                if (!res.ok) throw new Error('Gagal memuat detail item pangan');
-                return res.json();
-            })
-            .then(data => {
-                panganModalBody.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                        <div><span class="block text-xs text-gray-500 uppercase">Bahan Produk</span><span class="font-semibold text-gray-800">${escapeHtml(data.bahan_produk)}</span></div>
-                        <div><span class="block text-xs text-gray-500 uppercase">Waktu Layanan</span><span class="font-semibold text-gray-800">${data.waktu ? `${escapeHtml(data.waktu)} Hari` : '-'}</span></div>
-                        <div><span class="block text-xs text-gray-500 uppercase">Parameter Uji</span><span class="font-semibold text-gray-800">${escapeHtml(data.parameter_uji)}</span></div>
-                        <div><span class="block text-xs text-gray-500 uppercase">Metode Uji</span><span class="font-semibold text-gray-800">${escapeHtml(data.metode)}</span></div>
-                        <div><span class="block text-xs text-gray-500 uppercase">Sampel Minimal</span><span class="font-semibold text-gray-800">${escapeHtml(data.minimal_sampel)} ${escapeHtml(data.satuan)}</span></div>
-                        <div><span class="block text-xs text-gray-500 uppercase">Harga</span><span class="font-bold text-[#003366]">${formatCurrency(data.harga || 0)}</span></div>
-                    </div>
-                    <div class="pt-4 border-t border-gray-200">
-                        <span class="block text-xs text-gray-500 uppercase mb-2">Keterangan</span>
-                        <p class="text-sm text-gray-700 leading-relaxed">${escapeHtml(data.keterangan || '-')}</p>
-                    </div>
-                `;
-            })
-            .catch(error => {
-                console.error('Error fetching pangan item detail:', error);
-                panganModalBody.innerHTML = '<div class="text-center p-4 bg-red-50 text-red-700 rounded-lg">Terjadi kesalahan saat mengambil detail item.</div>';
-            });
+        const text = String(value).trim();
+        if (!text) {
+            return '-';
+        }
+
+        return escapeHtml(text).replace(/\r?\n/g, '<br>');
     }
 
-    if (closePanganModalBtn) {
-        closePanganModalBtn.addEventListener('click', closePanganDetailModal);
-    }
-
-    if (panganDetailModal) {
-        panganDetailModal.addEventListener('click', function(e) {
-            if (e.target === panganDetailModal) {
-                closePanganDetailModal();
-            }
-        });
-    }
-
-    // Enter key handler for the original search input (Obat/Kosmetik)
+    // Jika user menekan Enter pada input utama, jangan submit form
     medSearchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault(); 
@@ -423,48 +322,86 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Logic untuk Dropdown OT-SK
-    if (otskTypeSelect) {
-        otskTypeSelect.addEventListener('change', function() {
-            const tipeId = this.value;
-            otskClaimSelect.innerHTML = '<option value="">-- Pilih Klaim --</option>';
-            otskClaimSelect.disabled = true;
-
-            if (tipeId) {
-                loadTipeProdukDetails(tipeId);
-                fetch(`/api/klaim-by-tipe/${tipeId}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        data.forEach(klaim => {
-                            const option = document.createElement('option');
-                            option.value = klaim.id_klaim;
-                            option.textContent = klaim.nama_klaim;
-                            otskClaimSelect.appendChild(option);
-                        });
-                        otskClaimSelect.disabled = false;
-                    });
-            } else {
-                document.getElementById('parameters-section').classList.add('hidden');
+    // Autocomplete OT-SK: bisa mencari Tipe, Klaim, Parameter, Metode, Pustaka
+    if (otskSearchInput) {
+        otskSearchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            if (query.length < 1) {
+                otskSuggestions.classList.add('hidden');
+                return;
             }
+
+            fetch(`/api/search-otsk?q=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(data => {
+                    otskSuggestions.innerHTML = '';
+                    data.forEach(item => {
+                        const row = document.createElement('div');
+                        row.className = 'flex items-center justify-between gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer';
+
+                        const labelWrap = document.createElement('div');
+                        labelWrap.className = 'min-w-0';
+
+                        const label = document.createElement('div');
+                        label.className = 'text-sm font-medium text-gray-800 truncate';
+                        label.textContent = item.name || '-';
+
+                        const context = document.createElement('div');
+                        context.className = 'text-xs text-gray-500 truncate';
+                        if (item.context) {
+                            context.textContent = `Klaim: ${item.context}`;
+                        }
+
+                        labelWrap.appendChild(label);
+                        if (item.context) labelWrap.appendChild(context);
+
+                        const badge = document.createElement('span');
+                        badge.className = 'text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 shrink-0';
+                        const typeLabels = {
+                            tipe: 'Tipe',
+                            klaim: 'Klaim',
+                            parameter: 'Parameter',
+                            metode: 'Metode',
+                            pustaka: 'Pustaka'
+                        };
+                        badge.textContent = typeLabels[item.type] || 'Hasil';
+
+                        row.appendChild(labelWrap);
+                        row.appendChild(badge);
+
+                        row.addEventListener('click', () => {
+                            otskSearchInput.value = item.name || '';
+                            otskSuggestions.classList.add('hidden');
+                            if (item.type === 'tipe') {
+                                loadTipeProdukDetails(item.id);
+                            } else {
+                                loadOtskDetails(item.id);
+                            }
+                        });
+
+                        otskSuggestions.appendChild(row);
+                    });
+
+                    otskSuggestions.classList.toggle('hidden', data.length === 0);
+                });
         });
 
-        otskClaimSelect.addEventListener('change', function() {
-            const klaimId = this.value;
-            if (klaimId) {
-                loadOtskDetails(klaimId);
-            } else {
-                const tipeId = otskTypeSelect.value;
-                if (tipeId) loadTipeProdukDetails(tipeId);
+        otskSearchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
             }
         });
     }
 
-    // --- DATA LOADING FUNCTIONS (loadMedicineDetails, loadKosmetikDetails, etc.) ---
-    // These functions remain the same as your original, correct versions.
+    // --- FUNGSI AMBIL DATA & RENDER (detail obat/kosmetik/pangan/otsk) ---
     function loadMedicineDetails(medicineId) {
         fetch(`/api/obat/${medicineId}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Gagal memuat detail obat');
+                return res.json();
+            })
             .then(data => {
+                setInfoPanel('Detail Informasi Obat', 'Zat Aktif', 'Jenis Sediaan', 'Bentuk Sediaan', 'Harga Estimasi');
                 document.getElementById('zat-aktif').textContent = data.zat_aktif || '-';
                 document.getElementById('jenis-sediaan').textContent = data.jenis_sediaan || '-';
                 document.getElementById('bentuk-sediaan').textContent = data.bentuk_sediaan || '-';
@@ -497,6 +434,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Tidak ada parameter uji.</td></tr>';
                 }
                 document.getElementById('parameters-section').classList.remove('hidden');
+            })
+            .catch(error => {
+                console.error('Error fetching medicine detail:', error);
+                document.getElementById('medicine-info-container').classList.add('hidden');
+                document.getElementById('parameters-section').classList.remove('hidden');
+                document.getElementById('parameters-header-row').innerHTML = `
+                    <th class="px-6 py-4 text-left font-bold text-gray-700">Status</th>
+                `;
+                document.getElementById('parameters-tbody').innerHTML = `
+                    <tr><td class="px-6 py-4 text-red-600">Terjadi kesalahan saat mengambil detail obat.</td></tr>
+                `;
             });
     }
 
@@ -504,6 +452,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/api/kosmetik/${kosmetikId}`)
             .then(res => res.json())
             .then(data => {
+                setInfoPanel('Detail Informasi Kosmetik', 'Kategori Kosmetik', 'Tipe Produk', 'Keterangan', 'Harga Estimasi');
                 document.getElementById('zat-aktif').textContent = data.zat_aktif || '-';
                 document.getElementById('jenis-sediaan').textContent = data.jenis_sediaan || '-';
                 document.getElementById('bentuk-sediaan').textContent = data.bentuk_sediaan || '-';
@@ -547,10 +496,11 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/api/pangan/${panganId}`)
             .then(res => res.json())
             .then(data => {
+                setInfoPanel('Detail Informasi Pangan', 'Bahan Produk', 'Waktu Layanan', 'Jenis Komoditi', 'Keterangan');
                 document.getElementById('zat-aktif').textContent = data.bahan_produk || '-';
                 document.getElementById('jenis-sediaan').textContent = data.waktu ? data.waktu + ' Hari' : '-';
-                document.getElementById('bentuk-sediaan').textContent = '-'; // Pangan doesn't have this
-                document.getElementById('harga-total').textContent = data.harga_total ? formatCurrency(data.harga_total) : 'Rp 0';
+                document.getElementById('bentuk-sediaan').textContent = 'Komoditi Pangan';
+                document.getElementById('harga-total').textContent = '-';
                 document.getElementById('medicine-info-container').classList.remove('hidden');
 
                 const theadRow = document.getElementById('parameters-header-row');
@@ -560,6 +510,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <th class="px-6 py-4 text-center font-bold text-gray-700">Jumlah Sampel Min</th>
                     <th class="px-6 py-4 text-left font-bold text-gray-700">Satuan</th>
                     <th class="px-6 py-4 text-right font-bold text-gray-700">Harga</th>
+                    <th class="px-6 py-4 text-right font-bold text-gray-700">Total</th>
                 `;
 
                 const tbody = document.getElementById('parameters-tbody');
@@ -569,14 +520,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         tbody.innerHTML += `
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4">${param.parameter_uji || '-'}</td>
-                                <td class="px-6 py-4">${param.metode || '-'}</td>
+                                <td class="px-6 py-4 whitespace-pre-line">${formatPanganTextOrDash(param.metode)}</td>
                                 <td class="px-6 py-4 text-center font-semibold">${param.minimal_sampel || 0}</td>
                                 <td class="px-6 py-4">${param.satuan || '-'}</td>
-                                <td class="px-6 py-4 text-right font-semibold">${param.harga ? formatCurrency(param.harga) : '-'}</td>
+                                <td class="px-6 py-4 text-right font-semibold whitespace-pre-line">${formatPanganTextOrDash(param.harga)}</td>
+                                <td class="px-6 py-4 text-right font-semibold whitespace-pre-line">${formatPanganTextOrDash(param.total)}</td>
                             </tr>`;
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Tidak ada parameter uji.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Tidak ada parameter uji.</td></tr>';
                 }
                 document.getElementById('parameters-section').classList.remove('hidden');
             });
@@ -602,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         tbody.innerHTML += `<tr class="bg-gray-50 border-b border-gray-200"><td class="px-6 py-4 font-semibold text-[#003366]" colspan="3">${param.parameter_uji || '-'}</td></tr>`;
                         if (param.metodes && param.metodes.length > 0) {
                             param.metodes.forEach(metode => {
-                                tbody.innerHTML += `<tr class="hover:bg-white border-b border-gray-100"><td class="px-6 py-3 pl-12 text-gray-400 text-sm"><i class="fas fa-level-up-alt rotate-90 mr-2"></i> Metode</td><td class="px-6 py-3 text-sm"><div class="font-medium text-gray-800">${metode.metode_uji || '-'}</div><div class="text-xs text-gray-500 mt-1">Teknik: ${metode.teknik || '-'}</div></td><td class="px-6 py-3 text-center text-sm">${metode.jumlah_sampel || '-'} ${metode.satuan || ''}</td></tr>`;
+                                tbody.innerHTML += `<tr class="hover:bg-white border-b border-gray-100"><td class="px-6 py-3 pl-12 text-gray-400 text-sm"><i class="fas fa-level-up-alt rotate-90 mr-2"></i> Metode</td><td class="px-6 py-3 text-sm"><div class="font-medium text-gray-800">${metode.metode_uji || '-'}</div><div class="text-xs text-gray-500 mt-1">Sediaan: ${metode.sediaan || '-'} | Pustaka: ${metode.pustaka || '-'} | Teknik: ${metode.teknik || '-'}</div></td><td class="px-6 py-3 text-center text-sm">${metode.jumlah_sampel || '-'} ${metode.satuan || ''}</td></tr>`;
                             });
                         } else {
                             tbody.innerHTML += `<tr><td class="px-6 py-2 pl-12 text-gray-400 italic text-sm" colspan="3">Belum ada data metode uji</td></tr>`;
@@ -632,7 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             klaim.parameters.forEach(param => {
                                 let metodeHtml = param.metodes && param.metodes.length > 0 ? '' : '<span class="text-gray-400 italic">-</span>';
                                 if (param.metodes) param.metodes.forEach(metode => {
-                                    metodeHtml += `<div class="mb-2 pb-2 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0"><div class="font-medium">${metode.metode_uji}</div><div class="text-xs text-gray-500">Teknik: ${metode.teknik} | Sampel: ${metode.jumlah_sampel} ${metode.satuan}</div></div>`;
+                                    metodeHtml += `<div class="mb-2 pb-2 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0"><div class="font-medium">${metode.metode_uji}</div><div class="text-xs text-gray-500">Sediaan: ${metode.sediaan || '-'} | Pustaka: ${metode.pustaka || '-'} | Teknik: ${metode.teknik || '-'} | Sampel: ${metode.jumlah_sampel || '-'} ${metode.satuan || ''}</div></div>`;
                                 });
                                 tbody.innerHTML += `<tr class="hover:bg-gray-50 border-b border-gray-200"><td class="px-6 py-4 align-top">${klaim.nama_klaim || '-'}</td><td class="px-6 py-4 align-top font-medium text-[#003366]">${param.parameter_uji || '-'}</td><td class="px-6 py-4 align-top" colspan="2">${metodeHtml}</td></tr>`;
                             });
@@ -644,23 +596,22 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Global click listener to hide suggestions
+    // Klik di luar input: sembunyikan daftar suggestion
     document.addEventListener('click', (e) => {
-        if (!searchInput.contains(e.target)) searchSuggestions.classList.add('hidden');
-        if (!medSearchContainer.contains(e.target)) medSuggestions.classList.add('hidden');
-    });
+        if (medSearchContainer && !medSearchContainer.contains(e.target)) {
+            medSuggestions.classList.add('hidden');
+        }
 
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && panganDetailModal && !panganDetailModal.classList.contains('hidden')) {
-            closePanganDetailModal();
+        if (otskSearchContainer && otskSuggestions && !otskSearchContainer.contains(e.target)) {
+            otskSuggestions.classList.add('hidden');
         }
     });
 
-    // Main category selection logic
+    // Saat kategori komoditi dipilih (Obat/OT-SK/Kosmetik/Pangan)
     window.selectCategory = function(category, element) {
         activeCategory = category;
 
-        // --- Update Card Styles ---
+        // --- Update style kartu kategori yang aktif ---
         document.querySelectorAll('.category-card').forEach(card => {
             card.classList.remove('bg-emerald-50', 'border-emerald-500', 'shadow-lg', '-translate-y-1');
             card.classList.add('bg-white', 'border-transparent', 'hover:border-emerald-200', 'shadow-md', 'hover:shadow-xl', 'hover:-translate-y-1');
@@ -693,48 +644,37 @@ document.addEventListener('DOMContentLoaded', function() {
             activeTitle.classList.add('text-[#003366]');
         }
 
-        // --- Update Search UI ---
-        const titles = {'obat': 'Obat', 'otsk': 'Obat Tradisional & Suplemen Kesehatan', 'kosmetik': 'Kosmetik', 'pangan': 'Pangan'};
+        // --- Update judul & area pencarian sesuai kategori ---
+        const titles = {'obat': 'Obat', 'otsk': 'OT-SK', 'kosmetik': 'Kosmetik', 'pangan': 'Pangan'};
         document.getElementById('search-section-title').textContent = `Pencarian ${titles[category]} dan Parameter Uji`;
 
-        // Hide all search containers first
+        // Sembunyikan semua area pencarian terlebih dahulu
         otskSearchContainer.classList.add('hidden');
         medSearchContainer.classList.add('hidden');
-        panganSearchContainer.classList.add('hidden');
 
-        // Show the correct container based on category
+        // Tampilkan area pencarian yang sesuai kategori
         if (category === 'otsk') {
             otskSearchContainer.classList.remove('hidden');
-        } else if (category === 'pangan') {
-            panganSearchContainer.classList.remove('hidden');
-        } else { // 'obat' or 'kosmetik'
+        } else { // kategori: obat, kosmetik, atau pangan
             medSearchContainer.classList.remove('hidden');
-            medSearchInput.placeholder = `Ketik nama ${category.toLowerCase()}...`;
+            const placeholders = {
+                obat: 'Ketik nama zat aktif...',
+                kosmetik: 'Ketik nama kosmetik...',
+                pangan: 'Ketik nama komoditi atau parameter pangan...'
+            };
+            medSearchInput.placeholder = placeholders[category] || 'Ketik nama...';
         }
 
-        // --- Reset states ---
+        // --- Reset tampilan & data lama saat ganti kategori ---
         medSearchInput.value = '';
         medSuggestions.classList.add('hidden');
-        panganSearchInput.value = '';
-        panganSearchResults.innerHTML = '';
-        closePanganDetailModal();
         document.getElementById('medicine-info-container').classList.add('hidden');
         document.getElementById('parameters-section').classList.add('hidden');
-        if (otskTypeSelect) otskTypeSelect.value = '';
-        if (otskClaimSelect) { otskClaimSelect.value = ''; otskClaimSelect.disabled = true; }
+        if (otskSearchInput) otskSearchInput.value = '';
+        if (otskSuggestions) otskSuggestions.classList.add('hidden');
     };
 
-    // --- Initial Setup ---
-    fetch('/api/tipe-produk')
-        .then(res => res.json())
-        .then(data => {
-            data.forEach(tipe => {
-                const option = document.createElement('option');
-                option.value = tipe.id_produk;
-                option.textContent = tipe.nama_tipe;
-                otskTypeSelect.appendChild(option);
-            });
-        });
+    // --- Inisialisasi awal halaman ---
 });
 </script>
 @endsection

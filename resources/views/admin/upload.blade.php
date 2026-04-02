@@ -15,41 +15,41 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-[#F1F5F9]">
 
 <div class="min-h-screen py-12">
-    <div class="w-[96%] max-w-[1700px] mx-auto px-4">
+    <div class="w-full max-w-6xl mx-auto px-4">
         
         <div class="flex justify-between items-center mb-8">
             <div class="flex items-center">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-900 rounded-3xl shadow-lg mr-4 transform -rotate-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-[#0EA5E9] rounded-3xl shadow-lg mr-4 transform -rotate-6">
                     <i class="fas fa-upload text-white text-2xl"></i>
                 </div>
                 <div>
-                    <h2 class="text-2xl font-bold text-blue-900">Upload Dokumen</h2>
-                    <p class="text-slate-500 text-sm">Kelola dokumen standar pelayanan</p>
+                    <h2 class="text-2xl font-bold text-[#0F172A]">Upload Dokumen</h2>
+                    <p class="text-[#64748B] text-sm">Kelola dokumen standar pelayanan</p>
                 </div>
             </div>
             <div class="flex">
-                <a href="{{ route('admin.obat') }}" class="px-4 py-2 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition flex items-center">
+                <a href="{{ route('admin.obat') }}" class="px-4 py-2 bg-[#0EA5E9] text-white rounded-xl font-semibold hover:bg-[#0284C7] transition flex items-center">
                     <i class="fas fa-pills mr-2"></i>
                     Kelola Obat
                 </a>
-                <a href="{{ route('admin.otsk') }}" class="px-4 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition flex items-center ml-2">
+                <a href="{{ route('admin.otsk') }}" class="px-4 py-2 bg-[#0EA5E9] text-white rounded-xl font-semibold hover:bg-[#0284C7] transition flex items-center ml-2">
                     <i class="fas fa-capsules mr-2"></i>
                     Kelola OT-SK
                 </a>
-                <a href="{{ route('admin.kosmetik') }}" class="px-4 py-2 bg-orange-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition flex items-center ml-2">
+                <a href="{{ route('admin.kosmetik') }}" class="px-4 py-2 bg-[#0EA5E9] text-white rounded-xl font-semibold hover:bg-[#0284C7] transition flex items-center ml-2">
                     <i class="fas fa-paint-brush mr-2"></i>
                     Kelola Kosmetik
                 </a>
-                <a href="{{ route('admin.pangan') }}" class="px-4 py-2 bg-sky-600 text-white rounded-xl font-semibold hover:bg-sky-700 transition flex items-center ml-2">
+                <a href="{{ route('admin.pangan') }}" class="px-4 py-2 bg-[#0EA5E9] text-white rounded-xl font-semibold hover:bg-[#0284C7] transition flex items-center ml-2">
                     <i class="fas fa-utensils mr-2"></i>
                     Kelola Pangan
                 </a>
                 <form action="{{ route('admin.logout') }}" method="POST" class="ml-2">
                     @csrf
-                    <button type="submit" class="px-4 py-2 bg-slate-700 text-white rounded-xl font-semibold hover:bg-slate-800 transition flex items-center">
+                    <button type="submit" class="px-4 py-2 bg-[#334155] text-white rounded-xl font-semibold hover:bg-[#1E293B] transition flex items-center">
                         <i class="fas fa-sign-out-alt mr-2"></i>
                         Logout
                     </button>
@@ -57,12 +57,10 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-2xl shadow-blue-100 overflow-hidden border border-slate-100">
-            <div class="bg-blue-900 px-8 py-8 text-white relative overflow-hidden">
+        <div class="bg-white rounded-3xl shadow-2xl shadow-slate-200/60 overflow-hidden border border-[#E2E8F0]">
+            <div class="bg-[#0F172A] px-8 py-8 text-white relative overflow-hidden">
                 <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
-                <h2 class="text-2xl font-bold relative z-10">Upload Dokumen Baru</h2>
-                <p class="text-blue-200 text-sm relative z-10">Dokumen standar pelayanan publik BBPOM Pontianak yang dapat diunduh untuk referensi dan informasi..</p>
-                <div class="relative z-10 mt-4">
+                    <div class="relative z-10 mt-4">
                     <a href="https://docs.google.com/spreadsheets/d/1HaB_QgfOjBzOy-Xe39YZWMA30VtE3ZDS/edit?usp=sharing&ouid=106224472982296200942&rtpof=true&sd=true"
                        target="_blank"
                        rel="noopener noreferrer"
@@ -85,26 +83,26 @@
                     @csrf
 
                     <div class="relative">
-                        <label for="document" class="block text-sm font-semibold text-slate-700 mb-2 ml-1">File Dokumen</label>
-                        <div id="dropzone" class="relative group border-2 border-dashed border-slate-200 rounded-2xl p-10 transition-all hover:border-blue-500 hover:bg-blue-50/50 text-center cursor-pointer">
+                        <label for="document" class="block text-sm font-semibold text-[#0F172A] mb-2 ml-1">File Dokumen</label>
+                        <div id="dropzone" class="relative group border-2 border-dashed border-[#E2E8F0] rounded-2xl p-10 transition-all hover:border-[#0EA5E9] hover:bg-[#E0F2FE] text-center cursor-pointer">
                             <input id="document" name="document" type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".pdf,.doc,.docx" required>
                             
                             <div id="upload-placeholder">
-                                <div class="mx-auto w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-file-upload text-2xl text-slate-400 group-hover:text-blue-600"></i>
+                                <div class="mx-auto w-16 h-16 bg-[#F1F5F9] rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-file-upload text-2xl text-[#94A3B8] group-hover:text-[#0EA5E9]"></i>
                                 </div>
-                                <p class="text-slate-600 font-medium">Klik untuk pilih file atau seret ke sini</p>
-                                <p class="text-slate-400 text-xs mt-2">PDF, DOC, DOCX (Maks. 10MB)</p>
+                                <p class="text-[#475569] font-medium">Klik untuk pilih file atau seret ke sini</p>
+                                <p class="text-[#94A3B8] text-xs mt-2">PDF, DOC, DOCX (Maks. 10MB)</p>
                             </div>
 
                             <div id="file-preview" class="hidden">
                                 <div class="flex items-center justify-center space-x-4">
-                                    <div class="p-4 bg-blue-100 rounded-2xl text-blue-600">
+                                    <div class="p-4 bg-[#E0F2FE] rounded-2xl text-[#0EA5E9]">
                                         <i class="fas fa-file-pdf text-3xl"></i>
                                     </div>
                                     <div class="text-left">
-                                        <p id="file-name-display" class="text-slate-800 font-bold truncate max-w-xs"></p>
-                                        <p id="file-size-display" class="text-slate-500 text-sm"></p>
+                                        <p id="file-name-display" class="text-[#0F172A] font-bold truncate max-w-xs"></p>
+                                        <p id="file-size-display" class="text-[#64748B] text-sm"></p>
                                     </div>
                                     <button type="button" id="remove-file" class="p-2 hover:bg-red-50 text-red-400 hover:text-red-600 rounded-full transition-colors">
                                         <i class="fas fa-times-circle text-xl"></i>
@@ -115,11 +113,11 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        <button type="submit" class="flex-1 bg-blue-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-800 transition-all hover:shadow-lg active:scale-95 flex items-center justify-center">
+                        <button type="submit" class="flex-1 bg-[#0EA5E9] text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#0284C7] transition-all hover:shadow-lg active:scale-95 flex items-center justify-center">
                             <i class="fas fa-cloud-upload-alt mr-2"></i>
                             Mulai Upload
                         </button>
-                        <a href="/" class="px-8 py-4 rounded-2xl font-semibold text-slate-600 hover:bg-slate-100 transition-all text-center">
+                        <a href="/" class="px-8 py-4 rounded-2xl font-semibold text-[#64748B] hover:bg-[#F1F5F9] transition-all text-center">
                             Batal
                         </a>
                     </div>
@@ -127,32 +125,32 @@
             </div>
         </div>
 
-        <div class="mt-12 bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
-            <div class="bg-blue-900 text-white px-8 py-6">
+        <div class="mt-12 bg-white rounded-2xl shadow-xl overflow-hidden border border-[#E2E8F0]">
+            <div class="bg-[#0F172A] text-white px-8 py-6">
                 <h2 class="text-2xl font-bold">Kelola Dokumen</h2>
-                <p class="text-blue-200 mt-1">Kelola dokumen yang telah diupload</p>
+                <p class="text-[#CBD5E1] mt-1">Kelola dokumen yang telah diupload</p>
             </div>
 
             <div class="p-8">
                 @if(isset($documents) && $documents->count() > 0)
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                        <table class="min-w-full divide-y divide-[#E2E8F0]">
+                            <thead class="bg-[#F1F5F9]">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dokumen</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tipe</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ukuran</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#64748B] uppercase">Dokumen</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#64748B] uppercase">Tipe</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#64748B] uppercase">Ukuran</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#64748B] uppercase">Tanggal</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#64748B] uppercase">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="bg-white divide-y divide-[#E2E8F0]">
                                 @foreach($documents as $document)
-                                <tr class="hover:bg-gray-50 transition-colors">
+                                <tr class="hover:bg-[#F1F5F9] transition-colors">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <i class="{{ $document['icon_class'] ?? 'fas fa-file' }} text-blue-600 mr-3"></i>
-                                            <span class="text-sm font-medium text-gray-900">{{ $document['original_name'] }}</span>
+                                            <i class="{{ $document['icon_class'] ?? 'fas fa-file' }} text-[#0EA5E9] mr-3"></i>
+                                            <span class="text-sm font-medium text-[#0F172A]">{{ $document['original_name'] }}</span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -160,15 +158,15 @@
                                             {{ $document['type'] }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#64748B]">
                                         {{ $document['size_formatted'] }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#64748B]">
                                         {{ $document['uploaded_at'] }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                        <a href="{{ route('admin.document.preview', $document['name']) }}" target="_blank" class="text-blue-600 hover:text-blue-900"><i class="fas fa-eye"></i></a>
-                                        <button onclick="openRenameModal('{{ $document['name'] }}', '{{ $document['original_name'] }}')" class="text-yellow-600 hover:text-yellow-900"><i class="fas fa-edit"></i></button>
+                                        <a href="{{ route('admin.document.preview', $document['name']) }}" target="_blank" class="text-[#0EA5E9] hover:text-[#0284C7]"><i class="fas fa-eye"></i></a>
+                                        <button onclick="openRenameModal('{{ $document['name'] }}', '{{ $document['original_name'] }}')" class="text-[#64748B] hover:text-[#334155]"><i class="fas fa-edit"></i></button>
                                         <button onclick="openDeleteModal('{{ $document['name'] }}', '{{ $document['original_name'] }}')" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -178,9 +176,9 @@
                     </div>
                 @else
                     <div class="text-center py-12">
-                        <i class="fas fa-folder-open text-gray-300 text-5xl mb-4"></i>
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">Belum ada dokumen</h3>
-                        <p class="text-gray-500">Upload dokumen pertama Anda menggunakan form di atas.</p>
+                        <i class="fas fa-folder-open text-[#CBD5E1] text-5xl mb-4"></i>
+                        <h3 class="text-lg font-medium text-[#0F172A] mb-2">Belum ada dokumen</h3>
+                        <p class="text-[#64748B]">Upload dokumen pertama Anda menggunakan form di atas.</p>
                     </div>
                 @endif
             </div>
@@ -234,13 +232,13 @@
 
 <div id="renameModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm overflow-y-auto h-full w-full hidden z-50 flex items-center justify-center">
     <div class="relative mx-auto p-6 border w-96 shadow-2xl rounded-3xl bg-white">
-        <h3 class="text-xl font-bold text-blue-900 mb-4">Rename Dokumen</h3>
+        <h3 class="text-xl font-bold text-[#0F172A] mb-4">Rename Dokumen</h3>
         <form id="renameForm" method="POST">
             @csrf
-            <input type="text" id="new_name" name="new_name" required class="w-full px-4 py-3 border border-slate-200 rounded-xl mb-4 focus:ring-2 focus:ring-blue-900 outline-none">
+            <input type="text" id="new_name" name="new_name" required class="w-full px-4 py-3 border border-[#E2E8F0] rounded-xl mb-4 focus:ring-2 focus:ring-[#0EA5E9] outline-none">
             <div class="flex justify-end space-x-3">
-                <button type="button" onclick="closeRenameModal()" class="px-4 py-2 text-slate-500 font-semibold">Batal</button>
-                <button type="submit" class="px-6 py-2 bg-blue-900 text-white rounded-xl font-bold">Simpan</button>
+                <button type="button" onclick="closeRenameModal()" class="px-4 py-2 text-[#64748B] font-semibold">Batal</button>
+                <button type="submit" class="px-6 py-2 bg-[#0EA5E9] text-white rounded-xl font-bold">Simpan</button>
             </div>
         </form>
     </div>
@@ -252,11 +250,11 @@
             <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i class="fas fa-trash-alt text-2xl"></i>
             </div>
-            <h3 class="text-xl font-bold text-slate-800">Hapus Dokumen?</h3>
-            <p class="text-slate-500 text-sm mt-2 mb-6">Dokumen <span id="deleteFileName" class="font-bold"></span> akan dihapus permanen.</p>
+            <h3 class="text-xl font-bold text-[#0F172A]">Hapus Dokumen?</h3>
+            <p class="text-[#64748B] text-sm mt-2 mb-6">Dokumen <span id="deleteFileName" class="font-bold"></span> akan dihapus permanen.</p>
         </div>
         <div class="flex space-x-3">
-            <button onclick="closeDeleteModal()" class="flex-1 px-4 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold">Batal</button>
+            <button onclick="closeDeleteModal()" class="flex-1 px-4 py-3 bg-[#F1F5F9] text-[#64748B] rounded-xl font-bold">Batal</button>
             <form id="deleteForm" method="POST" class="flex-1">
                 @method('DELETE')
                 @csrf

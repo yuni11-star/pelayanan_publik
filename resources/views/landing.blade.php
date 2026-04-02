@@ -28,20 +28,7 @@
     <style>
         #tariff-card,
         #other-services-card {
-            position: sticky;
-            top: 6rem;
-            align-self: start;
-            z-index: 30;
             width: 100%;
-        }
-
-        @media (max-width: 1023px) {
-            #tariff-card,
-            #other-services-card {
-                position: static;
-                top: auto;
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -51,14 +38,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <div class="bg-[#003366] text-white py-2">
-    <div class="w-full px-4 md:px-6 flex justify-between items-center text-sm">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center text-sm">
         <div id="current-date">
             </div>
-        <div class="flex gap-4">
-            <a href="#" class="hover:text-blue-400"><i class="fab fa-facebook"></i></a>
-            <a href="#" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="hover:text-red-500"><i class="fab fa-youtube"></i></a>
-        </div>
+        <!-- <div class="flex gap-4">
+            <a href="https://www.facebook.com/people/Balai-Besar-POM-di-Pontianak/100063553017207/" class="hover:text-blue-400"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/bpom.pontianak/" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@balaibesarpomdipontianak583" class="hover:text-red-500"><i class="fab fa-youtube"></i></a>
+        </div> -->
     </div>
 </div>
 
@@ -69,44 +56,14 @@
     document.getElementById('current-date').innerHTML = today.toLocaleDateString('id-ID', options);
 </script>
 
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="w-full px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="/" class="text-gray-900 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition duration-150">Pelayanan Publik</a>
-                        <a href="#services" class="text-gray-900 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition duration-150">Layanan</a>
-                        <a href="#contact" class="text-gray-900 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition duration-150">Kontak</a>
-                    </div>
-                </div>
-                <div class="md:hidden">
-                    <button type="button" class="bg-navy inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="md:hidden" id="mobile-menu">
-                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="/" class="text-gray-900 hover:text-navy block px-3 py-2 rounded-md text-base font-medium">Pelayanan Publik</a>
-                    <a href="#services" class="text-gray-900 hover:text-navy block px-3 py-2 rounded-md text-base font-medium">Layanan</a>
-                    <a href="#contact" class="text-gray-900 hover:text-navy block px-3 py-2 rounded-md text-base font-medium">Kontak</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
     <!-- Hero Section -->
     <section id="home" class="relative bg-cover bg-center bg-no-repeat text-white py-20" style="background-image: url('/images/bbpom.jpg');">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative w-full px-4 sm:px-6 lg:px-8 py-20">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="text-center">
                 <h1 class="text-5xl md:text-6xl font-bold mb-6">
-                    Badan Pengawas Obat dan Makanan
-                    <span class="block text-3xl md:text-4xl text-gold mt-2">Pontianak</span>
+                    Pelayanan Publik
+                    <span class="block text-3xl md:text-4xl text-gold mt-2">BBPOM Pontianak</span>
                 </h1>
                 <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
                     Memastikan keamanan obat dan makanan untuk kesehatan dan kehidupan dll.... bisa tambahkan
@@ -130,55 +87,9 @@
 
     <!-- Services Section -->
     <section id="services" class="py-20 bg-gray-50">
-        <div class="w-full px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-[320px_minmax(0,1fr)_320px] gap-10 items-start">
-                <div class="lg:col-start-1" id="section-tariff-card-container">
-                    <div id="tariff-card" class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 lg:self-start">
-                        <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
-                            <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
-                            Kalkulator Tarif
-                        </h2>
-                        
-                        <div class="grid grid-cols-1 gap-6">
-                            <div>
-                                <div class="space-y-4">
-                                    <div class="relative">
-                                        <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">JENIS PENERIMAAN NEGARA BUKAN PAJAK</label>
-                                        <input type="text" id="search-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent" placeholder="Cari jenis penerimaan..." autocomplete="off">
-                                        <div id="search-suggestions" class="absolute z-50 w-full mt-2 max-h-40 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg hidden"></div>
-                                    </div>
-                                    <button id="add-btn" class="w-full bg-[#003366] text-white py-3 px-6 rounded-lg hover:bg-[#002244] transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                                        <i class="fas fa-plus mr-2"></i>Tambah ke list
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="bg-gray-50 rounded-lg p-4 min-h-[200px]">
-                                    <table id="selected-table" class="w-full text-sm">
-                                        <thead>
-                                            <tr class="border-b border-gray-300">
-                                                <th class="text-left py-2 font-medium text-gray-700 uppercase text-xs">Jenis PNBP</th>
-                                                <th class="text-right py-2 font-medium text-gray-700 uppercase text-xs">(IDR)</th>
-                                                <th class="text-center py-2 font-medium text-gray-700 uppercase text-xs">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="selected-tbody"></tbody>
-                                    </table>
-                                    <div id="empty-message" class="text-center text-gray-500 py-8">No services selected yet.</div>
-                                </div>
-                                <div class="mt-4 pt-4 border-t border-gray-300">
-                                    <div class="flex justify-between items-center text-lg font-semibold">
-                                        <span>Total Tarif:</span>
-                                        <span id="grand-total" class="text-[#003366]">Rp 0</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-start-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="space-y-12">
+                <div>
                     <div class="flex justify-end mb-6">
                         <div class="w-full max-w-sm">
                             <label for="service-search" class="sr-only">Cari layanan</label>
@@ -201,14 +112,12 @@
                         <div class="w-24 h-1 bg-gold mb-6"></div>
                     </div>
 
-                    <!-- Sertifikasi & Perizinan Section -->
                     <div class="mb-16">
-                        
-                        <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:pl-8">
+                        <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
                     <!-- Service 2 -->
-                    <a href="{{ route('layanan.pengujian') }}" class="block bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
+                    <a href="{{ route('layanan.pengujian') }}" class="block md:h-[320px] lg:h-[340px] bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
+                        <div class="flex h-full flex-col items-start">
                             <div class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center mb-4">
                                 <i class="fas fa-flask text-navy text-sm"></i>
                             </div>
@@ -216,15 +125,15 @@
                             <p class="text-gray-600 text-xs line-clamp-2 mb-4">
                                 Melihat parameter pengujian dari setiap kategori komoditi untuk memastikannya transparasi masyarakat.
                             </p>
-                            <span class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-emerald-500 transition duration-300">
+                            <span class="inline-block mt-auto bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-emerald-500 transition duration-300">
                                 Selengkapnya
                             </span>
                         </div>
                     </a>                              
 
                     <!-- Service 4 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
+                    <div class="md:h-[320px] lg:h-[340px] bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
+                        <div class="flex h-full flex-col items-start">
                             <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-4">
                                 <i class="fas fa-bell text-navy text-sm"></i>
                             </div>
@@ -232,7 +141,7 @@
                             <p class="text-gray-600 text-xs line-clamp-2 mb-4">
                                 Rekomendasi untuk notifikasi produk kosmetika sesuai regulasi yang berlaku.
                             </p>
-                            <a href="https://notifkos.pom.go.id" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
+                            <a href="https://notifkos.pom.go.id" class="inline-block mt-auto bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
                                 Selengkapnya
                             </a>
                         </div>
@@ -240,8 +149,8 @@
 
 
                     <!-- Service 8 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
+                    <div class="md:h-[320px] lg:h-[340px] bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
+                        <div class="flex h-full flex-col items-start">
                             <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center mb-4">
                                 <i class="fas fa-plane text-navy text-sm"></i>
                             </div>
@@ -249,15 +158,15 @@
                             <p class="text-gray-600 text-xs line-clamp-2 mb-4">
                                 Surat Keterangan Ekspor untuk produk obat dan makanan.
                             </p>
-                            <a href="#" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
+                            <a href="#" class="inline-block mt-auto bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
                                 Selengkapnya
                             </a>
                         </div>
                     </div>
 
                     <!-- Service 9 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
+                    <div class="md:h-[320px] lg:h-[340px] bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
+                        <div class="flex h-full flex-col items-start">
                             <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
                                 <i class="fas fa-ship text-navy text-sm"></i>
                             </div>
@@ -265,15 +174,15 @@
                             <p class="text-gray-600 text-xs line-clamp-2 mb-4">
                                 Surat Keterangan Impor untuk produk obat dan makanan.
                             </p>
-                            <a href="#" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
+                            <a href="#" class="inline-block mt-auto bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
                                 Selengkapnya
                             </a>
                         </div>
                     </div>
 
                     <!-- Service 10 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex flex-col items-start mb-4">
+                    <div class="md:h-[320px] lg:h-[340px] bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
+                        <div class="flex h-full flex-col items-start">
                             <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-4">
                                 <i class="fas fa-leaf text-navy text-sm"></i>
                             </div>
@@ -281,60 +190,105 @@
                             <p class="text-gray-600 text-xs line-clamp-2 mb-4">
                                 Rekomendasi untuk importir obat alami dan suplemen kesehatan.
                             </p>
-                            <a href="#" class="inline-block bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
+                            <a href="#" class="inline-block mt-auto bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
                                 Selengkapnya
                             </a>
                         </div>
                     </div>
 
-                </div>
-                        <p id="services-empty-state" class="hidden text-center text-gray-500 mt-8 lg:pl-8">
+                    <div class="md:h-[320px] lg:h-[340px] bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
+                        <div class="flex h-full w-full flex-col items-start">
+                            <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-list-check text-navy text-sm"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-navy mb-3">Pelayanan Lainnya</h3>
+                            <ul class="w-full space-y-2 text-sm text-gray-600 mt-auto">
+                                <li>
+                                    <a href="https://linktr.ee/infokompnk" class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-2.5 hover:bg-emerald-50 hover:text-navy transition duration-300">
+                                        <span>Update Informasi Publik Setiap Hari (DAILI)</span>
+                                        <i class="fas fa-arrow-right text-xs"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://asrot.pom.go.id/asrot/" class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-2.5 hover:bg-emerald-50 hover:text-navy transition duration-300">
+                                        <span>Registrasi OBA</span>
+                                        <i class="fas fa-arrow-right text-xs"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://sppirt.pom.go.id/" class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-2.5 hover:bg-emerald-50 hover:text-navy transition duration-300">
+                                        <span>SPP-IRT</span>
+                                        <i class="fas fa-arrow-right text-xs"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://rumahsiripo.pom.go.id/informasi/infografis" class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-2.5 hover:bg-emerald-50 hover:text-navy transition duration-300">
+                                        <span>Registrasi Produk Pangan Olahan</span>
+                                        <i class="fas fa-arrow-right text-xs"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://sites.google.com/view/faqpomponti/home?authuser=0" class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-2.5 hover:bg-emerald-50 hover:text-navy transition duration-300">
+                                        <span>FAQ</span>
+                                        <i class="fas fa-arrow-right text-xs"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                        </div>
+                        <p id="services-empty-state" class="hidden text-center text-gray-500 mt-8">
                             Layanan tidak ditemukan. Coba kata kunci lain.
                         </p>
                     </div>
                 </div>
 
-                <div class="lg:col-start-3" id="section-other-card-container">
-                    <div id="other-services-card" class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 lg:self-start">
-                        <h3 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
-                            <span class="w-2 h-8 bg-gold rounded-full mr-3"></span>
-                            Pelayanan Lainnya
-                        </h3>
-                        <ul class="space-y-4 text-sm text-gray-700">
-                            <li class="flex items-start gap-3">
-                                <span class="mt-1 h-2 w-2 rounded-full bg-[#10b981]"></span>
-                                <a href="https://linktr.ee/infokompnk" class="hover:text-gold transition duration-150">
-                                    Update Informasi Publik Setiap Hari (DAILI)
-                                </a>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="mt-1 h-2 w-2 rounded-full bg-[#10b981]"></span>
-                                <a href="https://asrot.pom.go.id/asrot/" class="hover:text-gold transition duration-150">
-                                    Registrasi OBA
-                                </a>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="mt-1 h-2 w-2 rounded-full bg-[#10b981]"></span>
-                                <a href="https://sppirt.pom.go.id/" class="hover:text-gold transition duration-150">
-                                    SPP-IRT
-                                </a>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="mt-1 h-2 w-2 rounded-full bg-[#10b981]"></span>
-                                <a href="https://rumahsiripo.pom.go.id/informasi/infografis" class="hover:text-gold transition duration-150">
-                                    Registrasi Produk Pangan Olahan
-                                </a>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="mt-1 h-2 w-2 rounded-full bg-[#10b981]"></span>
-                                <a href="https://sites.google.com/view/faqpomponti/home?authuser=0" class="hover:text-gold transition duration-150">
-                                    FAQ
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <div id="section-tariff-card-container" class="w-full">
+                        <div id="tariff-card" class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+                            <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
+                                <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
+                                Kalkulator Tarif
+                            </h2>
+                            
+                            <div class="grid grid-cols-1 gap-6">
+                                <div>
+                                    <div class="space-y-4">
+                                        <div class="relative">
+                                            <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">JENIS PENERIMAAN NEGARA BUKAN PAJAK</label>
+                                            <input type="text" id="search-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent" placeholder="Cari jenis penerimaan..." autocomplete="off">
+                                            <div id="search-suggestions" class="absolute z-50 w-full mt-2 max-h-40 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg hidden"></div>
+                                        </div>
+                                        <button id="add-btn" class="w-full bg-[#003366] text-white py-3 px-6 rounded-lg hover:bg-[#002244] transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                            <i class="fas fa-plus mr-2"></i>Tambah ke list
+                                        </button>
+                                    </div>
+                                </div>
 
+                                <div>
+                                    <div class="bg-gray-50 rounded-lg p-4 min-h-[200px]">
+                                        <table id="selected-table" class="w-full text-sm">
+                                            <thead>
+                                                <tr class="border-b border-gray-300">
+                                                    <th class="text-left py-2 font-medium text-gray-700 uppercase text-xs">Jenis PNBP</th>
+                                                    <th class="text-right py-2 font-medium text-gray-700 uppercase text-xs">(IDR)</th>
+                                                    <th class="text-center py-2 font-medium text-gray-700 uppercase text-xs">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="selected-tbody"></tbody>
+                                        </table>
+                                        <div id="empty-message" class="text-center text-gray-500 py-8">No services selected yet.</div>
+                                    </div>
+                                    <div class="mt-4 pt-4 border-t border-gray-300">
+                                        <div class="flex justify-between items-center text-lg font-semibold">
+                                            <span>Total Tarif:</span>
+                                            <span id="grand-total" class="text-[#003366]">Rp 0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
             </div>
         </div>
     </section>
@@ -573,7 +527,7 @@
 
     <!-- Footer -->
     <footer class="bg-navy text-white py-12">
-        <div class="w-full px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-lg font-semibold mb-4">BBPOM Pontianak</h3>
