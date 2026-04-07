@@ -20,14 +20,6 @@ use App\Models\ParameterUjiPangan;
 class PengujianController extends Controller
 {
     /**
-     * Menampilkan halaman utama pengujian
-     */
-    public function index()
-    {
-        return view('services.pengujian');
-    }
-
-    /**
      * Mencari jenis penerimaan secara real-time (Autocomplete)
      * Endpoint: /api/search-tarif?q=...
      */

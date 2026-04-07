@@ -72,7 +72,7 @@
                     <a href="#services" class="bg-gold text-navy px-8 py-4 rounded-lg font-semibold text-lg hover:bg-yellow-400 transition duration-300">
                         Layanan Publik
                     </a>
-                    <a href="#agi-jakk" class="bg-white text-navy px-8 py-4 rounded-lg font-semibold text-lg hover:bg-slate-100 transition duration-300">
+                    <a href="#agi-jakk" class="bg-navy text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-slate-100 transition duration-300">
                         AGI JAKK
                     </a>
                     <a href="#contact" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-navy transition duration-300">
@@ -148,35 +148,31 @@
                     </div>
 
 
-                    <!-- Service 8 -->
+                    <!-- Service 8+9 (Combined) -->
                     <div class="md:h-[320px] lg:h-[340px] bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
                         <div class="flex h-full flex-col items-start">
-                            <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-plane text-navy text-sm"></i>
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-plane text-navy text-sm"></i>
+                                </div>
+                                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-ship text-navy text-sm"></i>
+                                </div>
                             </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Surat Keterangan Ekspor (SKE)</h3>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Surat Keterangan Ekspor untuk produk obat dan makanan.
+                            <h3 class="text-lg font-semibold text-navy mb-3">Surat Keterangan Ekspor & Impor (SKE/SKI)</h3>
+                            <p class="text-gray-600 text-xs line-clamp-3 mb-4">
+                                Layanan surat keterangan ekspor dan impor untuk produk obat dan makanan.
                             </p>
-                            <a href="#" class="inline-block mt-auto bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Service 9 -->
-                    <div class="md:h-[320px] lg:h-[340px] bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
-                        <div class="flex h-full flex-col items-start">
-                            <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-ship text-navy text-sm"></i>
+                            <div class="mt-auto flex w-full flex-col gap-2">
+                                <a href="{{ asset('documents/Surat Keterangan/Surat_Format_SKI_SKE.pdf') }}" target="_blank" rel="noopener" class="inline-flex w-full items-center justify-between bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
+                                    Surat Format SKE dan SKI
+                                    <i class="fas fa-file-alt text-xs"></i>
+                                </a>
+                                <a href="{{ asset('documents/Surat Keterangan/FAQ_Penerbitan_SKI_SKE_SAS_Kosmetik.pdf') }}" target="_blank" rel="noopener" class="inline-flex w-full items-center justify-between bg-slate-100 text-navy px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-200 transition duration-300">
+                                    FAQ Surat SKI, SKE, SAS Kosmetika
+                                    <i class="fas fa-circle-question text-xs"></i>
+                                </a>
                             </div>
-                            <h3 class="text-lg font-semibold text-navy mb-3">Surat Keterangan Impor (SKI)</h3>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-4">
-                                Surat Keterangan Impor untuk produk obat dan makanan.
-                            </p>
-                            <a href="#" class="inline-block mt-auto bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
-                                Selengkapnya
-                            </a>
                         </div>
                     </div>
 
@@ -198,9 +194,6 @@
 
                     <div class="md:h-[320px] lg:h-[340px] bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition duration-300">
                         <div class="flex h-full w-full flex-col items-start">
-                            <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-list-check text-navy text-sm"></i>
-                            </div>
                             <h3 class="text-lg font-semibold text-navy mb-3">Pelayanan Lainnya</h3>
                             <ul class="w-full space-y-2 text-sm text-gray-600 mt-auto">
                                 <li>
@@ -244,51 +237,6 @@
                     </div>
                 </div>
 
-                <div id="section-tariff-card-container" class="w-full">
-                        <div id="tariff-card" class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
-                            <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
-                                <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
-                                Kalkulator Tarif
-                            </h2>
-                            
-                            <div class="grid grid-cols-1 gap-6">
-                                <div>
-                                    <div class="space-y-4">
-                                        <div class="relative">
-                                            <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">JENIS PENERIMAAN NEGARA BUKAN PAJAK</label>
-                                            <input type="text" id="search-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent" placeholder="Cari jenis penerimaan..." autocomplete="off">
-                                            <div id="search-suggestions" class="absolute z-50 w-full mt-2 max-h-40 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg hidden"></div>
-                                        </div>
-                                        <button id="add-btn" class="w-full bg-[#003366] text-white py-3 px-6 rounded-lg hover:bg-[#002244] transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                                            <i class="fas fa-plus mr-2"></i>Tambah ke list
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div class="bg-gray-50 rounded-lg p-4 min-h-[200px]">
-                                        <table id="selected-table" class="w-full text-sm">
-                                            <thead>
-                                                <tr class="border-b border-gray-300">
-                                                    <th class="text-left py-2 font-medium text-gray-700 uppercase text-xs">Jenis PNBP</th>
-                                                    <th class="text-right py-2 font-medium text-gray-700 uppercase text-xs">(IDR)</th>
-                                                    <th class="text-center py-2 font-medium text-gray-700 uppercase text-xs">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="selected-tbody"></tbody>
-                                        </table>
-                                        <div id="empty-message" class="text-center text-gray-500 py-8">No services selected yet.</div>
-                                    </div>
-                                    <div class="mt-4 pt-4 border-t border-gray-300">
-                                        <div class="flex justify-between items-center text-lg font-semibold">
-                                            <span>Total Tarif:</span>
-                                            <span id="grand-total" class="text-[#003366]">Rp 0</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </div>
             </div>
         </div>
     </section>
@@ -375,6 +323,56 @@
                         <i class="fas fa-arrow-right ml-2 text-xs"></i>
                     </a>
                 </section>
+            </div>
+        </div>
+    </section>
+
+    <section id="tariff" class="py-12 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="section-tariff-card-container" class="w-full">
+                <div id="tariff-card" class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+                    <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
+                        <span class="w-2 h-8 bg-[#10b981] rounded-full mr-3"></span>
+                        Kalkulator Tarif
+                    </h2>
+
+                    <div class="grid grid-cols-1 gap-6">
+                        <div>
+                            <div class="space-y-4">
+                                <div class="relative">
+                                    <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">JENIS PENERIMAAN NEGARA BUKAN PAJAK</label>
+                                    <input type="text" id="search-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-transparent" placeholder="Cari jenis penerimaan..." autocomplete="off">
+                                    <div id="search-suggestions" class="absolute z-50 w-full mt-2 max-h-40 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg hidden"></div>
+                                </div>
+                                <button id="add-btn" class="w-full bg-[#003366] text-white py-3 px-6 rounded-lg hover:bg-[#002244] transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <i class="fas fa-plus mr-2"></i>Tambah ke list
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="bg-gray-50 rounded-lg p-4 min-h-[200px]">
+                                <table id="selected-table" class="w-full text-sm">
+                                    <thead>
+                                        <tr class="border-b border-gray-300">
+                                            <th class="text-left py-2 font-medium text-gray-700 uppercase text-xs">Jenis PNBP</th>
+                                            <th class="text-right py-2 font-medium text-gray-700 uppercase text-xs">(IDR)</th>
+                                            <th class="text-center py-2 font-medium text-gray-700 uppercase text-xs">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="selected-tbody"></tbody>
+                                </table>
+                                <div id="empty-message" class="text-center text-gray-500 py-8">Belum ada PNBP yang dipilih.</div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-gray-300">
+                                <div class="flex justify-between items-center text-lg font-semibold">
+                                    <span>Total Tarif:</span>
+                                    <span id="grand-total" class="text-[#003366]">Rp 0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
