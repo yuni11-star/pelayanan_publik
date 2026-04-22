@@ -9,7 +9,7 @@ use App\Http\Controllers\SearchController;
 // 1. Route untuk Landing Page
 Route::get('/', function () {
     $documents = collect([]);
-    $documentPath = public_path('documents');
+    $documentPath = config('documents.path', public_path('documents'));
 
     if (is_dir($documentPath)) {
         $files = scandir($documentPath);
@@ -61,7 +61,7 @@ Route::get('/', function () {
                     'type' => $type,
                     'size_formatted' => $sizeFormatted,
                     'uploaded_at' => $uploadedAt,
-                    'path' => 'documents/' . $file,
+                    'path' => route('documents.public', ['filename' => $file]),
                 ];
             }
         }
@@ -69,6 +69,8 @@ Route::get('/', function () {
 
     return view('landing', compact('documents'));
 });
+
+Route::get('/documents/{filename}', [AdminController::class, 'publicDocument'])->name('documents.public');
 
 // 2. Route untuk Menampilkan Halaman Layanan Pengujian
 // Digabung menjadi satu agar tidak duplikat, dan diberi nama 'layanan.pengujian'

@@ -23,9 +23,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-orange-700">Kelola Komoditi Kosmetik</h1>
-                <p class="text-slate-500 mt-1">Kelola data kosmetik, kategori, dan parameter uji laboratorium</p>
-            </div>
+                <h1 class="text-3xl font-bold text-orange-7-00">Kelola Komoditi Kosmetik</h1>            </div>
             @if(session('admin_role') === 'warna')
                 <form action="{{ route('admin.logout') }}" method="POST">
                     @csrf
@@ -45,9 +43,7 @@
             <a href="{{ route('admin.otsk') }}" class="px-4 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition">Kelola OT-SK</a>
             <a href="{{ route('admin.kosmetik') }}" class="px-4 py-2 bg-orange-600 text-white rounded-xl font-semibold hover:bg-orange-700 transition">Kelola Kosmetik</a>
             <a href="{{ route('admin.pangan') }}" class="px-4 py-2 bg-sky-600 text-white rounded-xl font-semibold hover:bg-sky-700 transition">Kelola Pangan</a>
-            @if(session('admin_role') === 'utama')
-                <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-blue-900 text-white rounded-xl font-semibold hover:bg-blue-800 transition">Upload Dokumen</a>
-            @endif
+
         </div>
 
         @if(session('success'))
@@ -101,32 +97,20 @@
                             <h2 class="text-xl font-bold">Data Komoditi Kosmetik</h2>
                             <p class="text-orange-200 text-sm mt-1">Daftar kosmetik yang tersimpan</p>
                         </div>
-                        <span class="bg-orange-800 px-3 py-1 rounded-full text-sm font-semibold">{{ $kosmetiks->count() }} items</span>
+                        <div class="flex items-center gap-3">
+                            <form action="{{ route('admin.kosmetik') }}" method="GET" class="flex items-center gap-2">
+                                <label for="sort-kosmetik" class="text-sm font-semibold text-white/90">Sort</label>
+                                <select id="sort-kosmetik" name="sort" onchange="this.form.submit()"
+                                    class="bg-white border border-white/50 text-slate-800 text-sm rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-white/60">
+                                    <option value="new" {{ request()->query('sort', 'new') === 'new' ? 'selected' : '' }}>Terbaru</option>
+                                    <option value="az" {{ request()->query('sort', 'new') === 'az' ? 'selected' : '' }}>A-Z</option>
+                                </select>
+                            </form>
+                            <span class="bg-orange-800 px-3 py-1 rounded-full text-sm font-semibold">{{ $kosmetiks->count() }} items</span>
+                        </div>
                     </div>
 
                     <div class="p-6">
-                        <form action="{{ route('admin.kosmetik') }}" method="GET" class="mb-5">
-                            <div class="flex flex-col sm:flex-row gap-3">
-                                <input
-                                    type="text"
-                                    name="search"
-                                    value="{{ $search ?? '' }}"
-                                    placeholder="Cari tipe produk, kategori, atau parameter"
-                                    class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-900 focus:border-transparent outline-none"
-                                >
-                                <div class="flex gap-2">
-                                    <button type="submit" class="px-5 py-3 bg-orange-900 text-white rounded-xl font-semibold hover:bg-orange-800 transition">
-                                        <i class="fas fa-search mr-2"></i>Cari
-                                    </button>
-                                    @if(!empty($search))
-                                        <a href="{{ route('admin.kosmetik') }}" class="px-5 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition">
-                                            Reset
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </form>
-
                         @if($kosmetiks->count() > 0)
                             <div class="overflow-x-auto">
                                 <table class="min-w-full divide-y divide-slate-200">
@@ -302,13 +286,8 @@
                                 <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <i class="fas fa-paint-brush text-2xl text-slate-400"></i>
                                 </div>
-                                @if(!empty($search))
-                                    <h3 class="text-lg font-semibold text-slate-700 mb-2">Data tidak ditemukan</h3>
-                                    <p class="text-slate-500 text-sm">Tidak ada data kosmetik yang cocok dengan kata kunci "<span class="font-semibold">{{ $search }}</span>".</p>
-                                @else
-                                    <h3 class="text-lg font-semibold text-slate-700 mb-2">Belum ada data kosmetik</h3>
-                                    <p class="text-slate-500 text-sm">Tambahkan kosmetik pertama Anda menggunakan form di samping.</p>
-                                @endif
+                                <h3 class="text-lg font-semibold text-slate-700 mb-2">Belum ada data kosmetik</h3>
+                                <p class="text-slate-500 text-sm">Tambahkan kosmetik pertama Anda menggunakan form di samping.</p>
                             </div>
                         @endif
                     </div>

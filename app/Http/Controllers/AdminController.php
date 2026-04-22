@@ -19,13 +19,28 @@ use App\Models\ParameterUjiPangan;
 
 class AdminController extends Controller
 {
+    private function documentsBasePath(): string
+    {
+        $path = config('documents.path');
+        if (!$path) {
+            $path = public_path('documents');
+        }
+
+        return rtrim($path, DIRECTORY_SEPARATOR);
+    }
+
+    private function safeDocumentName(string $filename): string
+    {
+        return basename($filename);
+    }
+
     /**
      * Menampilkan halaman upload dokumen
      */
     public function showUploadForm()
     {
         $documents = collect([]);
-        $documentPath = public_path('documents');
+        $documentPath = $this->documentsBasePath();
 
         if (is_dir($documentPath)) {
             $files = scandir($documentPath);
@@ -90,8 +105,13 @@ class AdminController extends Controller
         ]);
 
         if ($request->file('document')->isValid()) {
+            $documentPath = $this->documentsBasePath();
+            if (!is_dir($documentPath)) {
+                mkdir($documentPath, 0775, true);
+            }
+
             $fileName = time() . '_' . $request->file('document')->getClientOriginalName();
-            $request->file('document')->move(public_path('documents'), $fileName);
+            $request->file('document')->move($documentPath, $fileName);
             return redirect()->back()->with('success', 'Document uploaded successfully: ' . $fileName);
         }
 
@@ -100,7 +120,8 @@ class AdminController extends Controller
 
     public function previewDocument($filename)
     {
-        $filePath = public_path('documents/' . $filename);
+        $safeName = $this->safeDocumentName($filename);
+        $filePath = $this->documentsBasePath() . DIRECTORY_SEPARATOR . $safeName;
         if (file_exists($filePath)) {
             return response()->file($filePath);
         }
@@ -113,11 +134,12 @@ class AdminController extends Controller
             'new_name' => 'required|string|max:255',
         ]);
 
-        $oldPath = public_path('documents/' . $filename);
-        $fileInfo = pathinfo($filename);
+        $safeName = $this->safeDocumentName($filename);
+        $oldPath = $this->documentsBasePath() . DIRECTORY_SEPARATOR . $safeName;
+        $fileInfo = pathinfo($safeName);
         $extension = $fileInfo['extension'];
         $newName = $request->input('new_name') . '.' . $extension;
-        $newPath = public_path('documents/' . $newName);
+        $newPath = $this->documentsBasePath() . DIRECTORY_SEPARATOR . $newName;
 
         if (file_exists($oldPath) && !file_exists($newPath)) {
             rename($oldPath, $newPath);
@@ -129,7 +151,8 @@ class AdminController extends Controller
 
     public function deleteDocument($filename)
     {
-        $filePath = public_path('documents/' . $filename);
+        $safeName = $this->safeDocumentName($filename);
+        $filePath = $this->documentsBasePath() . DIRECTORY_SEPARATOR . $safeName;
         if (file_exists($filePath)) {
             unlink($filePath);
             return redirect()->back()->with('success', 'Document deleted successfully.');
@@ -137,11 +160,36 @@ class AdminController extends Controller
         return redirect()->back()->with('error', 'Document not found.');
     }
 
+    public function publicDocument($filename)
+    {
+        $safeName = $this->safeDocumentName($filename);
+        $filePath = $this->documentsBasePath() . DIRECTORY_SEPARATOR . $safeName;
+        if (file_exists($filePath)) {
+            return response()->file($filePath);
+        }
+        abort(404, 'Document not found.');
+    }
+
     // ==================== CRUD OBAT ====================
 
-    public function showObat()
+    public function showObat(Request $request)
     {
-        $obats = MasterObat::with('parameters')->orderBy('id_obat', 'desc')->get();
+        $sort = $request->query('sort', 'new');
+
+        $obatsQuery = MasterObat::with('parameters');
+
+        if ($sort === 'az') {
+            $obatsQuery
+                ->orderBy('zat_aktif', 'asc')
+                ->orderBy('id_obat', 'asc');
+        } else {
+            // Default: terbaru dibuat
+            $obatsQuery
+                ->orderBy('created_at', 'desc')
+                ->orderBy('id_obat', 'desc');
+        }
+
+        $obats = $obatsQuery->get();
         return view('admin.obat', compact('obats'));
     }
 
@@ -279,9 +327,22 @@ class AdminController extends Controller
 
     // ==================== CRUD OT-SK ====================
 
-    public function showOtsk()
+    public function showOtsk(Request $request)
     {
-        $tipeProduks = TipeProduk::with(['produkKlaims.parameterUjiOtsk.metodeUjiOtsk'])->orderBy('id_produk', 'desc')->get();
+        $sort = $request->query('sort', 'new');
+
+        $tipeProduksQuery = TipeProduk::with(['produkKlaims.parameterUjiOtsk.metodeUjiOtsk']);
+
+        if ($sort === 'az') {
+            $tipeProduksQuery
+                ->orderBy('nama_tipe', 'asc')
+                ->orderBy('id_produk', 'asc');
+        } else {
+            $tipeProduksQuery
+                ->orderBy('id_produk', 'desc');
+        }
+
+        $tipeProduks = $tipeProduksQuery->get();
         return view('admin.otsk', compact('tipeProduks'));
     }
 
@@ -451,24 +512,22 @@ class AdminController extends Controller
 
     public function showKosmetik(Request $request)
     {
-        $search = trim((string) $request->query('search', ''));
+        $sort = $request->query('sort', 'new');
 
-        $kosmetiks = Kosmetiks::with('kategoriKos.parameterKos')
-            ->when($search !== '', function ($query) use ($search) {
-                $query->where(function ($subQuery) use ($search) {
-                    $subQuery->where('tipe_produk', 'like', '%' . $search . '%')
-                        ->orWhereHas('kategoriKos', function ($kategoriQuery) use ($search) {
-                            $kategoriQuery->where('kategori_kos', 'like', '%' . $search . '%')
-                                ->orWhereHas('parameterKos', function ($parameterQuery) use ($search) {
-                                    $parameterQuery->where('puk', 'like', '%' . $search . '%');
-                                });
-                        });
-                });
-            })
-            ->orderBy('id_kos', 'desc')
-            ->get();
+        $kosmetiksQuery = Kosmetiks::with('kategoriKos.parameterKos');
 
-        return view('admin.kosmetik', compact('kosmetiks', 'search'));
+        if ($sort === 'az') {
+            $kosmetiksQuery
+                ->orderBy('tipe_produk', 'asc')
+                ->orderBy('id_kos', 'asc');
+        } else {
+            $kosmetiksQuery
+                ->orderBy('id_kos', 'desc');
+        }
+
+        $kosmetiks = $kosmetiksQuery->get();
+
+        return view('admin.kosmetik', compact('kosmetiks'));
     }
 
     public function storeKosmetik(Request $request)
@@ -666,26 +725,22 @@ public function getKosmetik($id)
 
     public function showPangan(Request $request)
     {
-        $search = trim((string) $request->query('q', ''));
+        $sort = $request->query('sort', 'new');
 
-        $pangansQuery = Pangan::with('parameterUjiPangan')
-            ->orderBy('id_pangan', 'desc');
+        $pangansQuery = Pangan::with('parameterUjiPangan');
 
-        if ($search !== '') {
-            $pangansQuery->where(function ($query) use ($search) {
-                $query->where('bahan_produk', 'like', '%' . $search . '%')
-                    ->orWhere('waktu', 'like', '%' . $search . '%')
-                    ->orWhereHas('parameterUjiPangan', function ($parameterQuery) use ($search) {
-                        $parameterQuery->where('parameter_uji', 'like', '%' . $search . '%')
-                            ->orWhere('metode', 'like', '%' . $search . '%')
-                            ->orWhere('keterangan', 'like', '%' . $search . '%');
-                    });
-            });
+        if ($sort === 'az') {
+            $pangansQuery
+                ->orderBy('bahan_produk', 'asc')
+                ->orderBy('id_pangan', 'asc');
+        } else {
+            $pangansQuery
+                ->orderBy('id_pangan', 'desc');
         }
 
         $pangans = $pangansQuery->get();
 
-        return view('admin.pangan', compact('pangans', 'search'));
+        return view('admin.pangan', compact('pangans'));
     }
 
     public function storePangan(Request $request)

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('hide_footer_widgets', '1')
+
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -46,8 +48,8 @@
             <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-emerald-500 opacity-10 rounded-full"></div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Informasi Dasar Registrasi</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li>
@@ -71,7 +73,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Label Pangan</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li>📄
@@ -82,7 +84,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Alur Registrasi</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li>📄
@@ -93,7 +95,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Regulasi</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li>📄 
@@ -104,7 +106,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Materi Pembinaan</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li>📄
@@ -115,7 +117,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Standar & Pengawasan</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li>📄 
@@ -131,7 +133,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Dokumen Persyaratan IP CPPOB</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li>📄
@@ -240,3 +242,4 @@
     })();
 </script>
 @endsection
+

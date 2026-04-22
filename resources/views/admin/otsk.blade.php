@@ -24,7 +24,6 @@
         <div class="flex items-center justify-between mb-8">
             <div>
                 <h1 class="text-3xl font-bold text-purple-900">Kelola OT-SK</h1>
-                <p class="text-slate-500 mt-1">Kelola data Obat Tradisional & Suplemen Kesehatan</p>
             </div>
             @if(session('admin_role') === 'warna')
                 <form action="{{ route('admin.logout') }}" method="POST">
@@ -45,9 +44,6 @@
             <a href="{{ route('admin.otsk') }}" class="px-4 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition">Kelola OT-SK</a>
             <a href="{{ route('admin.kosmetik') }}" class="px-4 py-2 bg-orange-600 text-white rounded-xl font-semibold hover:bg-orange-700 transition">Kelola Kosmetik</a>
             <a href="{{ route('admin.pangan') }}" class="px-4 py-2 bg-sky-600 text-white rounded-xl font-semibold hover:bg-sky-700 transition">Kelola Pangan</a>
-            @if(session('admin_role') === 'utama')
-                <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-blue-900 text-white rounded-xl font-semibold hover:bg-blue-800 transition">Upload Dokumen</a>
-            @endif
         </div>
 
         @if(session('success'))
@@ -60,9 +56,8 @@
             <!-- Form Tambah Tipe Produk -->
             <div class="lg:col-span-1">
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 sticky top-8">
-                    <div class="bg-purple-900 px-6 py-5 text-white">
+                    <div class="bg-purple-700 px-6 py-5 text-white">
                         <h2 class="text-xl font-bold">Tambah Tipe Produk</h2>
-                        <p class="text-purple-200 text-sm mt-1">Masukkan tipe produk OT-SK</p>
                     </div>
 
                     <div class="p-6">
@@ -90,40 +85,24 @@
             <!-- Data OT-SK -->
             <div class="lg:col-span-2">
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-                    <div class="bg-purple-900 px-6 py-5 text-white flex justify-between items-center">
+                    <div class="bg-purple-700 px-6 py-5 text-white flex justify-between items-center">
                         <div>
                             <h2 class="text-xl font-bold">Data OT-SK</h2>
-                            <p class="text-purple-200 text-sm mt-1">Daftar tipe produk dan klaim yang tersimpan</p>
                         </div>
-                        <span class="bg-purple-800 px-3 py-1 rounded-full text-sm font-semibold">{{ $tipeProduks->count() }} items</span>
+                        <div class="flex items-center gap-3">
+                            <form action="{{ route('admin.otsk') }}" method="GET" class="flex items-center gap-2">
+                                <label for="sort-otsk" class="text-sm font-semibold text-white/90">Sort</label>
+                                <select id="sort-otsk" name="sort" onchange="this.form.submit()"
+                                    class="bg-white border border-white/50 text-slate-800 text-sm rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-white/60">
+                                    <option value="new" {{ request()->query('sort', 'new') === 'new' ? 'selected' : '' }}>Terbaru</option>
+                                    <option value="az" {{ request()->query('sort', 'new') === 'az' ? 'selected' : '' }}>A-Z</option>
+                                </select>
+                            </form>
+                            <span class="bg-purple-800 px-3 py-1 rounded-full text-sm font-semibold">{{ $tipeProduks->count() }} items</span>
+                        </div>
                     </div>
 
                     <div class="p-6">
-                        <!-- Search Konten OT-SK -->
-                        <div class="mb-5">
-                            <div class="flex flex-col sm:flex-row gap-3">
-                                <div class="relative flex-1">
-                                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                                    <input
-                                        type="text"
-                                        id="otskSearchInput"
-                                        class="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-900 focus:border-transparent outline-none text-sm"
-                                        placeholder="Cari konten halaman OT-SK: tipe, klaim, parameter, metode..."
-                                    >
-                                </div>
-                                <button
-                                    type="button"
-                                    id="otskSearchClear"
-                                    class="px-4 py-2.5 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition text-sm"
-                                    aria-label="Reset pencarian"
-                                    title="Reset pencarian"
-                                >
-                                    Reset
-                                </button>
-                            </div>
-                            <p id="otskSearchStats" class="text-sm text-slate-500 mt-2"></p>
-                        </div>
-
                         @if($tipeProduks->count() > 0)
                             <div class="overflow-x-auto">
                                 <table class="min-w-full divide-y divide-slate-200">
@@ -136,7 +115,7 @@
                                         </tr>
                                     </thead>
                                     @foreach($tipeProduks as $index => $tipe)
-                                    <tbody class="divide-y divide-slate-200 otsk-search-item">
+                                    <tbody class="divide-y divide-slate-200">
                                         <tr class="hover:bg-slate-50 transition">
                                             <td class="px-4 py-3 text-sm text-slate-600">{{ $index + 1 }}</td>
                                             <td class="px-4 py-3">
@@ -324,14 +303,6 @@
                                 <p class="text-slate-500 text-sm">Tambahkan tipe produk pertama Anda menggunakan form di samping.</p>
                             </div>
                         @endif
-
-                        <div id="otskSearchNoResult" class="hidden bg-white rounded-2xl shadow-md border border-slate-100 p-8 text-center mt-6">
-                            <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                                <i class="fas fa-search text-slate-400 text-lg"></i>
-                            </div>
-                            <h3 class="text-base font-semibold text-slate-700">Konten tidak ditemukan</h3>
-                            <p class="text-sm text-slate-500 mt-1">Coba kata kunci lain yang lebih spesifik.</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -616,50 +587,6 @@
             }
         });
     });
-
-    // Search konten halaman OT-SK
-    const otskSearchInput = document.getElementById('otskSearchInput');
-    const otskSearchClear = document.getElementById('otskSearchClear');
-    const otskSearchStats = document.getElementById('otskSearchStats');
-    const otskSearchNoResult = document.getElementById('otskSearchNoResult');
-    const otskSearchItems = Array.from(document.querySelectorAll('.otsk-search-item'));
-
-    function filterOtskContent() {
-        if (!otskSearchInput) return;
-
-        const keyword = otskSearchInput.value.trim().toLowerCase();
-        let visibleCount = 0;
-
-        otskSearchItems.forEach(item => {
-            const searchableText = item.textContent.toLowerCase();
-            const isMatch = keyword === '' || searchableText.includes(keyword);
-            item.classList.toggle('hidden', !isMatch);
-            if (isMatch) visibleCount++;
-        });
-
-        if (otskSearchStats) {
-            otskSearchStats.textContent = keyword === ''
-                ? `total ${visibleCount} tipe produk`
-                : `Menampilkan ${visibleCount} dari ${otskSearchItems.length} tipe produk`;
-        }
-
-        if (otskSearchNoResult) {
-            otskSearchNoResult.classList.toggle('hidden', visibleCount > 0 || keyword === '');
-        }
-    }
-
-    if (otskSearchInput) {
-        otskSearchInput.addEventListener('input', filterOtskContent);
-        filterOtskContent();
-    }
-
-    if (otskSearchClear && otskSearchInput) {
-        otskSearchClear.addEventListener('click', function () {
-            otskSearchInput.value = '';
-            filterOtskContent();
-            otskSearchInput.focus();
-        });
-    }
 </script>
 
 </body>

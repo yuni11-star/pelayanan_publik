@@ -46,10 +46,10 @@
             <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-emerald-500 opacity-10 rounded-full"></div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
             <a href="https://drive.google.com/file/d/1DCi3AR0EFzZW7_miQ1SwnVldwG31W0WM/view?usp=drive_link"
                data-modal-link
-               class="block bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
+               class="block w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Alur CDOB</h2>
                 <p class="text-gray-700 text-sm">
                     Alur proses CDOB untuk panduan distribusi obat yang tertib dan sesuai ketentuan.
@@ -58,7 +58,7 @@
 
             <a href="https://docs.google.com/spreadsheets/d/1DVRMq5eN_MMniKHV5EIjqeAkzDLfCmBx/edit?usp=drive_link&ouid=108811571061090465317&rtpof=true&sd=true"
                data-modal-link
-               class="block bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
+               class="block w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Self Assesment</h2>
                 <p class="text-gray-700 text-sm">
                     Form penilaian mandiri untuk memastikan kesiapan penerapan CDOB.
@@ -67,7 +67,7 @@
 
             <a href="https://drive.google.com/file/d/1DQmpI5tgtkqU33pIMxDLhfkznGuhc2f3/view?usp=drive_link"
                data-modal-link
-               class="block bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
+               class="block w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Pedoman CDOB 2020</h2>
                 <p class="text-gray-700 text-sm">
                     Pedoman resmi penerapan CDOB edisi 2020.
@@ -76,7 +76,7 @@
 
             <a href="https://drive.google.com/file/d/1DLWE9EQHg2m52d5Yr3CpYkK3NG5KoTRX/view?usp=drive_link"
                data-modal-link
-               class="block bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
+               class="block w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">FAQ Perizinan dan Sertifikasi CDOB</h2>
                 <p class="text-gray-700 text-sm">
                     Pertanyaan umum terkait perizinan dan sertifikasi CDOB.
@@ -85,7 +85,7 @@
 
             <a href="https://drive.google.com/file/d/1DJswEGv9FdTNnFItPYO3cpAO1QYJEzFZ/view?usp=drive_link"
                data-modal-link
-               class="block bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
+               class="block w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Sistem Mekanisme CDOB</h2>
                 <p class="text-gray-700 text-sm">
                     Sistem dan mekanisme pelaksanaan CDOB.
@@ -94,7 +94,7 @@
 
             <a href="https://drive.google.com/file/d/1Y_nqBLHq9retkB4KmEJUF6lhMYCfumJL/view?usp=drive_link"
                data-modal-link
-               class="block bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
+               class="block w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100 hover:border-emerald-200 hover:shadow-md transition">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Alur Sertifikasi CDOB</h2>
                 <p class="text-gray-700 text-sm">
                     Alur sertifikasi CDOB dari pengajuan hingga penerbitan.
@@ -171,3 +171,4 @@
     })();
 </script>
 @endsection
+

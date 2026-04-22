@@ -33,23 +33,23 @@
             <div class="flex">
                 <a href="{{ route('admin.obat') }}" class="px-4 py-2 bg-[#0EA5E9] text-white rounded-xl font-semibold hover:bg-[#0284C7] transition flex items-center">
                     <i class="fas fa-pills mr-2"></i>
-                    Kelola Obat
+                    Obat
                 </a>
                 <a href="{{ route('admin.otsk') }}" class="px-4 py-2 bg-[#0EA5E9] text-white rounded-xl font-semibold hover:bg-[#0284C7] transition flex items-center ml-2">
-                    <i class="fas fa-capsules mr-2"></i>
-                    Kelola OT-SK
+                    <i class="fas fa-mortar-pestle mr-2"></i>
+                    OT-SK
                 </a>
                 <a href="{{ route('admin.kosmetik') }}" class="px-4 py-2 bg-[#0EA5E9] text-white rounded-xl font-semibold hover:bg-[#0284C7] transition flex items-center ml-2">
                     <i class="fas fa-paint-brush mr-2"></i>
-                    Kelola Kosmetik
+                    Kosmetik
                 </a>
                 <a href="{{ route('admin.pangan') }}" class="px-4 py-2 bg-[#0EA5E9] text-white rounded-xl font-semibold hover:bg-[#0284C7] transition flex items-center ml-2">
                     <i class="fas fa-utensils mr-2"></i>
-                    Kelola Pangan
+                    Pangan
                 </a>
                 <form action="{{ route('admin.logout') }}" method="POST" class="ml-2">
                     @csrf
-                    <button type="submit" class="px-4 py-2 bg-[#334155] text-white rounded-xl font-semibold hover:bg-[#1E293B] transition flex items-center">
+                    <button type="submit" class="px-4 py-2 bg-[#991f00] text-white rounded-xl font-semibold hover:bg-[#1E293B] transition flex items-center">
                         <i class="fas fa-sign-out-alt mr-2"></i>
                         Logout
                     </button>
@@ -57,25 +57,40 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-2xl shadow-slate-200/60 overflow-hidden border border-[#E2E8F0]">
-            <div class="bg-[#0F172A] px-8 py-8 text-white relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
-                    <div class="relative z-10 mt-4">
+        <div class="max-w-5xl mx-auto">
+        <div class="relative z-10 mt-4">
                     <a href="https://docs.google.com/spreadsheets/d/1HaB_QgfOjBzOy-Xe39YZWMA30VtE3ZDS/edit?usp=sharing&ouid=106224472982296200942&rtpof=true&sd=true"
                        target="_blank"
                        rel="noopener noreferrer"
-                       class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-4 py-2 rounded-xl border border-white/20 transition">
+                       class="inline-flex items-center gap-2 bg-grey/10 hover:bg-white/20 text-black text-sm font-semibold px-4 py-2 rounded-xl border border-black/20 transition">
                         <i class="fas fa-link"></i>
                         Ruang Lingkup Pengujian
                     </a>
                 </div>
-            </div>
 
             <div class="p-8">
                 @if(session('success'))
                     <div class="flex items-center bg-emerald-50 text-emerald-700 p-4 rounded-2xl mb-6 border border-emerald-100">
                         <i class="fas fa-check-circle mr-3 text-xl"></i>
                         <span class="font-medium">{{ session('success') }}</span>
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="flex items-center bg-red-50 text-red-700 p-4 rounded-2xl mb-6 border border-red-100">
+                        <i class="fas fa-exclamation-circle mr-3 text-xl"></i>
+                        <span class="font-medium">{{ session('error') }}</span>
+                    </div>
+                @endif
+
+                @if($errors->any())
+                    <div class="bg-amber-50 text-amber-800 p-4 rounded-2xl mb-6 border border-amber-100">
+                        <div class="font-semibold mb-2">Upload gagal:</div>
+                        <ul class="list-disc pl-5 text-sm space-y-1">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 @endif
 
@@ -115,21 +130,12 @@
                     <div class="flex flex-col sm:flex-row gap-4 pt-4">
                         <button type="submit" class="flex-1 bg-[#0EA5E9] text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#0284C7] transition-all hover:shadow-lg active:scale-95 flex items-center justify-center">
                             <i class="fas fa-cloud-upload-alt mr-2"></i>
-                            Mulai Upload
+                            Upload
                         </button>
-                        <a href="/" class="px-8 py-4 rounded-2xl font-semibold text-[#64748B] hover:bg-[#F1F5F9] transition-all text-center">
-                            Batal
-                        </a>
                     </div>
                 </form>
             </div>
-        </div>
-
         <div class="mt-12 bg-white rounded-2xl shadow-xl overflow-hidden border border-[#E2E8F0]">
-            <div class="bg-[#0F172A] text-white px-8 py-6">
-                <h2 class="text-2xl font-bold">Kelola Dokumen</h2>
-                <p class="text-[#CBD5E1] mt-1">Kelola dokumen yang telah diupload</p>
-            </div>
 
             <div class="p-8">
                 @if(isset($documents) && $documents->count() > 0)
@@ -182,6 +188,7 @@
                     </div>
                 @endif
             </div>
+        </div>
         </div>
 
     </div>

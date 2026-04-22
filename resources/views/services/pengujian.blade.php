@@ -22,8 +22,7 @@
 
 <!-- Halaman utama layanan pengujian -->
 <div class="min-h-screen bg-slate-50 py-12">
-    <div class="max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Breadcrumb navigasi -->
         <nav class="flex mb-5 text-gray-500 text-sm" aria-label="Breadcrumb">
@@ -51,7 +50,7 @@
 
         <!-- Layout utama: konten kiri + panel bantuan kanan -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
-            <div class="lg:col-span-4 space-y-8">
+            <div class="lg:col-span-3 space-y-8">
                 <!-- Deskripsi layanan -->
                 <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                     <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
@@ -172,20 +171,16 @@
             <div class="lg:col-span-1 space-y-8">
                 <div class="bg-[#003366] text-white rounded-2xl p-8 shadow-lg">
                     <h3 class="text-xl font-bold mb-6 flex items-center">
-                        <i class="fas fa-file-invoice mr-3 text-emerald-400"></i> Persyaratan
+                        <i class="fas fa-file-invoice mr-3 text-emerald-400"></i> Tambahan
                     </h3>
                     <ul class="space-y-4 text-sm text-emerald-50">
-                        <li class="flex items-start">
-                            <span class="bg-emerald-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-0.5 shrink-0">1</span>
-                            Surat Permohonan Resmi
-                        </li>
-                        <li class="flex items-start">
-                            <span class="bg-emerald-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-0.5 shrink-0">2</span>
-                            Sampel Produk (Jumlah mencukupi)
-                        </li>
-                        <li class="flex items-start">
-                            <span class="bg-emerald-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-0.5 shrink-0">3</span>
-                            Label & Komposisi Produk
+                        <li class="pt-2">
+                            <a href="https://docs.google.com/spreadsheets/d/1HaB_QgfOjBzOy-Xe39YZWMA30VtE3ZDS/edit?usp=sharing&ouid=106224472982296200942&rtpof=true&sd=true"
+                               target="_blank" rel="noopener noreferrer"
+                               class="inline-flex items-center gap-2 rounded-lg bg-emerald-500/15 px-3 py-2 text-emerald-50 hover:bg-emerald-500/25 transition">
+                                <i class="fas fa-up-right-from-square text-xs"></i>
+                                Ruang Lingkup Pengujian (Spreadsheet)
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -431,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </tr>`;
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Tidak ada parameter uji.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Belum ada parameter uji.</td></tr>';
                 }
                 document.getElementById('parameters-section').classList.remove('hidden');
             })
@@ -486,7 +481,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </tr>`;
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="7" class="text-center py-4">Tidak ada parameter uji.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-center py-4">Belum ada parameter uji.</td></tr>';
                 }
                 document.getElementById('parameters-section').classList.remove('hidden');
             });
@@ -528,7 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </tr>`;
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Tidak ada parameter uji.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Belum ada parameter uji.</td></tr>';
                 }
                 document.getElementById('parameters-section').classList.remove('hidden');
             });
@@ -561,7 +556,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="3" class="text-center py-4">Tidak ada parameter uji.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="3" class="text-center py-4">Belum ada parameter uji.</td></tr>';
                 }
                 document.getElementById('parameters-section').classList.remove('hidden');
             });
@@ -591,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     });
                 }
-                if (!hasData) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4">Tidak ada data klaim dan parameter uji.</td></tr>';
+                if (!hasData) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4">Belum ada data klaim dan parameter uji.</td></tr>';
                 document.getElementById('parameters-section').classList.remove('hidden');
             });
     }

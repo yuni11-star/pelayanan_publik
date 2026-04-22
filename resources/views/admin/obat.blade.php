@@ -24,7 +24,6 @@
         <div class="flex items-center justify-between mb-8">
             <div>
                 <h1 class="text-3xl font-bold text-blue-900">Kelola Obat</h1>
-                <p class="text-slate-500 mt-1">Kelola data obat dan parameter uji laboratorium</p>
             </div>
             @if(session('admin_role') === 'warna')
                 <form action="{{ route('admin.logout') }}" method="POST">
@@ -45,9 +44,6 @@
             <a href="{{ route('admin.otsk') }}" class="px-4 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition">Kelola OT-SK</a>
             <a href="{{ route('admin.kosmetik') }}" class="px-4 py-2 bg-orange-600 text-white rounded-xl font-semibold hover:bg-orange-700 transition">Kelola Kosmetik</a>
             <a href="{{ route('admin.pangan') }}" class="px-4 py-2 bg-sky-600 text-white rounded-xl font-semibold hover:bg-sky-700 transition">Kelola Pangan</a>
-            @if(session('admin_role') === 'utama')
-                <a href="{{ route('admin.upload') }}" class="px-4 py-2 bg-blue-900 text-white rounded-xl font-semibold hover:bg-blue-800 transition">Upload Dokumen</a>
-            @endif
         </div>
 
         @if(session('success'))
@@ -61,9 +57,8 @@
             <!-- Form Tambah Obat -->
             <div class="lg:col-span-1">
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 sticky top-8">
-                    <div class="bg-blue-900 px-6 py-5 text-white">
+                    <div class="bg-green-500 px-6 py-5 text-white">
                         <h2 class="text-xl font-bold">Tambah Obat Baru</h2>
-                        <p class="text-blue-200 text-sm mt-1">Masukkan data obat</p>
                     </div>
 
                     <div class="p-6">
@@ -98,9 +93,9 @@
                                     placeholder="Contoh: 150000">
                             </div>
 
-                            <button type="submit" class="w-full bg-blue-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-800 transition flex items-center justify-center">
+                            <button type="submit" class="w-full bg-green-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-800 transition flex items-center justify-center">
                                 <i class="fas fa-plus mr-2"></i>
-                                Simpan Obat
+                                Simpan Zat Aktif
                             </button>
                         </form>
                     </div>
@@ -110,12 +105,21 @@
             <!-- Tabel Data Obat -->
             <div class="lg:col-span-2">
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-                    <div class="bg-blue-900 px-6 py-5 text-white flex justify-between items-center">
+                    <div class="bg-green-500 px-6 py-5 text-white flex justify-between items-center">
                         <div>
                             <h2 class="text-xl font-bold">Data Obat</h2>
-                            <p class="text-blue-200 text-sm mt-1">Daftar obat yang tersimpan</p>
                         </div>
-                        <span class="bg-blue-800 px-3 py-1 rounded-full text-sm font-semibold">{{ $obats->count() }} items</span>
+                        <div class="flex items-center gap-3">
+                            <form action="{{ route('admin.obat') }}" method="GET" class="flex items-center gap-2">
+                                <label for="sort-obat" class="text-sm font-semibold text-white/90">Sort</label>
+                                <select id="sort-obat" name="sort" onchange="this.form.submit()"
+                                    class="bg-white border border-white/50 text-slate-800 text-sm rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-white/60">
+                                    <option value="new" {{ request()->query('sort', 'new') === 'new' ? 'selected' : '' }}>Terbaru</option>
+                                    <option value="az" {{ request()->query('sort', 'new') === 'az' ? 'selected' : '' }}>A-Z</option>
+                                </select>
+                            </form>
+                            <span class="bg-green-800 px-3 py-1 rounded-full text-sm font-semibold">{{ $obats->count() }} items</span>
+                        </div>
                     </div>
 
                     <div class="p-6">

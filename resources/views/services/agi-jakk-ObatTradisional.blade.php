@@ -46,8 +46,8 @@
             <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-emerald-500 opacity-10 rounded-full"></div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
+            <div class="doc-card w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Alur Pendaftaran Obat Bahan Alam</h2>
                 <a href="https://drive.google.com/file/d/1dfWuXW_I9QtkcBfjRBEvnyBH6AjOKFcG/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                     Lihat dokumen
@@ -55,7 +55,7 @@
                 </a>
             </div>
 
-            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Materi Registrasi Akun Asrot</h2>
                 <a href="https://drive.google.com/file/d/1mvw-H2zvR3bJ1kRJPxahVrcORouJDBlY/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                     Lihat dokumen
@@ -63,7 +63,7 @@
                 </a>
             </div>
 
-            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Update Informasi Registrasi Obat Bahan Alam dan Kosmetik</h2>
                 <a href="https://drive.google.com/file/d/1aEBVmBNjBUyXJesoHVa3NVNuYAQ3fKSW/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                     Lihat dokumen
@@ -71,7 +71,7 @@
                 </a>
             </div>
 
-            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Alur Perizinan Obat Bahan Alam</h2>
                 <div class="flex flex-col gap-2">
                     <a href="https://drive.google.com/file/d/1s1fKZYc-DB8XGjQFQy6PDf_jVAi4r7Tu/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
@@ -85,7 +85,7 @@
                 </div>
             </div>
 
-            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Alur Sertifikasi CPOTB</h2>
                 <a href="https://drive.google.com/file/d/1jpGhF4YY6cNnVwWg2K16Ct8foU2hb0Wy/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                     Lihat dokumen
@@ -93,7 +93,7 @@
                 </a>
             </div>
 
-            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Biaya Pengurusan Perizinan Obat Bahan Alam</h2>
                 <a href="https://drive.google.com/file/d/1YqMs9RHjptb0yTidS7AeliztcySQBuPy/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
                     Lihat dokumen
@@ -101,7 +101,7 @@
                 </a>
             </div>
 
-            <div class="doc-card bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="doc-card w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Dokumen CPOTB</h2>
                 <div class="flex flex-col gap-2">
                     <a href="https://drive.google.com/file/d/169QZyXMn4IriJBY6Yvcg4E2KzlXclTNm/view?usp=drive_link" data-modal-link class="inline-flex items-center text-emerald-700 font-semibold text-sm hover:text-emerald-800">
@@ -197,3 +197,4 @@
     })();
 </script>
 @endsection
+

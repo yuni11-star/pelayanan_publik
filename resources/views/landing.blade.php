@@ -186,7 +186,7 @@
                             <p class="text-gray-600 text-xs line-clamp-2 mb-4">
                                 Rekomendasi untuk importir obat alami dan suplemen kesehatan.
                             </p>
-                            <a href="#" class="inline-block mt-auto bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
+                            <a href="https://oss.go.id/" class="inline-block mt-auto bg-navy text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition duration-300">
                                 Selengkapnya
                             </a>
                         </div>
@@ -389,17 +389,17 @@
             </div>
 
             <div class="bg-gray-50 rounded-lg shadow-lg overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                <div class="w-full">
+                    <table class="w-full table-fixed divide-y divide-gray-200">
                         <thead class="bg-navy">
                             <tr>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                <th class="w-7/12 px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     Dokumen
                                 </th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                <th class="w-2/12 px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     Kategori
                                 </th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                <th class="w-3/12 px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     Aksi
                                 </th>
                             </tr>
@@ -407,28 +407,28 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @forelse($documents as $document)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-6 py-4 align-top">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">
                                             <i class="{{ $document['icon_class'] }} text-lg"></i>
                                         </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">
+                                        <div class="ml-4 min-w-0">
+                                            <div class="text-sm font-medium text-gray-900 break-words whitespace-normal">
                                                 {{ $document['original_name'] }}
                                             </div>
-                                            <div class="text-sm text-gray-500">
+                                            <div class="text-sm text-gray-500 break-words whitespace-normal">
                                                 {{ $document['type'] }} - {{ $document['size_formatted'] }}
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-6 py-4 align-top">
                                     <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $document['badge_class'] }}">
                                         {{ $document['type'] }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="{{ asset($document['path']) }}" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-navy hover:bg-blue-800 transition duration-300">
+                                <td class="px-6 py-4 align-top text-sm font-medium">
+                                    <a href="{{ $document['path'] }}" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-navy hover:bg-blue-800 transition duration-300">
                                         <i class="fas fa-download mr-2"></i>
                                         Unduh
                                     </a>
@@ -457,14 +457,13 @@
                 <h2 class="text-4xl font-bold text-navy mb-4">Hubungi Kami </h2>
                 <div class="w-24 h-1 bg-gold mx-auto mb-6"></div>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Isi nya sesuai rikues kak fitri
-                    Tetap Terhubung bersama tim kami untuk bimbingan? pencerahan? asistensi? tentang makanan dan obat 
+                    
                 </p>
             </div>
 
             <div class="grid grid-cols-1 gap-12 max-w-4xl mx-auto">
                 <div>
-                    <h3 class="text-2xl font-semibold text-navy mb-6">Tetap terhubung lebih dekat</h3>
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="flex items-start">
                             <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center mr-4 flex-shrink-0">
@@ -721,7 +720,7 @@
 
         // Services search filter
         const serviceSearchInput = document.getElementById('service-search');
-        const servicesGrid = document.getElementById('services-grid');
+        const servicesGrid = documFrekot.getElementById('services-grid');
         const servicesEmptyState = document.getElementById('services-empty-state');
 
         if (serviceSearchInput && servicesGrid && servicesEmptyState) {

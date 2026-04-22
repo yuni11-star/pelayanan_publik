@@ -46,8 +46,8 @@
             <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-emerald-500 opacity-10 rounded-full"></div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-3 gap-6">
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+        <div class="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-3 gap-6 justify-items-center">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Persyaratan CPKB</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li><a href="https://drive.google.com/file/d/1SoZ0-qx6xfa0nCno0riJlrUAR22run2L/view?usp=drive_link" class="hover:text-emerald-600 js-drive-preview">Bangunan dan Fasilitas</a></li>
@@ -58,7 +58,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Panduan Pendaftaran</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li><a href="https://drive.google.com/file/d/1JOd0jwxEwHOSI2HGgFWzFzlgZ0_TmzUl/view?usp=drive_link" class="hover:text-emerald-600 js-drive-preview">Alur Pendaftaran Badan Usaha</a></li>
@@ -72,7 +72,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Dokumen Persyaratan</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li><a href="https://drive.google.com/file/d/1GKSx94WEKBxPE-LxXsu_wNug2l1FBMgF/view?usp=drive_link" class="hover:text-emerald-600 js-drive-preview">Kelengkapan Dokumen</a></li>
@@ -82,7 +82,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">Regulasi</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li><a href="https://drive.google.com/file/d/1rtaFScRi7xu3mzUPQug2tqSAWVbddUKc/view?usp=drive_link" class="hover:text-emerald-600 js-drive-preview">Regulasi Bahan Kosmetik</a></li>
@@ -90,7 +90,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <section class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                 <h2 class="text-xl font-bold text-[#003366] mb-3">FAQ</h2>
                 <ul class="text-gray-700 text-sm space-y-2">
                     <li><a href="https://drive.google.com/file/d/1EYOYQCqiudZ1BzpfI8MYbFCwkv-Jux29/view?usp=drive_link" class="hover:text-emerald-600 js-drive-preview">A-Z Notifikasi Kosmetik Jilid 1</a></li>
@@ -180,4 +180,5 @@
     })();
 </script>
 @endsection
+
 
