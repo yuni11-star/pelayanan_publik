@@ -498,7 +498,7 @@
                                 <i class="fas fa-envelope text-navy"></i>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-navy mb-1">o9</h4>
+                                <h4 class="font-semibold text-navy mb-1">Email</h4>
                                 <p><a href="mailto:bpom_pontianak@pom.go.id" class="text-gray-600 hover:text-navy transition duration-150">bpom_pontianak@pom.go.id</a></p>
                                 <p><a href="mailto:balaipom_pontianak@yahoo.com" class="text-gray-600 hover:text-navy transition duration-150">balaipom_pontianak@yahoo.com</a></p>
                             </div>
