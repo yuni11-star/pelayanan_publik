@@ -49,7 +49,6 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <a href="{{ url('/') }}" class="text-gray-900 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition duration-150">Beranda</a>
-                        <a href="#" class="text-gray-900 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition duration-150">Tracking</a>
                         <a href="#" class="text-gray-900 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition duration-150">Tentang</a>
                     </div>
                 </div>
