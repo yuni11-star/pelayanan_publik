@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('hide_navbar', '1')
 @section('hide_footer_widgets', '1')
 
 @section('content')

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('hide_navbar', '1')
+
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -239,6 +241,23 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('info-label-4').textContent = label4;
     }
 
+    function cleanSuggestionText(value) {
+        return value === null || value === undefined ? '' : String(value).trim();
+    }
+
+    function formatMedicineSuggestionName(item) {
+        return cleanSuggestionText(item.zat_aktif) || '-';
+    }
+
+    function formatMedicineSuggestionMeta(item) {
+        const details = [
+            cleanSuggestionText(item.jenis_sediaan),
+            cleanSuggestionText(item.bentuk_sediaan)
+        ].filter(Boolean);
+
+        return [...new Set(details)].join(' - ');
+    }
+
     // Autocomplete untuk input tunggal (Obat, Kosmetik, Pangan)
     medSearchInput.addEventListener('input', function() {
         const query = this.value.trim();
@@ -261,11 +280,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'px-4 py-2 hover:bg-gray-100 cursor-pointer';
-                    let displayName = item.zat_aktif;
+                    let displayName = formatMedicineSuggestionName(item);
+                    let metaText = formatMedicineSuggestionMeta(item);
                     if (activeCategory === 'pangan') {
                         displayName = item.bahan_produk;
+                        metaText = item.waktu ? `Waktu layanan: ${item.waktu}` : '';
+                    } else if (activeCategory === 'kosmetik') {
+                        displayName = item.zat_aktif;
+                        metaText = item.tipe_produk ? `Tipe produk: ${item.tipe_produk}` : '';
                     }
-                    div.textContent = displayName;
+
+                    const label = document.createElement('div');
+                    label.className = 'text-sm font-medium text-gray-800';
+                    label.textContent = displayName;
+                    div.appendChild(label);
+
+                    if (metaText) {
+                        const meta = document.createElement('div');
+                        meta.className = 'text-xs text-gray-500 mt-0.5';
+                        meta.textContent = metaText;
+                        div.appendChild(meta);
+                    }
                     
                     div.addEventListener('click', () => {
                         medSearchInput.value = displayName;

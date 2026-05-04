@@ -350,7 +350,7 @@ Route::middleware('admin.auth')->group(function () {
 
     Route::middleware('admin.super')->group(function () {
         Route::get('/admin/upload', [AdminController::class, 'showUploadForm'])->name('admin.upload');
-        Route::post('/admin/upload', [AdminController::class, 'uploadDocument'])->name('admin.upload');
+        Route::post('/admin/upload', [AdminController::class, 'uploadDocument'])->name('admin.upload.store');
         Route::get('/admin/documents/{filename}/preview', [AdminController::class, 'previewDocument'])->name('admin.document.preview');
         Route::post('/admin/documents/{filename}/rename', [AdminController::class, 'renameDocument'])->name('admin.document.rename');
         Route::delete('/admin/documents/{filename}', [AdminController::class, 'deleteDocument'])->name('admin.document.delete');

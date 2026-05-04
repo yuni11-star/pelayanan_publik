@@ -30,6 +30,67 @@
         #other-services-card {
             width: 100%;
         }
+
+        @media (max-width: 767px) {
+            .standards-table,
+            .standards-table thead,
+            .standards-table tbody,
+            .standards-table tr,
+            .standards-table th,
+            .standards-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .standards-table thead {
+                display: none;
+            }
+
+            .standards-table tbody {
+                background: transparent;
+            }
+
+            .standards-table tr {
+                padding: 1rem;
+                background: #ffffff;
+            }
+
+            .standards-table tr + tr {
+                border-top: 1px solid #e5e7eb;
+            }
+
+            .standards-table td {
+                padding: 0;
+            }
+
+            .standards-table td + td {
+                margin-top: 0.75rem;
+            }
+
+            .standards-table .document-cell {
+                min-width: 0;
+            }
+
+            .standards-table .document-cell > div {
+                align-items: flex-start;
+            }
+
+            .standards-table .document-meta {
+                min-width: 0;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            .standards-table .document-actions {
+                display: flex;
+                justify-content: flex-start;
+            }
+
+            .standards-table .download-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body class="font-sans bg-gray-50">
@@ -392,7 +453,7 @@
 
             <div class="bg-gray-50 rounded-lg shadow-lg overflow-hidden">
                 <div class="w-full">
-                    <table class="w-full table-fixed divide-y divide-gray-200">
+                    <table class="standards-table w-full md:table-fixed divide-y divide-gray-200">
                         <thead class="bg-navy">
                             <tr>
                                 <th class="w-7/12 px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
@@ -409,12 +470,12 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @forelse($documents as $document)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 align-top">
+                                <td class="document-cell px-6 py-4 align-top">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">
                                             <i class="{{ $document['icon_class'] }} text-lg"></i>
                                         </div>
-                                        <div class="ml-4 min-w-0">
+                                        <div class="document-meta ml-4 min-w-0">
                                             <div class="text-sm font-medium text-gray-900 break-words whitespace-normal">
                                                 {{ $document['original_name'] }}
                                             </div>
@@ -429,8 +490,8 @@
                                         {{ $document['type'] }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 align-top text-sm font-medium">
-                                    <a href="{{ $document['path'] }}" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-navy hover:bg-blue-800 transition duration-300">
+                                <td class="document-actions px-6 py-4 align-top text-sm font-medium">
+                                    <a href="{{ $document['path'] }}" target="_blank" class="download-button inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-navy hover:bg-blue-800 transition duration-300">
                                         <i class="fas fa-download mr-2"></i>
                                         Unduh
                                     </a>

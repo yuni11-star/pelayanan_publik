@@ -667,7 +667,7 @@ public function getKosmetik($id)
             'metode' => 'required|string|max:255',
             'sampel_min' => 'nullable|numeric|min:0',
             'satuan' => 'required|string|max:50',
-            'harga' => 'required|numeric|min:0',
+            'harga' => 'nullable|numeric|min:0',
             'waktu' => 'required|integer|min:0',
         ]);
 
@@ -679,7 +679,7 @@ public function getKosmetik($id)
             'metode' => $request->metode,
             'sampel_min' => $request->sampel_min,
             'satuan' => $request->satuan,
-            'harga' => $request->harga,
+            'harga' => $request->filled('harga') ? $request->harga : null,
             'waktu' => $request->waktu,
         ]);
 
@@ -695,7 +695,7 @@ public function getKosmetik($id)
             'metode' => 'required|string|max:255',
             'sampel_min' => 'nullable|numeric|min:0',
             'satuan' => 'required|string|max:50',
-            'harga' => 'required|numeric|min:0',
+            'harga' => 'nullable|numeric|min:0',
             'waktu' => 'required|integer|min:0',
         ]);
 
@@ -707,7 +707,7 @@ public function getKosmetik($id)
             'metode' => $request->metode,
             'sampel_min' => $request->sampel_min,
             'satuan' => $request->satuan,
-            'harga' => $request->harga,
+            'harga' => $request->filled('harga') ? $request->harga : null,
             'waktu' => $request->waktu,
         ]);
 

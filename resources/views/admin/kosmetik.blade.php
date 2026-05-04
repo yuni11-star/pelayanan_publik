@@ -60,17 +60,17 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="space-y-8">
             <!-- Form Tambah Kosmetik -->
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 sticky top-8">
+            <div>
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
                     <div class="bg-orange-700 px-6 py-5 text-white">
                         <h2 class="text-xl font-bold">Tambah Tipe Kosmetik</h2>
                         <p class="text-orange-200 text-sm mt-1">Masukkan tipe produk kosmetik</p>
                     </div>
 
                     <div class="p-6">
-                        <form action="{{ route('admin.kosmetik.store') }}" method="POST" class="space-y-4">
+                        <form action="{{ route('admin.kosmetik.store') }}" method="POST" class="grid grid-cols-1 gap-4 md:grid-cols-[1fr_auto] md:items-end">
                             @csrf
                             
                             <div>
@@ -80,7 +80,7 @@
                                     placeholder="Contoh: Kosmetika Dekoratif">
                             </div>
 
-                            <button type="submit" class="w-full bg-orange-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-orange-800 transition flex items-center justify-center">
+                            <button type="submit" class="w-full bg-orange-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-orange-800 transition flex items-center justify-center md:w-auto">
                                 <i class="fas fa-plus mr-2"></i>
                                 Simpan Tipe Kosmetik
                             </button>
@@ -90,7 +90,7 @@
             </div>
 
             <!-- Tabel Data Kosmetik -->
-            <div class="lg:col-span-2">
+            <div>
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
                     <div class="bg-orange-700 px-6 py-5 text-white flex justify-between items-center">
                         <div>
@@ -112,53 +112,34 @@
 
                     <div class="p-6">
                         @if($kosmetiks->count() > 0)
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-slate-200">
-                                    <thead class="bg-slate-50">
-                                        <tr>
-                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">No</th>
-                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">Tipe Produk</th>
-                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">Kategori</th>
-                                            <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600 uppercase">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-200">
-                                        @foreach($kosmetiks as $index => $kosmetik)
-                                        <tr class="hover:bg-slate-50 transition">
-                                            <td class="px-4 py-3 text-sm text-slate-600">{{ $index + 1 }}</td>
-                                            <td class="px-4 py-3">
-                                                <div class="font-semibold text-slate-800">{{ $kosmetik->tipe_produk }}</div>
-                                                @if($kosmetik->kategoriKos && $kosmetik->kategoriKos->count() > 0)
-                                                    <button type="button" onclick="toggleKategori({{ $kosmetik->id_kos }})" class="text-xs text-emerald-600 font-medium hover:underline">
-                                                        {{ $kosmetik->kategoriKos->count() }} kategori <i class="fas fa-chevron-down ml-1" id="icon-{{ $kosmetik->id_kos }}"></i>
-                                                    </button>
-                                                @endif
-                                            </td>
-                                            <td class="px-4 py-3 text-sm text-slate-600">
-                                                @if($kosmetik->kategoriKos)
-                                                    @foreach($kosmetik->kategoriKos as $kategori)
-                                                        <span class="inline-block bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full mr-1 mb-1">{{ $kategori->kategori_kos }}</span>
-                                                    @endforeach
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
-                                            <td class="px-4 py-3 text-center">
-                                                <div class="flex items-center justify-center space-x-2">
-                                                    <button onclick="openEditModal({{ $kosmetik->id_kos }}, '{{ $kosmetik->tipe_produk }}')" 
-                                                        class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button onclick="openDeleteModal({{ $kosmetik->id_kos }}, '{{ $kosmetik->tipe_produk }}')" 
-                                                        class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <!-- Kategori Row (Hidden by default) -->
-                                        <tr id="kategori-row-{{ $kosmetik->id_kos }}" class="hidden bg-emerald-50">
-                                            <td colspan="4" class="px-4 py-4">
+                            <div class="space-y-3">
+                                @foreach($kosmetiks as $index => $kosmetik)
+                                    <div class="rounded-xl border border-slate-200 bg-white overflow-hidden">
+                                        <div class="flex flex-col gap-3 px-4 py-3 hover:bg-slate-50 transition md:flex-row md:items-center md:justify-between">
+                                            <button type="button" onclick="toggleKategori({{ $kosmetik->id_kos }})" class="flex min-w-0 flex-1 items-center gap-3 text-left">
+                                                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-50 text-sm font-bold text-orange-800">{{ $index + 1 }}</span>
+                                                <span class="min-w-0">
+                                                    <span class="block truncate font-semibold text-slate-800">{{ $kosmetik->tipe_produk }}</span>
+                                                    <span class="mt-1 inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700">
+                                                        {{ $kosmetik->kategoriKos ? $kosmetik->kategoriKos->count() : 0 }} kategori
+                                                    </span>
+                                                </span>
+                                                <i class="fas fa-chevron-down ml-auto text-slate-400" id="icon-{{ $kosmetik->id_kos }}"></i>
+                                            </button>
+
+                                            <div class="flex items-center gap-2 md:justify-end">
+                                                <button type="button" onclick="openEditModal({{ $kosmetik->id_kos }}, {{ \Illuminate\Support\Js::from($kosmetik->tipe_produk) }})"
+                                                    class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" onclick="openDeleteModal({{ $kosmetik->id_kos }}, {{ \Illuminate\Support\Js::from($kosmetik->tipe_produk) }})"
+                                                    class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div id="kategori-row-{{ $kosmetik->id_kos }}" class="hidden border-t border-slate-200 bg-emerald-50 px-4 py-4">
                                                 <div class="space-y-4">
                                                     <!-- Form Tambah Kategori -->
                                                     <form action="{{ route('admin.kategori-kosmetik.store') }}" method="POST" class="bg-white p-4 rounded-xl border border-emerald-200">
@@ -179,10 +160,10 @@
                                                             <div class="flex justify-between items-center mb-3">
                                                                 <h4 class="font-bold text-orange-900">{{ $kategori->kategori_kos }}</h4>
                                                                 <div class="flex space-x-2">
-                                                                    <button onclick="openEditKategoriModal({{ $kategori->id_kategori }}, '{{ addslashes($kategori->kategori_kos) }}')" class="text-blue-600 hover:text-blue-800 text-sm" title="Edit">
+                                                                    <button type="button" onclick="openEditKategoriModal({{ $kategori->id_kategori }}, {{ \Illuminate\Support\Js::from($kategori->kategori_kos) }})" class="text-blue-600 hover:text-blue-800 text-sm" title="Edit">
                                                                         <i class="fas fa-edit"></i>
                                                                     </button>
-                                                                    <button onclick="openDeleteKategoriModal({{ $kategori->id_kategori }}, '{{ addslashes($kategori->kategori_kos) }}')" class="text-red-600 hover:text-red-800 text-sm" title="Hapus">
+                                                                    <button type="button" onclick="openDeleteKategoriModal({{ $kategori->id_kategori }}, {{ \Illuminate\Support\Js::from($kategori->kategori_kos) }})" class="text-red-600 hover:text-red-800 text-sm" title="Hapus">
                                                                         <i class="fas fa-trash"></i>
                                                                     </button>
                                                                 </div>
@@ -190,7 +171,7 @@
                                                             
                                                             @if(!$kategori->parameterKos || $kategori->parameterKos->count() === 0)
                                                                 <!-- Form Tambah Parameter -->
-                                                                <form action="{{ route('admin.parameter-kosmetik.store') }}" method="POST" class="mb-3 bg-slate-50 p-3 rounded-lg">
+                                                                <form action="{{ route('admin.parameter-kosmetik.store') }}" method="POST" class="add-parameter-kosmetik-form mb-3 bg-slate-50 p-3 rounded-lg" data-kategori-id="{{ $kategori->id_kategori }}">
                                                                     @csrf
                                                                     <input type="hidden" name="id_kategori" value="{{ $kategori->id_kategori }}">
                                                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
@@ -204,7 +185,7 @@
                                                                     <div class="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">
                                                                         <input type="number" name="sampel_min" placeholder="Sampel Min" min="0" class="px-2 py-1 border border-slate-200 rounded text-sm">
                                                                         <input type="text" name="satuan" required placeholder="Satuan" class="px-2 py-1 border border-slate-200 rounded text-sm">
-                                                                        <input type="number" name="harga" required placeholder="Harga (Rp)" min="0" class="px-2 py-1 border border-slate-200 rounded text-sm">
+                                                                        <input type="number" name="harga" placeholder="Harga (Rp)" min="0" class="px-2 py-1 border border-slate-200 rounded text-sm">
                                                                         <input type="number" name="waktu" required placeholder="Waktu (Hari)" min="0" class="px-2 py-1 border border-slate-200 rounded text-sm">
                                                                     </div>
                                                                     <button type="submit" class="w-full bg-blue-600 text-white py-1 px-3 rounded text-sm font-semibold hover:bg-blue-700 transition">
@@ -259,7 +240,7 @@
                                                                             </td>
                                                                             <td class="px-2 py-1 text-center">
                                                                                 <div class="flex items-center justify-center gap-2">
-                                                                                    <button type="button" onclick="openDeleteParamModal({{ $param->id_parameter }}, '{{ addslashes($param->puk) }}')" class="text-red-600 hover:text-red-800 text-xs" title="Hapus Parameter">
+                                                                                    <button type="button" onclick="openDeleteParamModal({{ $param->id_parameter }}, {{ \Illuminate\Support\Js::from($param->puk) }})" class="text-red-600 hover:text-red-800 text-xs" title="Hapus Parameter">
                                                                                         <i class="fas fa-trash"></i>
                                                                                     </button>
                                                                                     <span class="inline-param-status text-[10px] text-slate-400"></span>
@@ -275,11 +256,9 @@
                                                         @endforeach
                                                     @endif
                                                 </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         @else
                             <div class="text-center py-12">
@@ -287,7 +266,7 @@
                                     <i class="fas fa-paint-brush text-2xl text-slate-400"></i>
                                 </div>
                                 <h3 class="text-lg font-semibold text-slate-700 mb-2">Belum ada data kosmetik</h3>
-                                <p class="text-slate-500 text-sm">Tambahkan kosmetik pertama Anda menggunakan form di samping.</p>
+                                <p class="text-slate-500 text-sm">Tambahkan kosmetik pertama Anda menggunakan form di atas.</p>
                             </div>
                         @endif
                     </div>
@@ -311,7 +290,7 @@
             </button>
         </div>
         
-        <form id="editForm" method="POST">
+        <form id="editForm" method="POST" novalidate onsubmit="return submitEditKosmetikForm(event)">
             @csrf
             @method('PUT')
             <input type="hidden" id="edit_id_kos" name="id_kos">
@@ -366,7 +345,7 @@
 
             <div class="flex space-x-3 pt-4 border-t">
                 <button type="button" onclick="closeEditModal()" class="flex-1 px-4 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition">Tutup</button>
-                <button type="submit" class="flex-1 px-4 py-3 bg-orange-900 text-white rounded-xl font-bold hover:bg-orange-800 transition">Simpan Perubahan</button>
+                <button type="submit" id="editKosmetikSubmitBtn" class="flex-1 px-4 py-3 bg-orange-900 text-white rounded-xl font-bold hover:bg-orange-800 transition">Simpan Perubahan</button>
             </div>
         </form>
     </div>
@@ -498,7 +477,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-1">Harga (Rp)</label>
-                        <input type="number" id="edit_param_harga" name="harga" required min="0" step="0.01"
+                        <input type="number" id="edit_param_harga" name="harga" min="0" step="0.01"
                             class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-900 focus:border-transparent outline-none">
                     </div>
                     <div>
@@ -557,6 +536,21 @@
     function toggleKategori(id) {
         var row = document.getElementById('kategori-row-' + id);
         var icon = document.getElementById('icon-' + id);
+        var rows = document.querySelectorAll('[id^="kategori-row-"]');
+        var icons = document.querySelectorAll('[id^="icon-"]');
+
+        for (var i = 0; i < rows.length; i++) {
+            if (rows[i] !== row) {
+                rows[i].classList.add('hidden');
+            }
+        }
+
+        for (var j = 0; j < icons.length; j++) {
+            if (icons[j] !== icon) {
+                icons[j].classList.remove('fa-chevron-up');
+                icons[j].classList.add('fa-chevron-down');
+            }
+        }
         
         if (row.classList.contains('hidden')) {
             row.classList.remove('hidden');
@@ -566,6 +560,108 @@
             row.classList.add('hidden');
             icon.classList.remove('fa-chevron-up');
             icon.classList.add('fa-chevron-down');
+        }
+    }
+
+    function getOpenKosmetikId() {
+        var openRow = document.querySelector('[id^="kategori-row-"]:not(.hidden)');
+        return openRow ? openRow.id.replace('kategori-row-', '') : '';
+    }
+
+    function rememberOpenKosmetikId() {
+        var openKosmetikId = getOpenKosmetikId();
+        if (openKosmetikId) {
+            sessionStorage.setItem('adminKosmetikOpenId', openKosmetikId);
+        }
+    }
+
+    function restoreOpenKosmetikId() {
+        var openKosmetikId = sessionStorage.getItem('adminKosmetikOpenId');
+        var row = document.getElementById('kategori-row-' + openKosmetikId);
+        if (!openKosmetikId || !row) return;
+
+        sessionStorage.removeItem('adminKosmetikOpenId');
+        toggleKategori(openKosmetikId);
+
+        window.setTimeout(function() {
+            var emptyParameterTarget = getFirstEmptyParameterTarget(row);
+            var target = emptyParameterTarget || row.previousElementSibling || row;
+            target.scrollIntoView({ behavior: 'auto', block: 'center' });
+
+            if (emptyParameterTarget && typeof emptyParameterTarget.focus === 'function') {
+                emptyParameterTarget.focus({ preventScroll: true });
+                emptyParameterTarget.classList.add('border-orange-400', 'ring-2', 'ring-orange-100');
+            }
+        }, 300);
+    }
+
+    function getFirstEmptyParameterTarget(container) {
+        if (!container) return null;
+
+        var targetKategoriId = sessionStorage.getItem('adminKosmetikTargetKategoriId');
+        sessionStorage.removeItem('adminKosmetikTargetKategoriId');
+
+        if (targetKategoriId) {
+            var targetedForm = container.querySelector('.add-parameter-kosmetik-form[data-kategori-id="' + targetKategoriId + '"]');
+            var targetedEmptyInput = getFirstEmptyRequiredInput(targetedForm);
+
+            if (targetedEmptyInput) {
+                return targetedEmptyInput;
+            }
+        }
+
+        var parameterForms = container.querySelectorAll('.add-parameter-kosmetik-form');
+        for (var i = 0; i < parameterForms.length; i++) {
+            var emptyInput = getFirstEmptyRequiredInput(parameterForms[i]);
+
+            if (emptyInput) {
+                return emptyInput;
+            }
+        }
+
+        var parameterRows = container.querySelectorAll('tr.inline-param-row');
+        for (var j = 0; j < parameterRows.length; j++) {
+            var emptyRowInput = getFirstEmptyRequiredInput(parameterRows[j]);
+
+            if (emptyRowInput) {
+                return emptyRowInput;
+            }
+        }
+
+        return null;
+    }
+
+    function getFirstEmptyRequiredInput(container) {
+        if (!container) return null;
+
+        var requiredNames = ['puk', 'pustaka', 'teknik_analisis', 'metode', 'satuan', 'waktu'];
+
+        for (var i = 0; i < requiredNames.length; i++) {
+            var input = container.querySelector('[name="' + requiredNames[i] + '"]');
+
+            if (input && !input.value.trim()) {
+                return input;
+            }
+        }
+
+        return null;
+    }
+
+    function rememberOpenKosmetikFromElement(element) {
+        var openedKategoriRow = element ? element.closest('[id^="kategori-row-"]') : null;
+        if (!openedKategoriRow) {
+            rememberOpenKosmetikId();
+            return;
+        }
+
+        sessionStorage.setItem('adminKosmetikOpenId', openedKategoriRow.id.replace('kategori-row-', ''));
+
+        var kategoriInput = element.querySelector('[name="id_kategori"]');
+        var kategoriContainer = element.closest('[data-kategori-id]');
+        var kategoriId = kategoriInput ? kategoriInput.value : (kategoriContainer ? kategoriContainer.getAttribute('data-kategori-id') : '');
+
+        if (kategoriId) {
+            sessionStorage.setItem('adminKosmetikTargetKategoriId', kategoriId);
         }
     }
 
@@ -633,7 +729,7 @@
                             var metodeHtml = escapeHtml(param.metode);
                             var satuanHtml = escapeHtml(param.satuan);
                             var sampelMinValue = (param.sampel_min !== null && param.sampel_min !== undefined ? param.sampel_min : '');
-                            var hargaValue = (param.harga !== null && param.harga !== undefined ? param.harga : 0);
+                            var hargaValue = (param.harga !== null && param.harga !== undefined ? param.harga : '');
                             var waktuValue = (param.waktu !== null && param.waktu !== undefined ? param.waktu : 0);
                             
                             paramsHtml += '<tr class="inline-param-row" data-param-id="' + param.id_parameter + '">' +
@@ -661,7 +757,7 @@
                     var kategoriEsc = kategori.kategori_kos.replace(/'/g, "\\'");
                     var addParameterFormHtml = '';
                     if (!hasParameters) {
-                        addParameterFormHtml = '<div class="bg-slate-50 p-3 rounded-lg add-parameter-kosmetik-form">' +
+                        addParameterFormHtml = '<div class="bg-slate-50 p-3 rounded-lg add-parameter-kosmetik-form" data-kategori-id="' + kategori.id_kategori + '">' +
                             '<input type="hidden" name="_token" value="{{ csrf_token() }}">' +
                             '<div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">' +
                             '<input type="text" name="puk" required placeholder="PUK" class="px-2 py-1 border border-slate-200 rounded text-sm">' +
@@ -674,7 +770,7 @@
                             '<div class="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">' +
                             '<input type="number" name="sampel_min" placeholder="Sampel Min" min="0" class="px-2 py-1 border border-slate-200 rounded text-sm">' +
                             '<input type="text" name="satuan" required placeholder="Satuan" class="px-2 py-1 border border-slate-200 rounded text-sm">' +
-                            '<input type="number" name="harga" required placeholder="Harga (Rp)" min="0" class="px-2 py-1 border border-slate-200 rounded text-sm">' +
+                            '<input type="number" name="harga" placeholder="Harga (Rp)" min="0" class="px-2 py-1 border border-slate-200 rounded text-sm">' +
                             '<input type="number" name="waktu" required placeholder="Waktu (Hari)" min="0" class="px-2 py-1 border border-slate-200 rounded text-sm">' +
                             '</div>' +
                             '<button type="button" onclick="submitParameterKosmetik(this, ' + kategori.id_kategori + ')" class="w-full bg-blue-600 text-white py-1 px-3 rounded text-sm font-semibold hover:bg-blue-700 transition"><i class="fas fa-plus mr-1"></i> Tambah Parameter</button>' +
@@ -766,58 +862,101 @@
         return false;
     }
 
+    var parameterRequiredFields = [
+        { name: 'puk', label: 'PUK' },
+        { name: 'pustaka', label: 'Pustaka' },
+        { name: 'teknik_analisis', label: 'Teknik Analisis' },
+        { name: 'metode', label: 'Metode' },
+        { name: 'satuan', label: 'Satuan' },
+        { name: 'waktu', label: 'Waktu' }
+    ];
+
+    function getParameterFormValue(formContainer, name) {
+        var input = formContainer.querySelector('[name="' + name + '"]');
+        return input ? input.value.trim() : '';
+    }
+
+    function getMissingParameterRequiredFields(formContainer) {
+        var missingFields = [];
+
+        for (var i = 0; i < parameterRequiredFields.length; i++) {
+            var field = parameterRequiredFields[i];
+            var input = formContainer.querySelector('[name="' + field.name + '"]');
+            var value = input ? input.value.trim() : '';
+
+            if (!value) {
+                missingFields.push(field.label);
+                if (input) {
+                    input.classList.add('border-red-400', 'ring-2', 'ring-red-100');
+                }
+            } else if (input) {
+                input.classList.remove('border-red-400', 'ring-2', 'ring-red-100');
+            }
+        }
+
+        return missingFields;
+    }
+
+    function hasAnyParameterFormValue(formContainer) {
+        var fieldNames = ['puk', 'pustaka', 'teknik_analisis', 'metode', 'sampel_min', 'satuan', 'harga', 'waktu'];
+
+        for (var i = 0; i < fieldNames.length; i++) {
+            if (getParameterFormValue(formContainer, fieldNames[i])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    async function saveNewParameterKosmetik(formContainer, idKategori) {
+        var tokenInput = formContainer.querySelector('[name="_token"]');
+        var payload = new FormData();
+        var sampelMinInput = formContainer.querySelector('[name="sampel_min"]');
+
+        payload.append('_token', tokenInput ? tokenInput.value : '{{ csrf_token() }}');
+        payload.append('id_kategori', idKategori);
+        payload.append('puk', getParameterFormValue(formContainer, 'puk'));
+        payload.append('pustaka', getParameterFormValue(formContainer, 'pustaka'));
+        payload.append('teknik_analisis', getParameterFormValue(formContainer, 'teknik_analisis'));
+        payload.append('metode', getParameterFormValue(formContainer, 'metode'));
+        payload.append('sampel_min', sampelMinInput ? sampelMinInput.value : '');
+        payload.append('satuan', getParameterFormValue(formContainer, 'satuan'));
+        payload.append('harga', getParameterFormValue(formContainer, 'harga'));
+        payload.append('waktu', getParameterFormValue(formContainer, 'waktu'));
+
+        var response = await fetch('/admin/parameter-kosmetik', {
+            method: 'POST',
+            body: payload,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Gagal menyimpan parameter kosmetik');
+        }
+
+        return true;
+    }
+
     async function submitParameterKosmetik(button, idKategori) {
         var formContainer = button.closest('.add-parameter-kosmetik-form');
         if (!formContainer) return false;
 
-        function getValue(name) {
-            var input = formContainer.querySelector('[name="' + name + '"]');
-            return input ? input.value.trim() : '';
-        }
-
-        var tokenInput = formContainer.querySelector('[name="_token"]');
-        var payload = new FormData();
         var originalButtonHtml = button.innerHTML;
-        var puk = getValue('puk');
-        var pustaka = getValue('pustaka');
-        var teknikAnalisis = getValue('teknik_analisis');
-        var metode = getValue('metode');
-        var satuan = getValue('satuan');
-        var harga = getValue('harga');
-        var waktu = getValue('waktu');
-        var sampelMinInput = formContainer.querySelector('[name="sampel_min"]');
+        var missingRequiredFields = getMissingParameterRequiredFields(formContainer);
 
-        if (!puk || !pustaka || !teknikAnalisis || !metode || !satuan || !harga || !waktu) {
-            alert('Semua field wajib (kecuali Sampel Min) harus diisi.');
+        if (missingRequiredFields.length > 0) {
+            alert('Field wajib yang belum diisi: ' + missingRequiredFields.join(', ') + '. Sampel Min dan Harga boleh dikosongkan.');
             return false;
         }
-
-        payload.append('_token', tokenInput ? tokenInput.value : '');
-        payload.append('id_kategori', idKategori);
-        payload.append('puk', puk);
-        payload.append('pustaka', pustaka);
-        payload.append('teknik_analisis', teknikAnalisis);
-        payload.append('metode', metode);
-        payload.append('sampel_min', sampelMinInput ? sampelMinInput.value : '');
-        payload.append('satuan', satuan);
-        payload.append('harga', harga);
-        payload.append('waktu', waktu);
 
         try {
             button.disabled = true;
             button.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Menyimpan...';
 
-            var response = await fetch('/admin/parameter-kosmetik', {
-                method: 'POST',
-                body: payload,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Gagal menyimpan parameter kosmetik');
-            }
+            await saveNewParameterKosmetik(formContainer, idKategori);
 
             var idKosmetik = document.getElementById('edit_id_kos').value;
             var tipeProduk = document.getElementById('edit_tipe_produk').value;
@@ -852,7 +991,7 @@
     }
 
     function isInlineParameterDataComplete(data) {
-        return !!(data.puk && data.pustaka && data.teknik_analisis && data.metode && data.satuan && data.harga && data.waktu);
+        return !!(data.puk && data.pustaka && data.teknik_analisis && data.metode && data.satuan && data.waktu);
     }
 
     function setInlineParameterStatus(row, status, message) {
@@ -906,18 +1045,18 @@
     }
 
     async function saveInlineParameterRow(row, idParameter) {
-        if (!row || !idParameter) return;
+        if (!row || !idParameter) return true;
 
         var payloadData = collectInlineParameterData(row);
-        if (!isInlineParameterDataComplete(payloadData)) return;
+        if (!isInlineParameterDataComplete(payloadData)) return true;
 
         var snapshot = JSON.stringify(payloadData);
-        if (snapshot === row.dataset.lastSavedSnapshot) return;
+        if (snapshot === row.dataset.lastSavedSnapshot) return true;
 
         var inflightKey = 'param-' + idParameter;
         if (parameterAutoSaveInFlight[inflightKey]) {
             row.dataset.pendingSnapshot = snapshot;
-            return;
+            return true;
         }
 
         parameterAutoSaveInFlight[inflightKey] = true;
@@ -956,8 +1095,10 @@
                     setInlineParameterStatus(row, 'idle', '');
                 }
             }, 900);
+            return true;
         } catch (error) {
             setInlineParameterStatus(row, 'error', 'Gagal simpan');
+            return false;
         } finally {
             parameterAutoSaveInFlight[inflightKey] = false;
             if (row.dataset.pendingSnapshot && row.dataset.pendingSnapshot !== row.dataset.lastSavedSnapshot) {
@@ -995,10 +1136,119 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         initInlineParameterAutosave(document);
+        restoreOpenKosmetikId();
+    });
+
+    document.addEventListener('submit', function(e) {
+        var form = e.target;
+        if (!form || !form.closest('[id^="kategori-row-"]')) return;
+        rememberOpenKosmetikFromElement(form);
     });
 
     function closeEditModal() {
         document.getElementById('editModal').classList.add('hidden');
+    }
+
+    function validateEditKosmetikForm() {
+        var tipeProdukInput = document.getElementById('edit_tipe_produk');
+        var tipeProduk = tipeProdukInput ? tipeProdukInput.value.trim() : '';
+
+        if (!tipeProduk) {
+            alert('Tipe Produk wajib diisi.');
+            if (tipeProdukInput) {
+                tipeProdukInput.focus();
+                tipeProdukInput.classList.add('border-red-400', 'ring-2', 'ring-red-100');
+            }
+            return false;
+        }
+
+        if (tipeProdukInput) {
+            tipeProdukInput.classList.remove('border-red-400', 'ring-2', 'ring-red-100');
+        }
+
+        return true;
+    }
+
+    async function saveAllKosmetikModalChanges() {
+        var kategoriList = document.getElementById('kategoriList');
+        if (!kategoriList) return true;
+
+        var rows = kategoriList.querySelectorAll('tr.inline-param-row[data-param-id]');
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var idParameter = row.getAttribute('data-param-id');
+            var timerKey = 'param-' + idParameter;
+
+            if (parameterAutoSaveTimers[timerKey]) {
+                clearTimeout(parameterAutoSaveTimers[timerKey]);
+                parameterAutoSaveTimers[timerKey] = null;
+            }
+
+            var payload = collectInlineParameterData(row);
+            var snapshot = JSON.stringify(payload);
+            if (snapshot !== row.dataset.lastSavedSnapshot && !isInlineParameterDataComplete(payload)) {
+                setInlineParameterStatus(row, 'error', 'Lengkapi field wajib');
+                alert('Ada parameter yang belum lengkap. Field wajib: PUK, Pustaka, Teknik Analisis, Metode, Satuan, dan Waktu.');
+                return false;
+            }
+
+            var saved = await saveInlineParameterRow(row, idParameter);
+            if (!saved) {
+                alert('Gagal menyimpan salah satu parameter. Silakan cek input dan coba lagi.');
+                return false;
+            }
+        }
+
+        var newParameterForms = kategoriList.querySelectorAll('.add-parameter-kosmetik-form');
+        for (var j = 0; j < newParameterForms.length; j++) {
+            var formContainer = newParameterForms[j];
+            if (!hasAnyParameterFormValue(formContainer)) continue;
+
+            var missingRequiredFields = getMissingParameterRequiredFields(formContainer);
+            if (missingRequiredFields.length > 0) {
+                alert('Field wajib yang belum diisi: ' + missingRequiredFields.join(', ') + '. Sampel Min dan Harga boleh dikosongkan.');
+                return false;
+            }
+
+            var idKategori = formContainer.getAttribute('data-kategori-id');
+            await saveNewParameterKosmetik(formContainer, idKategori);
+        }
+
+        return true;
+    }
+
+    async function submitEditKosmetikForm(event) {
+        event.preventDefault();
+
+        if (!validateEditKosmetikForm()) {
+            return false;
+        }
+
+        var form = document.getElementById('editForm');
+        var submitButton = document.getElementById('editKosmetikSubmitBtn');
+        var originalButtonText = submitButton ? submitButton.innerHTML : '';
+
+        try {
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Menyimpan...';
+            }
+
+            var saved = await saveAllKosmetikModalChanges();
+            if (!saved) return false;
+
+            form.submit();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Gagal menyimpan perubahan. Silakan cek input dan coba lagi.');
+        } finally {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            }
+        }
+
+        return false;
     }
 
     function openDeleteModal(id, nama) {
@@ -1013,6 +1263,7 @@
 
     // Kategori Modal Functions
     function openEditKategoriModal(id, kategori) {
+        rememberOpenKosmetikId();
         document.getElementById('edit_kategori_kos').value = kategori;
         document.getElementById('editKategoriForm').action = '/admin/kategori-kosmetik/' + id;
         document.getElementById('editKategoriModal').classList.remove('hidden');
@@ -1023,6 +1274,7 @@
     }
 
     function openDeleteKategoriModal(id, nama) {
+        rememberOpenKosmetikId();
         document.getElementById('delete_kategori_name').textContent = nama;
         document.getElementById('deleteKategoriForm').action = '/admin/kategori-kosmetik/' + id;
         document.getElementById('deleteKategoriModal').classList.remove('hidden');
@@ -1034,6 +1286,7 @@
 
     // Parameter Modal Functions
     function openEditParamModal(id, puk, pustaka, teknikAnalisis, metode, sampel, satuan, harga, waktu) {
+        rememberOpenKosmetikId();
         document.getElementById('edit_param_puk').value = puk;
         document.getElementById('edit_param_pustaka').value = pustaka;
         document.getElementById('edit_param_teknik').value = teknikAnalisis;
@@ -1052,6 +1305,7 @@
     }
 
     function openDeleteParamModal(id, nama) {
+        rememberOpenKosmetikId();
         document.getElementById('delete_param_name').textContent = nama;
         document.getElementById('deleteParamForm').action = '/admin/parameter-kosmetik/' + id;
         document.getElementById('deleteParamModal').classList.remove('hidden');

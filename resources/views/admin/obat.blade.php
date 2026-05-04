@@ -451,6 +451,36 @@
         }
     }
 
+    function getOpenObatId() {
+        const openRow = document.querySelector('[id^="parameter-row-"]:not(.hidden)');
+        return openRow ? openRow.id.replace('parameter-row-', '') : '';
+    }
+
+    function rememberOpenObatId() {
+        const openObatId = getOpenObatId();
+        if (openObatId) {
+            sessionStorage.setItem('adminObatOpenId', openObatId);
+        }
+    }
+
+    function rememberOpenObatFromElement(element) {
+        const openedParameterRow = element ? element.closest('[id^="parameter-row-"]') : null;
+        if (!openedParameterRow) {
+            rememberOpenObatId();
+            return;
+        }
+
+        sessionStorage.setItem('adminObatOpenId', openedParameterRow.id.replace('parameter-row-', ''));
+    }
+
+    function restoreOpenObatId() {
+        const openObatId = sessionStorage.getItem('adminObatOpenId');
+        if (!openObatId || !document.getElementById('parameter-row-' + openObatId)) return;
+
+        sessionStorage.removeItem('adminObatOpenId');
+        toggleParameter(openObatId);
+    }
+
     // Modal Functions
     function openEditModal(id, zatAktif, jenisSediaan, bentukSediaan, hargaTotal) {
         document.getElementById('edit_id_obat').value = id;
@@ -479,6 +509,7 @@
 
     // Parameter Uji Modal Functions
     function openEditParamModal(id, parameter, metode, jumlah, satuan, harga) {
+        rememberOpenObatId();
         document.getElementById('edit_param_parameter').value = parameter;
         document.getElementById('edit_param_metode').value = metode;
         document.getElementById('edit_param_jumlah').value = jumlah;
@@ -494,6 +525,7 @@
     }
 
     function openDeleteParamModal(id, nama) {
+        rememberOpenObatId();
         document.getElementById('delete_param_name').textContent = nama;
         document.getElementById('deleteParamForm').action = '/admin/parameter-uji/' + id;
         document.getElementById('deleteParamModal').classList.remove('hidden');
@@ -502,6 +534,16 @@
     function closeDeleteParamModal() {
         document.getElementById('deleteParamModal').classList.add('hidden');
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        restoreOpenObatId();
+    });
+
+    document.addEventListener('submit', function(e) {
+        const form = e.target;
+        if (!form || !form.closest('[id^="parameter-row-"]')) return;
+        rememberOpenObatFromElement(form);
+    });
 
     // Close modal when clicking outside
     document.getElementById('editModal').addEventListener('click', function(e) {
