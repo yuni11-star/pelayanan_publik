@@ -50,9 +50,9 @@
             <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-emerald-500 opacity-10 rounded-full"></div>
         </div>
 
-        <!-- Layout utama: konten kiri + panel bantuan kanan -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
-            <div class="lg:col-span-3 space-y-8">
+        <!-- Layout utama: semua section mengikuti lebar hero -->
+        <div class="space-y-8 mb-8">
+            <div class="space-y-8">
                 <!-- Deskripsi layanan -->
                 <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
                     <h2 class="text-2xl font-bold text-[#003366] mb-6 flex items-center">
@@ -110,6 +110,7 @@
                             <h3 class="font-semibold text-gray-700 group-hover:text-[#003366]">Pangan</h3>
                         </div>
                     </div>
+                </div>
 
                 <!-- Area pencarian & hasil parameter -->
                 <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
@@ -143,16 +144,15 @@
                         <div id="medicine-info-container" class="bg-gray-50 rounded-lg p-6 border border-gray-200 hidden">
                             <h3 id="info-panel-title" class="text-lg font-bold text-[#003366] mb-4">Detail Informasi Obat</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-                                <div><strong id="info-label-1" class="block text-gray-500 uppercase text-xs">Zat Aktif</strong> <span id="zat-aktif" class="text-base font-medium"></span></div>
-                                <div><strong id="info-label-2" class="block text-gray-500 uppercase text-xs">Jenis Sediaan</strong> <span id="jenis-sediaan" class="text-base font-medium"></span></div>
-                                <div><strong id="info-label-3" class="block text-gray-500 uppercase text-xs">Bentuk Sediaan</strong> <span id="bentuk-sediaan" class="text-base font-medium"></span></div>
-                                <div><strong id="info-label-4" class="block text-gray-500 uppercase text-xs">Harga Estimasi</strong> <span id="harga-total" class="text-base font-bold text-blue-700"></span></div>
+                                <div id="info-item-1"><strong id="info-label-1" class="block text-gray-500 uppercase text-xs">Zat Aktif</strong> <span id="zat-aktif" class="text-base font-medium"></span></div>
+                                <div id="info-item-2"><strong id="info-label-2" class="block text-gray-500 uppercase text-xs">Jenis Sediaan</strong> <span id="jenis-sediaan" class="text-base font-medium"></span></div>
+                                <div id="info-item-3"><strong id="info-label-3" class="block text-gray-500 uppercase text-xs">Bentuk Sediaan</strong> <span id="bentuk-sediaan" class="text-base font-medium"></span></div>
+                                <div id="info-item-4"><strong id="info-label-4" class="block text-gray-500 uppercase text-xs">Harga Estimasi</strong> <span id="harga-total" class="text-base font-bold text-blue-700"></span></div>
                             </div>
                         </div>
 
                         <!-- Tabel parameter uji -->
                         <div id="parameters-section" class="hidden mt-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Parameter Uji Laboratorium</h3>
                             <div class="overflow-x-auto border border-gray-200 rounded-lg">
                                 <table class="w-full text-sm border-collapse">
                                     <thead>
@@ -170,7 +170,7 @@
             </div>
 
             <!-- Panel kanan: persyaratan & bantuan layanan -->
-            <div class="lg:col-span-1 space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-[#003366] text-white rounded-2xl p-8 shadow-lg">
                     <h3 class="text-xl font-bold mb-6 flex items-center">
                         <i class="fas fa-file-invoice mr-3 text-emerald-400"></i> Tambahan
@@ -239,6 +239,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('info-label-2').textContent = label2;
         document.getElementById('info-label-3').textContent = label3;
         document.getElementById('info-label-4').textContent = label4;
+        ['info-item-1', 'info-item-2', 'info-item-3', 'info-item-4'].forEach(function(id) {
+            document.getElementById(id).classList.remove('hidden');
+        });
     }
 
     function cleanSuggestionText(value) {
@@ -283,8 +286,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     let displayName = formatMedicineSuggestionName(item);
                     let metaText = formatMedicineSuggestionMeta(item);
                     if (activeCategory === 'pangan') {
-                        displayName = item.bahan_produk;
-                        metaText = item.waktu ? `Waktu layanan: ${item.waktu}` : '';
+                        displayName = item.label || item.bahan_produk;
+                        const panganMeta = item.type === 'parameter'
+                            ? [`Parameter uji`, item.bahan_produk ? `Bahan produk: ${item.bahan_produk}` : '', item.waktu ? `Waktu layanan: ${item.waktu} Hari` : '']
+                            : [`Bahan produk`, item.waktu ? `Waktu layanan: ${item.waktu} Hari` : ''];
+                        metaText = panganMeta.filter(Boolean).join(' - ');
                     } else if (activeCategory === 'kosmetik') {
                         displayName = item.zat_aktif;
                         metaText = item.tipe_produk ? `Tipe produk: ${item.tipe_produk}` : '';
@@ -308,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (activeCategory === 'kosmetik') {
                             loadKosmetikDetails(item.id);
                         } else if (activeCategory === 'pangan') {
-                            loadPanganDetails(item.id);
+                            loadPanganDetails(item.id, item.type === 'parameter' ? item.id_uji : null);
                         } else {
                             loadMedicineDetails(item.id);
                         }
@@ -342,6 +348,41 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         return escapeHtml(text).replace(/\r?\n/g, '<br>');
+    }
+
+    function formatPanganValue(value) {
+        if (value === null || value === undefined || String(value).trim() === '') {
+            return '-';
+        }
+
+        return escapeHtml(String(value));
+    }
+
+    function renderPanganMethodList(rows, valueResolver, align = 'left') {
+        if (!Array.isArray(rows) || rows.length === 0) {
+            return '<span class="text-gray-400">-</span>';
+        }
+
+        const textAlign = align === 'right' ? 'text-right' : align === 'center' ? 'text-center' : 'text-left';
+
+        return `<div class="divide-y divide-gray-200 rounded-md border border-gray-100 overflow-hidden">${rows.map((row, index) => `
+            <div class="flex gap-2 px-3 py-2 ${textAlign} ${index % 2 ? 'bg-gray-50' : 'bg-white'}">
+                <span class="shrink-0 text-[11px] font-bold text-emerald-700">${index + 1}.</span>
+                <span class="min-w-0 flex-1 whitespace-pre-line">${formatPanganValue(valueResolver(row))}</span>
+            </div>
+        `).join('')}</div>`;
+    }
+
+    function renderPanganTotalList(rows) {
+        if (!Array.isArray(rows) || rows.length === 0) {
+            return '<span class="text-gray-400">-</span>';
+        }
+
+        return `<div class="space-y-2">${rows.map(function(row) {
+            const price = formatPanganValue(row.harga_total);
+            const note = row.keterangan ? `<div class="mt-1 text-xs font-normal text-gray-500">${formatPanganValue(row.keterangan)}</div>` : '';
+            return `<div class="rounded-md border border-gray-100 bg-white px-3 py-2">${price}${note}</div>`;
+        }).join('')}</div>`;
     }
 
     // Jika user menekan Enter pada input utama, jangan submit form
@@ -379,7 +420,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         const context = document.createElement('div');
                         context.className = 'text-xs text-gray-500 truncate';
                         if (item.context) {
-                            context.textContent = `Klaim: ${item.context}`;
+                            context.textContent = item.type === 'klaim'
+                                ? `Tipe produk: ${item.context}`
+                                : `Klaim: ${item.context}`;
                         }
 
                         labelWrap.appendChild(label);
@@ -522,15 +565,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    function loadPanganDetails(panganId) {
+    function loadPanganDetails(panganId, selectedParameterId = null) {
         fetch(`/api/pangan/${panganId}`)
             .then(res => res.json())
             .then(data => {
-                setInfoPanel('Detail Informasi Pangan', 'Bahan Produk', 'Waktu Layanan', 'Jenis Komoditi', 'Keterangan');
+                setInfoPanel('Detail Informasi Pangan', 'Bahan Produk', 'Waktu Layanan', 'Keterangan', '');
                 document.getElementById('zat-aktif').textContent = data.bahan_produk || '-';
                 document.getElementById('jenis-sediaan').textContent = data.waktu ? data.waktu + ' Hari' : '-';
-                document.getElementById('bentuk-sediaan').textContent = 'Komoditi Pangan';
-                document.getElementById('harga-total').textContent = '-';
+                document.getElementById('bentuk-sediaan').textContent = 'Harga total sudah termasuk organoleptik.';
+                document.getElementById('harga-total').textContent = '';
+                document.getElementById('info-item-4').classList.add('hidden');
                 document.getElementById('medicine-info-container').classList.remove('hidden');
 
                 const theadRow = document.getElementById('parameters-header-row');
@@ -545,16 +589,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const tbody = document.getElementById('parameters-tbody');
                 tbody.innerHTML = '';
-                if (data.parameters && data.parameters.length > 0) {
-                    data.parameters.forEach(param => {
+                const panganParameters = Array.isArray(data.parameters) ? data.parameters : [];
+                const displayedParameters = selectedParameterId
+                    ? panganParameters.filter(param => String(param.id_uji) === String(selectedParameterId))
+                    : panganParameters;
+
+                if (displayedParameters.length > 0) {
+                    displayedParameters.forEach(param => {
+                        const metodeRows = Array.isArray(param.metodes) && param.metodes.length
+                            ? param.metodes
+                            : [{
+                                metode: param.metode,
+                                minimal_sampel: param.minimal_sampel,
+                                satuan: param.satuan,
+                                harga: param.harga
+                            }];
                         tbody.innerHTML += `
                             <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4">${param.parameter_uji || '-'}</td>
-                                <td class="px-6 py-4 whitespace-pre-line">${formatPanganTextOrDash(param.metode)}</td>
-                                <td class="px-6 py-4 text-center font-semibold">${param.minimal_sampel || 0}</td>
-                                <td class="px-6 py-4">${param.satuan || '-'}</td>
-                                <td class="px-6 py-4 text-right font-semibold whitespace-pre-line">${formatPanganTextOrDash(param.harga)}</td>
-                                <td class="px-6 py-4 text-right font-semibold whitespace-pre-line">${formatPanganTextOrDash(param.total)}</td>
+                                <td class="px-6 py-4">${formatPanganValue(param.parameter_uji)}</td>
+                                <td class="px-6 py-4">${renderPanganMethodList(metodeRows, row => row.metode)}</td>
+                                <td class="px-6 py-4 font-semibold">${renderPanganMethodList(metodeRows, row => row.minimal_sampel, 'center')}</td>
+                                <td class="px-6 py-4">${renderPanganMethodList(metodeRows, row => row.satuan)}</td>
+                                <td class="px-6 py-4 font-semibold">${renderPanganMethodList(metodeRows, row => row.harga, 'right')}</td>
+                                <td class="px-6 py-4 text-right font-semibold">${renderPanganTotalList(param.harga_totals)}</td>
                             </tr>`;
                     });
                 } else {
@@ -568,7 +625,16 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/api/otsk/${klaimId}`)
             .then(res => res.json())
             .then(data => {
-                document.getElementById('medicine-info-container').classList.add('hidden');
+                const parameterCount = data.parameters ? data.parameters.length : 0;
+                const metodeCount = data.parameters
+                    ? data.parameters.reduce((total, param) => total + (param.metodes ? param.metodes.length : 0), 0)
+                    : 0;
+                setInfoPanel('Detail Klaim/Khasiat OT-SK', 'Klaim/Khasiat', 'Tipe Produk', 'Jumlah Parameter', 'Jumlah Metode');
+                document.getElementById('zat-aktif').textContent = data.nama_klaim || '-';
+                document.getElementById('jenis-sediaan').textContent = data.tipe_produk || '-';
+                document.getElementById('bentuk-sediaan').textContent = parameterCount;
+                document.getElementById('harga-total').textContent = metodeCount;
+                document.getElementById('medicine-info-container').classList.remove('hidden');
 
                 const theadRow = document.getElementById('parameters-header-row');
                 theadRow.innerHTML = `
@@ -584,7 +650,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         tbody.innerHTML += `<tr class="bg-gray-50 border-b border-gray-200"><td class="px-6 py-4 font-semibold text-[#003366]" colspan="3">${param.parameter_uji || '-'}</td></tr>`;
                         if (param.metodes && param.metodes.length > 0) {
                             param.metodes.forEach(metode => {
-                                tbody.innerHTML += `<tr class="hover:bg-white border-b border-gray-100"><td class="px-6 py-3 pl-12 text-gray-400 text-sm"><i class="fas fa-level-up-alt rotate-90 mr-2"></i> Metode</td><td class="px-6 py-3 text-sm"><div class="font-medium text-gray-800">${metode.metode_uji || '-'}</div><div class="text-xs text-gray-500 mt-1">Sediaan: ${metode.sediaan || '-'} | Pustaka: ${metode.pustaka || '-'} | Teknik: ${metode.teknik || '-'}</div></td><td class="px-6 py-3 text-center text-sm">${metode.jumlah_sampel || '-'} ${metode.satuan || ''}</td></tr>`;
+                                tbody.innerHTML += `<tr class="hover:bg-white border-b border-gray-100"><td class="px-6 py-3 pl-12 text-gray-400 text-sm"><i class="fas fa-level-up-alt rotate-90 mr-2"></i> ${metode.sediaan || '-'}</td><td class="px-6 py-3 text-sm"><div class="font-medium text-gray-800">${metode.pustaka || '-'}</div><div class="text-xs text-gray-500 mt-1 space-y-1"><div>Metode Uji: ${metode.metode_uji || '-'}</div><div>Teknik: ${metode.teknik || '-'}</div></div></td><td class="px-6 py-3 text-center text-sm">${metode.jumlah_sampel || '-'} ${metode.satuan || ''}</td></tr>`;
                             });
                         } else {
                             tbody.innerHTML += `<tr><td class="px-6 py-2 pl-12 text-gray-400 italic text-sm" colspan="3">Belum ada data metode uji</td></tr>`;
@@ -614,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             klaim.parameters.forEach(param => {
                                 let metodeHtml = param.metodes && param.metodes.length > 0 ? '' : '<span class="text-gray-400 italic">-</span>';
                                 if (param.metodes) param.metodes.forEach(metode => {
-                                    metodeHtml += `<div class="mb-2 pb-2 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0"><div class="font-medium">${metode.metode_uji}</div><div class="text-xs text-gray-500">Sediaan: ${metode.sediaan || '-'} | Pustaka: ${metode.pustaka || '-'} | Teknik: ${metode.teknik || '-'} | Sampel: ${metode.jumlah_sampel || '-'} ${metode.satuan || ''}</div></div>`;
+                                    metodeHtml += `<div class="mb-2 pb-2 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0"><div class="font-medium">${metode.pustaka || '-'}</div><div class="text-xs text-gray-500 mt-1 space-y-1"><div>Sediaan: ${metode.sediaan || '-'}</div><div>Metode Uji: ${metode.metode_uji || '-'}</div><div>Teknik: ${metode.teknik || '-'}</div><div>Sampel: ${metode.jumlah_sampel || '-'} ${metode.satuan || ''}</div></div></div>`;
                                 });
                                 tbody.innerHTML += `<tr class="hover:bg-gray-50 border-b border-gray-200"><td class="px-6 py-4 align-top">${klaim.nama_klaim || '-'}</td><td class="px-6 py-4 align-top font-medium text-[#003366]">${param.parameter_uji || '-'}</td><td class="px-6 py-4 align-top" colspan="2">${metodeHtml}</td></tr>`;
                             });

@@ -16,6 +16,8 @@ use App\Models\KategoriKos;
 use App\Models\ParameterKos;
 use App\Models\Pangan;
 use App\Models\ParameterUjiPangan;
+use App\Models\MetodeUjiPangan;
+use App\Models\HargaTotalPangan;
 
 class AdminController extends Controller
 {
@@ -461,7 +463,7 @@ class AdminController extends Controller
             'jumlah_sampel' => 'required|numeric|min:1',
             'satuan_sampel' => 'required|in:gram,mL,dosis,mg',
             'pustaka' => 'required|string|max:255',
-            'sediaan' => 'required|in:Padat,Cair,Padat dan Cair',
+            'sediaan' => 'required|in:Padat,Cair,Padat dan Cair,Kapsul Lunak',
         ]);
 
         MetodeUjiOtsk::create([
@@ -485,7 +487,7 @@ class AdminController extends Controller
             'jumlah_sampel' => 'required|numeric|min:1',
             'satuan_sampel' => 'required|in:gram,mL,dosis,mg',
             'pustaka' => 'required|string|max:255',
-            'sediaan' => 'required|in:Padat,Cair,Padat dan Cair',
+            'sediaan' => 'required|in:Padat,Cair,Padat dan Cair,Kapsul Lunak',
         ]);
 
         $metode = MetodeUjiOtsk::findOrFail($id);
@@ -727,7 +729,7 @@ public function getKosmetik($id)
     {
         $sort = $request->query('sort', 'new');
 
-        $pangansQuery = Pangan::with('parameterUjiPangan');
+        $pangansQuery = Pangan::with(['parameterUjiPangan.metodeUjiPangan', 'parameterUjiPangan.hargaTotalPangan']);
 
         if ($sort === 'az') {
             $pangansQuery
@@ -747,12 +749,11 @@ public function getKosmetik($id)
     {
         $request->validate([
             'bahan_produk' => 'required|string|max:255',
-            'waktu' => 'required|integer|min:0',
         ]);
 
         Pangan::create([
             'bahan_produk' => $request->bahan_produk,
-            'waktu' => $request->waktu,
+            'waktu' => 17,
         ]);
 
         return redirect()->back()->with('success', 'Data pangan berhasil ditambahkan!');
@@ -783,13 +784,13 @@ public function getKosmetik($id)
 
     public function getPangan($id)
     {
-        $pangan = Pangan::with('parameterUjiPangan')->findOrFail($id);
+        $pangan = Pangan::with(['parameterUjiPangan.metodeUjiPangan', 'parameterUjiPangan.hargaTotalPangan'])->findOrFail($id);
         return response()->json($pangan);
     }
 
     public function getPanganDetails($id)
     {
-        $pangan = Pangan::with('parameterUjiPangan')->findOrFail($id);
+        $pangan = Pangan::with(['parameterUjiPangan.metodeUjiPangan', 'parameterUjiPangan.hargaTotalPangan'])->findOrFail($id);
         return response()->json($pangan);
     }
 
@@ -797,48 +798,211 @@ public function getKosmetik($id)
 
     public function storeParameterUjiPangan(Request $request)
     {
+        $this->normalizePanganParameterRequest($request);
+
         $validated = $request->validate([
             'id_pangan' => 'required|exists:pangan,id_pangan',
             'parameter_uji' => 'required|string|max:255',
-            'metode' => 'required|string|max:255',
             'minimal_sampel' => 'nullable|numeric|min:0',
-            'satuan' => 'required|string|max:50',
+            'satuan' => 'nullable|string|max:50',
+            'harga_total' => 'required|array|min:1',
+            'harga_total.*' => 'required|numeric|min:0',
+            'harga_total_keterangan' => 'required|array|min:1',
+            'harga_total_keterangan.*' => 'nullable|string|max:512',
             'keterangan' => 'nullable|string',
-            'harga' => 'required|numeric|min:0',
+            'metode' => 'required|array|min:1',
+            'metode.*' => 'required|string|max:255',
+            'metode_sampel_minimal' => 'required|array|min:1',
+            'metode_sampel_minimal.*' => 'required|numeric|min:0',
+            'metode_satuan' => 'required|array|min:1',
+            'metode_satuan.*' => 'required|string|max:50',
+            'metode_keterangan' => 'required|array|min:1',
+            'metode_keterangan.*' => 'nullable|string|max:512',
+            'metode_harga' => 'required|array|min:1',
+            'metode_harga.*' => 'required|numeric|min:0',
         ]);
 
-        // Normalize numeric fields to avoid unexpected string values in DB/output
-        $validated['harga'] = (float) $validated['harga'];
-        if (array_key_exists('minimal_sampel', $validated) && $validated['minimal_sampel'] !== null) {
-            $validated['minimal_sampel'] = (float) $validated['minimal_sampel'];
+        $metodeCount = count($validated['metode']);
+        if (
+            $metodeCount !== count($validated['metode_sampel_minimal'])
+            || $metodeCount !== count($validated['metode_satuan'])
+            || $metodeCount !== count($validated['metode_keterangan'])
+            || $metodeCount !== count($validated['metode_harga'])
+        ) {
+            return redirect()->back()->with('error', 'Jumlah data metode, sampel, satuan, keterangan, dan harga harus sama!');
         }
 
-        ParameterUjiPangan::create($validated);
+        if (count($validated['harga_total']) !== count($validated['harga_total_keterangan'])) {
+            return redirect()->back()->with('error', 'Jumlah harga total dan keterangan harga total harus sama!');
+        }
+
+        DB::transaction(function () use ($validated) {
+            $parameter = ParameterUjiPangan::create([
+                'id_pangan' => $validated['id_pangan'],
+                'parameter_uji' => $validated['parameter_uji'],
+                'minimal_sampel' => $validated['metode_sampel_minimal'][0],
+                'satuan' => $validated['metode_satuan'][0],
+                'harga_total' => (float) $validated['harga_total'][0],
+                'keterangan' => $validated['metode_keterangan'][0] ?? null,
+            ]);
+
+            $this->syncHargaTotalPangan($parameter, $validated['harga_total'], $validated['harga_total_keterangan']);
+
+            foreach ($validated['metode'] as $index => $metode) {
+                MetodeUjiPangan::create([
+                    'id_uji' => $parameter->id_uji,
+                    'metode' => $metode,
+                    'sampel_minimal' => $validated['metode_sampel_minimal'][$index] ?? null,
+                    'satuan' => $validated['metode_satuan'][$index] ?? null,
+                    'keterangan' => $validated['metode_keterangan'][$index] ?? null,
+                    'harga' => (float) $validated['metode_harga'][$index],
+                ]);
+            }
+        });
 
         return redirect()->back()->with('success', 'Parameter uji pangan berhasil ditambahkan!');
     }
 
     public function updateParameterUjiPangan(Request $request, $id)
     {
+        $this->normalizePanganParameterRequest($request);
+
         $validated = $request->validate([
             'parameter_uji' => 'required|string|max:255',
-            'metode' => 'required|string|max:255',
             'minimal_sampel' => 'nullable|numeric|min:0',
-            'satuan' => 'required|string|max:50',
+            'satuan' => 'nullable|string|max:50',
+            'harga_total' => 'required|array|min:1',
+            'harga_total.*' => 'required|numeric|min:0',
+            'harga_total_keterangan' => 'required|array|min:1',
+            'harga_total_keterangan.*' => 'nullable|string|max:512',
             'keterangan' => 'nullable|string',
-            'harga' => 'required|numeric|min:0',
+            'metode' => 'required|array|min:1',
+            'metode.*' => 'required|string|max:255',
+            'metode_sampel_minimal' => 'required|array|min:1',
+            'metode_sampel_minimal.*' => 'required|numeric|min:0',
+            'metode_satuan' => 'required|array|min:1',
+            'metode_satuan.*' => 'required|string|max:50',
+            'metode_keterangan' => 'required|array|min:1',
+            'metode_keterangan.*' => 'nullable|string|max:512',
+            'metode_harga' => 'required|array|min:1',
+            'metode_harga.*' => 'required|numeric|min:0',
         ]);
 
-        // Normalize numeric fields to avoid unexpected string values in DB/output
-        $validated['harga'] = (float) $validated['harga'];
-        if (array_key_exists('minimal_sampel', $validated) && $validated['minimal_sampel'] !== null) {
-            $validated['minimal_sampel'] = (float) $validated['minimal_sampel'];
+        $metodeCount = count($validated['metode']);
+        if (
+            $metodeCount !== count($validated['metode_sampel_minimal'])
+            || $metodeCount !== count($validated['metode_satuan'])
+            || $metodeCount !== count($validated['metode_keterangan'])
+            || $metodeCount !== count($validated['metode_harga'])
+        ) {
+            return redirect()->back()->with('error', 'Jumlah data metode, sampel, satuan, keterangan, dan harga harus sama!');
         }
 
-        $parameter = ParameterUjiPangan::findOrFail($id);
-        $parameter->update($validated);
+        if (count($validated['harga_total']) !== count($validated['harga_total_keterangan'])) {
+            return redirect()->back()->with('error', 'Jumlah harga total dan keterangan harga total harus sama!');
+        }
+
+        DB::transaction(function () use ($validated, $id) {
+            $parameter = ParameterUjiPangan::findOrFail($id);
+            $parameter->update([
+                'parameter_uji' => $validated['parameter_uji'],
+                'minimal_sampel' => $validated['metode_sampel_minimal'][0],
+                'satuan' => $validated['metode_satuan'][0],
+                'harga_total' => (float) $validated['harga_total'][0],
+                'keterangan' => $validated['metode_keterangan'][0] ?? null,
+            ]);
+
+            $this->syncHargaTotalPangan($parameter, $validated['harga_total'], $validated['harga_total_keterangan']);
+
+            MetodeUjiPangan::where('id_uji', $parameter->id_uji)->delete();
+
+            foreach ($validated['metode'] as $index => $metode) {
+                MetodeUjiPangan::create([
+                    'id_uji' => $parameter->id_uji,
+                    'metode' => $metode,
+                    'sampel_minimal' => $validated['metode_sampel_minimal'][$index] ?? null,
+                    'satuan' => $validated['metode_satuan'][$index] ?? null,
+                    'keterangan' => $validated['metode_keterangan'][$index] ?? null,
+                    'harga' => (float) $validated['metode_harga'][$index],
+                ]);
+            }
+        });
 
         return redirect()->back()->with('success', 'Parameter uji pangan berhasil diperbarui!');
+    }
+
+    private function syncHargaTotalPangan(ParameterUjiPangan $parameter, array $hargaTotals, array $keterangans): void
+    {
+        HargaTotalPangan::where('id_uji', $parameter->id_uji)->delete();
+
+        foreach ($hargaTotals as $index => $hargaTotal) {
+            HargaTotalPangan::create([
+                'id_uji' => $parameter->id_uji,
+                'harga_total' => (float) $hargaTotal,
+                'keterangan' => $keterangans[$index] ?? null,
+            ]);
+        }
+    }
+
+    private function normalizePanganParameterRequest(Request $request): void
+    {
+        $data = [];
+
+        if ($request->has('metode') && !is_array($request->input('metode'))) {
+            $data['metode'] = [$request->input('metode')];
+        }
+
+        if ($request->has('harga') && !$request->has('metode_harga')) {
+            $data['metode_harga'] = [$request->input('harga')];
+        }
+
+        $metodeCount = count($data['metode'] ?? (array) $request->input('metode', []));
+
+        if (!$request->has('metode_sampel_minimal') && $metodeCount > 0) {
+            $data['metode_sampel_minimal'] = array_fill(0, $metodeCount, $request->input('minimal_sampel'));
+        }
+
+        if (!$request->has('metode_satuan') && $metodeCount > 0) {
+            $data['metode_satuan'] = array_fill(0, $metodeCount, $request->input('satuan'));
+        }
+
+        if (!$request->has('metode_keterangan') && $metodeCount > 0) {
+            $data['metode_keterangan'] = array_fill(0, $metodeCount, $request->input('keterangan'));
+        }
+
+        if ($request->has('harga_total') && !is_array($request->input('harga_total'))) {
+            $data['harga_total'] = [$request->input('harga_total')];
+        }
+
+        if (!$request->has('harga_total') && $request->has('harga')) {
+            $data['harga_total'] = [$request->input('harga')];
+        }
+
+        if ($request->has('harga_total_keterangan') && !is_array($request->input('harga_total_keterangan'))) {
+            $data['harga_total_keterangan'] = [$request->input('harga_total_keterangan')];
+        }
+
+        $hargaTotalCount = count($data['harga_total'] ?? (array) $request->input('harga_total', []));
+        if (!$request->has('harga_total_keterangan') && $hargaTotalCount > 0) {
+            $data['harga_total_keterangan'] = array_fill(0, $hargaTotalCount, null);
+        }
+
+        if ($data) {
+            $request->merge($data);
+        }
+
+        $isMultipleHargaTotal = $request->boolean('has_multiple_harga_total');
+        if (!$isMultipleHargaTotal) {
+            $hargaTotals = array_values((array) $request->input('harga_total', []));
+            $hargaTotalKeterangan = array_values((array) $request->input('harga_total_keterangan', []));
+
+            if (!empty($hargaTotals)) {
+                $request->merge([
+                    'harga_total' => [reset($hargaTotals)],
+                    'harga_total_keterangan' => [reset($hargaTotalKeterangan) ?: null],
+                ]);
+            }
+        }
     }
 
     public function deleteParameterUjiPangan($id)

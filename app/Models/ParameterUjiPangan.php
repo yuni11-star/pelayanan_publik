@@ -13,14 +13,11 @@ class ParameterUjiPangan extends Model
 
     protected $fillable = [
         'id_pangan',
-        'id_uji',
         'parameter_uji',
-        'metode',
         'minimal_sampel',
         'satuan',
+        'harga_total',
         'keterangan',
-        'harga',
-        'total',
     ];
 
     /**
@@ -38,5 +35,10 @@ class ParameterUjiPangan extends Model
     public function metodeUjiPangan()
     {
         return $this->hasMany(\App\Models\MetodeUjiPangan::class, 'id_uji', 'id_uji');
+    }
+
+    public function hargaTotalPangan()
+    {
+        return $this->hasMany(\App\Models\HargaTotalPangan::class, 'id_uji', 'id_uji');
     }
 }

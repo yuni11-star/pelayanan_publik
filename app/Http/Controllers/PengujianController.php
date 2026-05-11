@@ -119,8 +119,15 @@ class PengujianController extends Controller
         }
 
         // Search in ProdukKlaim (Klaim)
-        $klaimResults = ProdukKlaim::where('nama_klaim', 'LIKE', '%' . $query . '%')
-            ->select('id_klaim as id', 'nama_klaim as name', \DB::raw("'klaim' as type"), \DB::raw("'' as context"))
+        $klaimResults = ProdukKlaim::query()
+            ->leftJoin('tipe_produk', 'produk_klaim.id_produk', '=', 'tipe_produk.id_produk')
+            ->where('produk_klaim.nama_klaim', 'LIKE', '%' . $query . '%')
+            ->select(
+                'produk_klaim.id_klaim as id',
+                'produk_klaim.nama_klaim as name',
+                \DB::raw("'klaim' as type"),
+                'tipe_produk.nama_tipe as context'
+            )
             ->orderBy('nama_klaim', 'asc')
             ->limit(10)
             ->get();
@@ -414,8 +421,7 @@ class PengujianController extends Controller
     /**
      * Mencari pangan secara real-time (Autocomplete)
      * Endpoint: /api/search-pangan?q=...
-     * Mengembalikan daftar komoditi pangan unik untuk autocomplete,
-     * dengan pencarian pada bahan produk maupun parameter uji.
+     * Mengembalikan hasil autocomplete bahan produk dan parameter uji.
      */
     public function searchPangan(Request $request)
     {
@@ -425,28 +431,47 @@ class PengujianController extends Controller
             return response()->json([]);
         }
 
-        $results = \DB::table('pangan')
-            ->leftJoin('parameter_uji_pangan', 'pangan.id_pangan', '=', 'parameter_uji_pangan.id_pangan')
-            ->where(function ($builder) use ($query) {
-                $builder->where('pangan.bahan_produk', 'LIKE', '%' . $query . '%')
-                    ->orWhere('parameter_uji_pangan.parameter_uji', 'LIKE', '%' . $query . '%');
-            })
-            ->select(
-                'pangan.id_pangan',
-                'pangan.bahan_produk',
-                'pangan.waktu'
-            )
-            ->groupBy('pangan.id_pangan', 'pangan.bahan_produk', 'pangan.waktu')
-            ->orderBy('pangan.bahan_produk')
-            ->limit(20)
+        $productResults = Pangan::query()
+            ->where('bahan_produk', 'LIKE', '%' . $query . '%')
+            ->select('id_pangan', 'bahan_produk', 'waktu')
+            ->orderBy('bahan_produk')
+            ->limit(10)
             ->get()
             ->map(function ($item) {
                 return [
                     'id' => $item->id_pangan,
+                    'id_uji' => null,
+                    'type' => 'bahan_produk',
+                    'label' => $item->bahan_produk,
                     'bahan_produk' => $item->bahan_produk,
                     'waktu' => $item->waktu,
+                    'parameter_uji' => null,
                 ];
             });
+
+        $parameterResults = ParameterUjiPangan::query()
+            ->with('pangan')
+            ->where('parameter_uji', 'LIKE', '%' . $query . '%')
+            ->orderBy('parameter_uji')
+            ->limit(10)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id_pangan,
+                    'id_uji' => $item->id_uji,
+                    'type' => 'parameter',
+                    'label' => $item->parameter_uji,
+                    'bahan_produk' => $item->pangan->bahan_produk ?? '-',
+                    'waktu' => $item->pangan->waktu ?? null,
+                    'parameter_uji' => $item->parameter_uji,
+                ];
+            });
+
+        $results = $productResults
+            ->merge($parameterResults)
+            ->sortBy('label', SORT_NATURAL | SORT_FLAG_CASE)
+            ->values()
+            ->take(20);
 
         return response()->json($results);
     }
@@ -454,59 +479,77 @@ class PengujianController extends Controller
     /**
      * Mendapatkan detail pangan beserta parameter uji
      * Endpoint: /api/pangan/{id}
-     * Now uses parameter_uji_pangan table with joins to harga_pangan and metode_uji_pangan
+     * Uses the admin-managed pangan parameter and metode tables.
      */
     public function getPanganDetail($id)
     {
-        $parameters = \DB::table('parameter_uji_pangan')
-            ->join('pangan', 'parameter_uji_pangan.id_pangan', '=', 'pangan.id_pangan')
-            ->leftJoin('metode_uji_pangan', 'parameter_uji_pangan.id_uji', '=', 'metode_uji_pangan.id_uji')
-            ->leftJoin('harga_pangan', function ($join) {
-                $join->on('parameter_uji_pangan.id_uji', '=', 'harga_pangan.id_metode')
-                     ->on('parameter_uji_pangan.id_pangan', '=', 'harga_pangan.id');
-            })
-            ->where('parameter_uji_pangan.id_pangan', $id)
-            ->select(
-                'parameter_uji_pangan.id_pangan',
-                'parameter_uji_pangan.id_uji',
-                'parameter_uji_pangan.parameter_uji',
-                'parameter_uji_pangan.metode as parameter_metode',
-                'parameter_uji_pangan.minimal_sampel as parameter_minimal_sampel',
-                'parameter_uji_pangan.satuan as parameter_satuan',
-                'parameter_uji_pangan.keterangan as parameter_keterangan',
-                'parameter_uji_pangan.harga as parameter_harga',
-                'parameter_uji_pangan.total',
-                'pangan.bahan_produk',
-                'pangan.waktu',
-                'metode_uji_pangan.metode as metode_uji_metode',
-                'metode_uji_pangan.sampel_minimal as metode_uji_sampel_minimal',
-                'metode_uji_pangan.satuan as metode_satuan',
-                'metode_uji_pangan.keterangan as metode_keterangan',
-                'harga_pangan.harga as joined_harga'
-            )
-            ->get();
+        $pangan = Pangan::with(['parameterUjiPangan.metodeUjiPangan', 'parameterUjiPangan.hargaTotalPangan'])->find($id);
 
-        if ($parameters->isEmpty()) {
+        if (!$pangan) {
             return response()->json(['error' => 'Pangan not found'], 404);
         }
 
-        // Get the first item to get pangan info
-        $firstParam = $parameters->first();
-
         $data = [
-            'id' => $firstParam->id_pangan,
-            'bahan_produk' => $firstParam->bahan_produk,
-            'waktu' => $firstParam->waktu,
-            'parameters' => $parameters->map(function ($param) {
+            'id' => $pangan->id_pangan,
+            'bahan_produk' => $pangan->bahan_produk,
+            'waktu' => $pangan->waktu,
+            'parameters' => $pangan->parameterUjiPangan->map(function ($param) {
+                $metodeRows = $param->metodeUjiPangan->isNotEmpty()
+                    ? $param->metodeUjiPangan->map(function ($metode) {
+                        return [
+                            'metode' => $metode->metode,
+                            'minimal_sampel' => $metode->sampel_minimal,
+                            'satuan' => $metode->satuan,
+                            'keterangan' => $metode->keterangan,
+                            'harga' => $metode->harga !== null ? 'Rp ' . number_format((float) $metode->harga, 0, ',', '.') : '-',
+                        ];
+                    })->values()
+                    : collect([[
+                        'metode' => $param->metode ?? '',
+                        'minimal_sampel' => $param->minimal_sampel,
+                        'satuan' => $param->satuan,
+                        'keterangan' => $param->keterangan,
+                        'harga' => $param->harga !== null ? 'Rp ' . number_format((float) $param->harga, 0, ',', '.') : '-',
+                    ]]);
+                $hargaTotalRows = $param->hargaTotalPangan->isNotEmpty()
+                    ? $param->hargaTotalPangan->map(function ($harga) {
+                        return [
+                            'harga_total' => 'Rp ' . number_format((float) $harga->harga_total, 0, ',', '.'),
+                            'keterangan' => $harga->keterangan,
+                        ];
+                    })->values()
+                    : collect([[
+                        'harga_total' => $param->harga_total !== null ? 'Rp ' . number_format((float) $param->harga_total, 0, ',', '.') : '-',
+                        'keterangan' => null,
+                    ]]);
+
                 return [
                     'id_uji' => $param->id_uji,
                     'parameter_uji' => $param->parameter_uji,
-                    'metode' => $param->parameter_metode ?? $param->metode_uji_metode,
-                    'minimal_sampel' => $param->parameter_minimal_sampel ?? $param->metode_uji_sampel_minimal,
-                    'satuan' => $param->parameter_satuan ?? $param->metode_satuan,
-                    'keterangan' => $param->parameter_keterangan ?? $param->metode_keterangan,
-                    'harga' => $param->parameter_harga ?? $param->joined_harga,
-                    'total' => $param->total,
+                    'metodes' => $metodeRows,
+                    'harga_totals' => $hargaTotalRows,
+                    'metode' => $param->metodeUjiPangan->isNotEmpty()
+                        ? $param->metodeUjiPangan->pluck('metode')->implode("\n")
+                        : ($param->metode ?? ''),
+                    'minimal_sampel' => $param->metodeUjiPangan->isNotEmpty()
+                        ? $param->metodeUjiPangan->pluck('sampel_minimal')->implode("\n")
+                        : $param->minimal_sampel,
+                    'satuan' => $param->metodeUjiPangan->isNotEmpty()
+                        ? $param->metodeUjiPangan->pluck('satuan')->implode("\n")
+                        : $param->satuan,
+                    'keterangan' => $param->metodeUjiPangan->isNotEmpty()
+                        ? $param->metodeUjiPangan->pluck('keterangan')->implode("\n")
+                        : $param->keterangan,
+                    'harga' => $param->metodeUjiPangan->isNotEmpty()
+                        ? $param->metodeUjiPangan
+                            ->map(fn ($metode) => $metode->harga !== null ? 'Rp ' . number_format((float) $metode->harga, 0, ',', '.') : '-')
+                            ->implode("\n")
+                        : ($param->harga !== null ? 'Rp ' . number_format((float) $param->harga, 0, ',', '.') : '-'),
+                    'total' => $param->hargaTotalPangan->isNotEmpty()
+                        ? $param->hargaTotalPangan
+                            ->map(fn ($harga) => 'Rp ' . number_format((float) $harga->harga_total, 0, ',', '.') . ($harga->keterangan ? "\n" . $harga->keterangan : ''))
+                            ->implode("\n")
+                        : ($param->harga_total !== null ? 'Rp ' . number_format((float) $param->harga_total, 0, ',', '.') : '-'),
                 ];
             }),
         ];
@@ -521,33 +564,9 @@ class PengujianController extends Controller
      */
     public function getPanganItemDetail($id, $idUji)
     {
-        $item = \DB::table('parameter_uji_pangan')
-            ->join('pangan', 'parameter_uji_pangan.id_pangan', '=', 'pangan.id_pangan')
-            ->leftJoin('metode_uji_pangan', 'parameter_uji_pangan.id_uji', '=', 'metode_uji_pangan.id_uji')
-            ->leftJoin('harga_pangan', function ($join) {
-                $join->on('parameter_uji_pangan.id_uji', '=', 'harga_pangan.id_metode')
-                     ->on('parameter_uji_pangan.id_pangan', '=', 'harga_pangan.id');
-            })
-            ->where('parameter_uji_pangan.id_pangan', $id)
-            ->where('parameter_uji_pangan.id_uji', $idUji)
-            ->select(
-                'parameter_uji_pangan.id_pangan',
-                'parameter_uji_pangan.id_uji',
-                'parameter_uji_pangan.parameter_uji',
-                'parameter_uji_pangan.metode as parameter_metode',
-                'parameter_uji_pangan.minimal_sampel as parameter_minimal_sampel',
-                'parameter_uji_pangan.satuan as parameter_satuan',
-                'parameter_uji_pangan.keterangan as parameter_keterangan',
-                'parameter_uji_pangan.harga as parameter_harga',
-                'parameter_uji_pangan.total',
-                'pangan.bahan_produk',
-                'pangan.waktu',
-                'metode_uji_pangan.metode as metode_uji_metode',
-                'metode_uji_pangan.sampel_minimal as metode_uji_sampel_minimal',
-                'metode_uji_pangan.satuan as metode_satuan',
-                'metode_uji_pangan.keterangan as metode_keterangan',
-                'harga_pangan.harga as joined_harga'
-            )
+        $item = ParameterUjiPangan::with(['pangan', 'metodeUjiPangan', 'hargaTotalPangan'])
+            ->where('id_pangan', $id)
+            ->where('id_uji', $idUji)
             ->first();
 
         if (!$item) {
@@ -557,15 +576,31 @@ class PengujianController extends Controller
         return response()->json([
             'id' => $item->id_pangan,
             'id_uji' => $item->id_uji,
-            'bahan_produk' => $item->bahan_produk,
-            'waktu' => $item->waktu,
+            'bahan_produk' => $item->pangan->bahan_produk ?? '-',
+            'waktu' => $item->pangan->waktu ?? null,
             'parameter_uji' => $item->parameter_uji,
-            'metode' => $item->parameter_metode ?? $item->metode_uji_metode,
-            'minimal_sampel' => $item->parameter_minimal_sampel ?? $item->metode_uji_sampel_minimal,
-            'satuan' => $item->parameter_satuan ?? $item->metode_satuan,
-            'keterangan' => $item->parameter_keterangan ?? $item->metode_keterangan,
-            'harga' => $item->parameter_harga ?? $item->joined_harga,
-            'total' => $item->total,
+            'metode' => $item->metodeUjiPangan->isNotEmpty()
+                ? $item->metodeUjiPangan->pluck('metode')->implode("\n")
+                : ($item->metode ?? ''),
+            'minimal_sampel' => $item->metodeUjiPangan->isNotEmpty()
+                ? $item->metodeUjiPangan->pluck('sampel_minimal')->implode("\n")
+                : $item->minimal_sampel,
+            'satuan' => $item->metodeUjiPangan->isNotEmpty()
+                ? $item->metodeUjiPangan->pluck('satuan')->implode("\n")
+                : $item->satuan,
+            'keterangan' => $item->metodeUjiPangan->isNotEmpty()
+                ? $item->metodeUjiPangan->pluck('keterangan')->implode("\n")
+                : $item->keterangan,
+            'harga' => $item->metodeUjiPangan->isNotEmpty()
+                ? $item->metodeUjiPangan
+                    ->map(fn ($metode) => $metode->harga !== null ? 'Rp ' . number_format((float) $metode->harga, 0, ',', '.') : '-')
+                    ->implode("\n")
+                : ($item->harga !== null ? 'Rp ' . number_format((float) $item->harga, 0, ',', '.') : '-'),
+            'total' => $item->hargaTotalPangan->isNotEmpty()
+                ? $item->hargaTotalPangan
+                    ->map(fn ($harga) => 'Rp ' . number_format((float) $harga->harga_total, 0, ',', '.') . ($harga->keterangan ? "\n" . $harga->keterangan : ''))
+                    ->implode("\n")
+                : ($item->harga_total !== null ? 'Rp ' . number_format((float) $item->harga_total, 0, ',', '.') : '-'),
         ]);
     }
 }

@@ -12,6 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Skip if table doesn't exist
+        if (!Schema::hasTable('tipe_produks')) {
+            return;
+        }
+
         // Remove duplicates, keeping the one with the smallest ID
         DB::statement('
             DELETE t1 FROM tipe_produks t1

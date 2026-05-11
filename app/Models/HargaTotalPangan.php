@@ -4,19 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MetodeUjiPangan extends Model
+class HargaTotalPangan extends Model
 {
-    protected $table = 'metode_uji_pangan';
+    protected $table = 'harga_total_pangan';
+    protected $primaryKey = 'id_harga';
     public $timestamps = false;
-    protected $primaryKey = 'id_metode';
 
     protected $fillable = [
         'id_uji',
-        'metode',
-        'sampel_minimal',
-        'satuan',
+        'harga_total',
         'keterangan',
-        'harga',
     ];
 
     public function parameter()

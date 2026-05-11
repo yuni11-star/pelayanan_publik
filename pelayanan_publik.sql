@@ -203,7 +203,7 @@ INSERT INTO `kosmetiks` (`id_kos`, `tipe_produk`) VALUES
 CREATE TABLE `metode_uji_otsk` (
   `id_sediaan` bigint(20) UNSIGNED NOT NULL,
   `id_uji` bigint(20) UNSIGNED NOT NULL,
-  `sediaan` enum('Padat','Cair','Padat dan Cair') NOT NULL,
+  `sediaan` enum('Padat','Cair','Padat dan Cair','Kapsul Lunak') NOT NULL,
   `pustaka` varchar(255) NOT NULL,
   `teknik_analisis` enum('KLT-Spektrofotodensitometri-KCKT','KCKT','KLT-Densitometri','KG','KLT-KCKT','SPE-KCKT','KLT-Spektrofotodensitometri','GC','AAS-HVG','AAS-GF','GC-MS') NOT NULL,
   `metode_uji` varchar(255) NOT NULL,

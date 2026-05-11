@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parameter_uji_otsk', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('parameter_uji_pangan', function (Blueprint $table) {
+            $table->dropColumn(['metode', 'harga']);
         });
     }
 
@@ -22,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('parameter_uji_otsk');
+        Schema::table('parameter_uji_pangan', function (Blueprint $table) {
+            $table->string('metode')->nullable();
+            $table->decimal('harga', 15, 2)->nullable();
+        });
     }
 };

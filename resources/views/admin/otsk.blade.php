@@ -110,45 +110,32 @@
                                         <tr>
                                             <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">No</th>
                                             <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">Tipe Produk</th>
-                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">Klaim</th>
                                             <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600 uppercase">Aksi</th>
                                         </tr>
                                     </thead>
                                     @foreach($tipeProduks as $index => $tipe)
                                     <tbody class="divide-y divide-slate-200">
-                                        <tr class="hover:bg-slate-50 transition">
+                                        <tr onclick="toggleTipe({{ $tipe->id_produk }})" class="hover:bg-slate-50 transition cursor-pointer">
                                             <td class="px-4 py-3 text-sm text-slate-600">{{ $index + 1 }}</td>
                                             <td class="px-4 py-3">
                                                 <div class="font-semibold text-slate-800">{{ $tipe->nama_tipe }}</div>
-                                                <button type="button" onclick="toggleTipe({{ $tipe->id_produk }})" class="text-xs text-emerald-600 font-medium hover:underline">
+                                                <button type="button" onclick="event.stopPropagation(); toggleTipe({{ $tipe->id_produk }})" class="text-xs text-emerald-600 font-medium hover:underline">
                                                     {{ $tipe->produkKlaims->count() }} klaim <i class="fas fa-chevron-down ml-1" id="icon-tipe-{{ $tipe->id_produk }}"></i>
                                                 </button>
                                             </td>
-                                            <td class="px-4 py-3 text-sm text-slate-600">
-                                                @if($tipe->produkKlaims && $tipe->produkKlaims->count() > 0)
-                                                    @foreach($tipe->produkKlaims->take(3) as $klaim)
-                                                        <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full mr-1 mb-1">{{ $klaim->nama_klaim }}</span>
-                                                    @endforeach
-                                                    @if($tipe->produkKlaims->count() > 3)
-                                                        <span class="text-xs text-slate-500">+{{ $tipe->produkKlaims->count() - 3 }} lainnya</span>
-                                                    @endif
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
                                             <td class="px-4 py-3 text-center">
                                                 <div class="flex items-center justify-center space-x-2">
-                                                    <button onclick="openEditTipeModal({{ $tipe->id_produk }}, '{{ $tipe->nama_tipe }}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
+                                                    <button onclick="event.stopPropagation(); openEditTipeModal({{ $tipe->id_produk }}, '{{ $tipe->nama_tipe }}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-                                                    <button onclick="openDeleteTipeModal({{ $tipe->id_produk }}, '{{ $tipe->nama_tipe }}')" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus">
+                                                    <button onclick="event.stopPropagation(); openDeleteTipeModal({{ $tipe->id_produk }}, '{{ $tipe->nama_tipe }}')" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr id="tipe-row-{{ $tipe->id_produk }}" class="hidden bg-purple-50">
-                                            <td colspan="4" class="px-4 py-4">
+                                            <td colspan="3" class="px-4 py-4">
                                                 <div class="space-y-4">
                                                     <!-- Form Tambah Klaim -->
                                                     <form action="{{ route('admin.produk-klaim.store') }}" method="POST" class="bg-white p-4 rounded-xl border border-purple-200">
@@ -199,16 +186,13 @@
                                                             <!-- Parameter List -->
                                                             @foreach($klaim->parameterUjiOtsk as $param)
                                                             <div class="border border-emerald-200 rounded-lg mb-3 overflow-hidden bg-white">
-                                                                <div class="bg-emerald-50 px-3 py-2 flex justify-between items-center">
+                                                                <div onclick="toggleMetode({{ $param->id_uji }})" class="bg-emerald-50 px-3 py-2 flex justify-between items-center cursor-pointer hover:bg-emerald-100 transition">
                                                                     <span class="font-medium text-emerald-800">{{ $param->parameter_uji }}</span>
                                                                     <div class="flex items-center space-x-2">
-                                                                        <button onclick="toggleMetode({{ $param->id_uji }})" class="px-2 py-1 bg-emerald-200 rounded text-xs text-emerald-800 hover:bg-emerald-300 transition">
-                                                                            <i class="fas fa-chevron-down" id="icon-metode-{{ $param->id_uji }}"></i> Metode
-                                                                        </button>
-                                                                        <button onclick="openEditParamModal({{ $param->id_uji }}, '{{ $param->parameter_uji }}')" class="text-blue-600 hover:text-blue-800">
+                                                                        <button onclick="event.stopPropagation(); openEditParamModal({{ $param->id_uji }}, '{{ $param->parameter_uji }}')" class="text-blue-600 hover:text-blue-800">
                                                                             <i class="fas fa-edit"></i>
                                                                         </button>
-                                                                        <button onclick="openDeleteParamModal({{ $param->id_uji }}, '{{ $param->parameter_uji }}')" class="text-red-500 hover:text-red-700">
+                                                                        <button onclick="event.stopPropagation(); openDeleteParamModal({{ $param->id_uji }}, '{{ $param->parameter_uji }}')" class="text-red-500 hover:text-red-700">
                                                                             <i class="fas fa-trash"></i>
                                                                         </button>
                                                                     </div>
@@ -226,6 +210,7 @@
                                                                                 <option value="Padat">Padat</option>
                                                                                 <option value="Cair">Cair</option>
                                                                                 <option value="Padat dan Cair">Padat dan Cair</option>
+                                                                                <option value="Kapsul Lunak">Kapsul Lunak</option>
                                                                             </select>
                                                                             <input type="text" name="pustaka" required placeholder="Pustaka" class="px-2 py-1 border rounded text-sm">
                                                                             <select name="teknik_analisis" required class="px-2 py-1 border rounded text-sm">
@@ -252,6 +237,7 @@
                                                                                 <option value="mL">mL</option>
                                                                                 <option value="dosis">dosis</option>
                                                                                 <option value="mg">mg</option>
+                                                                                <option value="mg"> Kapsul/Tablet</option>
                                                                             </select>
                                                                             <button type="submit" class="px-3 bg-emerald-600 text-white rounded text-sm hover:bg-emerald-700">+</button>
                                                                         </div>
@@ -459,6 +445,7 @@
                     <option value="Padat">Padat</option>
                     <option value="Cair">Cair</option>
                     <option value="Padat dan Cair">Padat dan Cair</option>
+                    <option value="Kapsul Lunak">Kapsul Lunak</option>
                 </select>
                 <input type="text" id="edit_metode_pustaka" name="pustaka" required placeholder="Pustaka" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none">
                 <select id="edit_metode_teknik" name="teknik_analisis" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none">
@@ -484,6 +471,7 @@
                         <option value="mL">mL</option>
                         <option value="dosis">dosis</option>
                         <option value="mg">mg</option>
+                        <option value="mg">Kapsul/Tablet</option>
                     </select>
                 </div>
             </div>
@@ -517,12 +505,93 @@
         const content = document.getElementById('metode-content-' + id);
         const icon = document.getElementById('icon-metode-' + id);
         content.classList.toggle('hidden');
-        icon.classList.toggle('fa-chevron-down');
-        icon.classList.toggle('fa-chevron-up');
+        if (icon) {
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
+        }
+    }
+
+    function getIdFromElementId(element, prefix) {
+        return element && element.id ? element.id.replace(prefix, '') : '';
+    }
+
+    function getOpenOtskStateFromElement(element) {
+        const tipeRow = element ? element.closest('[id^="tipe-row-"]') : null;
+        const klaimContent = element ? element.closest('[id^="klaim-content-"]') : null;
+        const metodeContent = element ? element.closest('[id^="metode-content-"]') : null;
+
+        return {
+            tipeId: getIdFromElementId(tipeRow, 'tipe-row-'),
+            klaimId: getIdFromElementId(klaimContent, 'klaim-content-'),
+            metodeId: getIdFromElementId(metodeContent, 'metode-content-')
+        };
+    }
+
+    function rememberOpenOtskState(state) {
+        if (!state || (!state.tipeId && !state.klaimId && !state.metodeId)) return;
+        sessionStorage.setItem('adminOtskOpenState', JSON.stringify(state));
+    }
+
+    function rememberOpenOtskFromElement(element) {
+        rememberOpenOtskState(getOpenOtskStateFromElement(element));
+    }
+
+    function rememberOpenOtskFromActiveElement(fallbackState) {
+        const activeState = getOpenOtskStateFromElement(document.activeElement);
+        rememberOpenOtskState({
+            tipeId: activeState.tipeId || (fallbackState ? fallbackState.tipeId : ''),
+            klaimId: activeState.klaimId || (fallbackState ? fallbackState.klaimId : ''),
+            metodeId: activeState.metodeId || (fallbackState ? fallbackState.metodeId : '')
+        });
+    }
+
+    function openHiddenOtskDropdown(id, rowPrefix, toggleCallback) {
+        const element = document.getElementById(rowPrefix + id);
+        if (!id || !element) return null;
+
+        if (element.classList.contains('hidden')) {
+            toggleCallback(id);
+        }
+
+        return element;
+    }
+
+    function getOtskScrollTarget(state, tipeRow, klaimContent, metodeContent) {
+        if (state.metodeId && metodeContent) return metodeContent.previousElementSibling || metodeContent;
+        if (state.klaimId && klaimContent) return klaimContent.previousElementSibling || klaimContent;
+        if (state.tipeId && tipeRow) return tipeRow.previousElementSibling || tipeRow;
+
+        return tipeRow || klaimContent || metodeContent;
+    }
+
+    function restoreOpenOtskState() {
+        const storedState = sessionStorage.getItem('adminOtskOpenState');
+        if (!storedState) return;
+
+        sessionStorage.removeItem('adminOtskOpenState');
+
+        let state = {};
+        try {
+            state = JSON.parse(storedState);
+        } catch (error) {
+            return;
+        }
+
+        const tipeRow = openHiddenOtskDropdown(state.tipeId, 'tipe-row-', toggleTipe);
+        const klaimContent = openHiddenOtskDropdown(state.klaimId, 'klaim-content-', toggleKlaim);
+        const metodeContent = openHiddenOtskDropdown(state.metodeId, 'metode-content-', toggleMetode);
+
+        window.setTimeout(function() {
+            const target = getOtskScrollTarget(state, tipeRow, klaimContent, metodeContent);
+            if (target) {
+                target.scrollIntoView({ behavior: 'auto', block: 'center' });
+            }
+        }, 250);
     }
 
     // Modal Functions - Tipe Produk
     function openEditTipeModal(id, nama) {
+        rememberOpenOtskState({ tipeId: id });
         document.getElementById('edit_tipe_nama').value = nama;
         document.getElementById('editTipeForm').action = '/admin/tipe-produk/' + id;
         document.getElementById('editTipeModal').classList.remove('hidden');
@@ -538,6 +607,7 @@
 
     // Modal Functions - Klaim
     function openEditKlaimModal(id, nama) {
+        rememberOpenOtskFromActiveElement();
         document.getElementById('edit_klaim_nama').value = nama;
         document.getElementById('editKlaimForm').action = '/admin/produk-klaim/' + id;
         document.getElementById('editKlaimModal').classList.remove('hidden');
@@ -545,6 +615,7 @@
     function closeEditKlaimModal() { document.getElementById('editKlaimModal').classList.add('hidden'); }
 
     function openDeleteKlaimModal(id, nama) {
+        rememberOpenOtskFromActiveElement();
         document.getElementById('delete_klaim_name').textContent = nama;
         document.getElementById('deleteKlaimForm').action = '/admin/produk-klaim/' + id;
         document.getElementById('deleteKlaimModal').classList.remove('hidden');
@@ -553,6 +624,7 @@
 
     // Modal Functions - Parameter
     function openEditParamModal(id, nama) {
+        rememberOpenOtskFromActiveElement();
         document.getElementById('edit_param_nama').value = nama;
         document.getElementById('editParamForm').action = '/admin/parameter-uji-otsk/' + id;
         document.getElementById('editParamModal').classList.remove('hidden');
@@ -560,6 +632,7 @@
     function closeEditParamModal() { document.getElementById('editParamModal').classList.add('hidden'); }
 
     function openDeleteParamModal(id, nama) {
+        rememberOpenOtskFromActiveElement();
         document.getElementById('delete_param_name').textContent = nama;
         document.getElementById('deleteParamForm').action = '/admin/parameter-uji-otsk/' + id;
         document.getElementById('deleteParamModal').classList.remove('hidden');
@@ -568,6 +641,7 @@
 
     // Modal Functions - Metode
     function openEditMetodeModal(id, sediaan, pustaka, teknik, nama, jumlah, satuan) {
+        rememberOpenOtskFromActiveElement();
         document.getElementById('edit_metode_sediaan').value = sediaan;
         document.getElementById('edit_metode_pustaka').value = pustaka;
         document.getElementById('edit_metode_teknik').value = teknik;
@@ -578,6 +652,16 @@
         document.getElementById('editMetodeModal').classList.remove('hidden');
     }
     function closeEditMetodeModal() { document.getElementById('editMetodeModal').classList.add('hidden'); }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        restoreOpenOtskState();
+    });
+
+    document.addEventListener('submit', function(e) {
+        const form = e.target;
+        if (!form || !form.closest('[id^="tipe-row-"]')) return;
+        rememberOpenOtskFromElement(form);
+    });
 
     // Close modals when clicking outside
     document.querySelectorAll('.fixed').forEach(modal => {

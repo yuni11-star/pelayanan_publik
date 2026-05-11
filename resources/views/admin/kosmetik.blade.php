@@ -60,17 +60,17 @@
             </div>
         @endif
 
-        <div class="space-y-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Form Tambah Kosmetik -->
-            <div>
-                <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 sticky top-8">
                     <div class="bg-orange-700 px-6 py-5 text-white">
                         <h2 class="text-xl font-bold">Tambah Tipe Kosmetik</h2>
                         <p class="text-orange-200 text-sm mt-1">Masukkan tipe produk kosmetik</p>
                     </div>
 
                     <div class="p-6">
-                        <form action="{{ route('admin.kosmetik.store') }}" method="POST" class="grid grid-cols-1 gap-4 md:grid-cols-[1fr_auto] md:items-end">
+                        <form action="{{ route('admin.kosmetik.store') }}" method="POST" class="space-y-4">
                             @csrf
                             
                             <div>
@@ -80,7 +80,7 @@
                                     placeholder="Contoh: Kosmetika Dekoratif">
                             </div>
 
-                            <button type="submit" class="w-full bg-orange-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-orange-800 transition flex items-center justify-center md:w-auto">
+                            <button type="submit" class="w-full bg-orange-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-orange-800 transition flex items-center justify-center">
                                 <i class="fas fa-plus mr-2"></i>
                                 Simpan Tipe Kosmetik
                             </button>
@@ -90,7 +90,7 @@
             </div>
 
             <!-- Tabel Data Kosmetik -->
-            <div>
+            <div class="lg:col-span-2">
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
                     <div class="bg-orange-700 px-6 py-5 text-white flex justify-between items-center">
                         <div>

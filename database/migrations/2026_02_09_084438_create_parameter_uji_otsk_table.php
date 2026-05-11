@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('parameter_uji_otsk')) {
+            return;
+        }
+
         Schema::create('parameter_uji_otsk', function (Blueprint $table) {
             $table->id();
             $table->foreignId('produk_klaim_id')->constrained('produk_klaim')->onDelete('cascade');

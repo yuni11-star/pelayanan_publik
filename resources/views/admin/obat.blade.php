@@ -73,7 +73,7 @@
                             </div>
 
                             <div><!--  -->
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Jenis Sediaan</label>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Jenis</label>
                                 <input type="text" name="jenis_sediaan" required 
                                     class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none"
                                     placeholder="Contoh: Sirup, Tablet, Kapsul">
@@ -130,7 +130,7 @@
                                         <tr>
                                             <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">No</th>
                                             <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">Zat Aktif</th>
-                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">Jenis Sediaan</th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">Jenis</th>
                                             <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase">Bentuk</th>
                                             <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600 uppercase">Harga Total</th>
                                         </tr>
@@ -161,38 +161,40 @@
 
                                                     <!-- Detail Obat Card -->
                                                     <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                                                        <div class="flex justify-between items-start">
-                                                            <div class="flex-1">
+                                                        <div class="flex justify-between items-start gap-3">
+                                                            <div class="flex-1 min-w-0">
                                                                 <h4 class="font-bold text-blue-900 text-sm mb-3 flex items-center">
                                                                     <i class="fas fa-pills mr-2"></i>Detail Obat
                                                                 </h4>
-                                                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                                                                    <div>
+                                                                <div class="grid grid-cols-2 md:grid-cols-[minmax(0,1.6fr)_minmax(0,0.8fr)_minmax(0,1fr)_minmax(0,1fr)] gap-4 text-sm">
+                                                                    <div class="min-w-0">
                                                                         <span class="text-slate-500 text-xs uppercase font-semibold">Zat Aktif</span>
-                                                                        <p class="font-semibold text-slate-800 mt-0.5">{{ $obat->zat_aktif }}</p>
+                                                                        <p class="font-semibold text-slate-800 mt-0.5 leading-snug break-words">{{ $obat->zat_aktif }}</p>
                                                                     </div>
-                                                                    <div>
-                                                                        <span class="text-slate-500 text-xs uppercase font-semibold">Jenis Sediaan</span>
-                                                                        <p class="font-semibold text-slate-800 mt-0.5">{{ $obat->jenis_sediaan }}</p>
+                                                                    <div class="min-w-0">
+                                                                        <span class="text-slate-500 text-xs uppercase font-semibold">Jenis</span>
+                                                                        <p class="font-semibold text-slate-800 mt-0.5 leading-snug break-words">{{ $obat->jenis_sediaan }}</p>
                                                                     </div>
-                                                                    <div>
+                                                                    <div class="min-w-0">
                                                                         <span class="text-slate-500 text-xs uppercase font-semibold">Bentuk Sediaan</span>
-                                                                        <p class="font-semibold text-slate-800 mt-0.5">{{ $obat->bentuk_sediaan }}</p>
+                                                                        <p class="font-semibold text-slate-800 mt-0.5 leading-snug break-words">{{ $obat->bentuk_sediaan }}</p>
                                                                     </div>
-                                                                    <div>
+                                                                    <div class="min-w-0">
                                                                         <span class="text-slate-500 text-xs uppercase font-semibold">Harga Total</span>
-                                                                        <p class="font-bold text-blue-900 mt-0.5">Rp {{ number_format($obat->harga_total ?? 0, 0, ',', '.') }}</p>
+                                                                        <p class="font-bold text-blue-900 mt-0.5 leading-snug break-words">Rp {{ number_format($obat->harga_total ?? 0, 0, ',', '.') }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="flex space-x-2 ml-4 flex-shrink-0">
+                                                            <div class="flex space-x-1 flex-shrink-0">
                                                                 <button onclick="openEditModal({{ $obat->id_obat }}, '{{ addslashes($obat->zat_aktif) }}', '{{ addslashes($obat->jenis_sediaan) }}', '{{ addslashes($obat->bentuk_sediaan) }}', {{ $obat->harga_total ?? 0 }})" 
-                                                                    class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 transition flex items-center">
-                                                                    <i class="fas fa-edit mr-1"></i>Edit
+                                                                    class="w-8 h-8 bg-blue-600 text-white rounded-lg text-xs hover:bg-blue-700 transition inline-flex items-center justify-center"
+                                                                    title="Edit" aria-label="Edit obat">
+                                                                    <i class="fas fa-edit"></i>
                                                                 </button>
                                                                 <button onclick="openDeleteModal({{ $obat->id_obat }}, '{{ addslashes($obat->zat_aktif) }}')" 
-                                                                    class="px-3 py-1.5 bg-red-600 text-white rounded-lg text-xs font-semibold hover:bg-red-700 transition flex items-center">
-                                                                    <i class="fas fa-trash mr-1"></i>Hapus
+                                                                    class="w-8 h-8 bg-red-600 text-white rounded-lg text-xs hover:bg-red-700 transition inline-flex items-center justify-center"
+                                                                    title="Hapus" aria-label="Hapus obat">
+                                                                    <i class="fas fa-trash"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -475,14 +477,21 @@
 
     function restoreOpenObatId() {
         const openObatId = sessionStorage.getItem('adminObatOpenId');
-        if (!openObatId || !document.getElementById('parameter-row-' + openObatId)) return;
+        const row = document.getElementById('parameter-row-' + openObatId);
+        if (!openObatId || !row) return;
 
         sessionStorage.removeItem('adminObatOpenId');
         toggleParameter(openObatId);
+
+        window.setTimeout(function() {
+            const target = row.previousElementSibling || row;
+            target.scrollIntoView({ behavior: 'auto', block: 'center' });
+        }, 250);
     }
 
     // Modal Functions
     function openEditModal(id, zatAktif, jenisSediaan, bentukSediaan, hargaTotal) {
+        sessionStorage.setItem('adminObatOpenId', id);
         document.getElementById('edit_id_obat').value = id;
         document.getElementById('edit_zat_aktif').value = zatAktif;
         document.getElementById('edit_jenis_sediaan').value = jenisSediaan;

@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable('metode_uji_otsk')) {
-            return;
-        }
-
-        Schema::create('metode_uji_otsk', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('parameter_uji_pangan', function (Blueprint $table) {
+            $table->dropColumn('total');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('metode_uji_otsk');
+        Schema::table('parameter_uji_pangan', function (Blueprint $table) {
+            $table->decimal('total', 15, 2)->nullable();
+        });
     }
 };
